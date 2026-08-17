@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Grade & Marks Calculator</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --accent: #10b981;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --border: #334155;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 24px 16px 60px;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--primary);
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .subject-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr auto;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      background-color: #0f172a;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 8px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+    }
+
+    .btn-remove {
+      background: transparent;
+      border: none;
+      color: var(--danger);
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 6px;
+      line-height: 1;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.2s;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background-color: #334155;
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background-color: #475569;
+    }
+
+    /* Results */
+    .result-box {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      display: none;
+      margin-top: 20px;
+    }
+
+    .result-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 4px 0;
+    }
+
+    .result-meta {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* Footer & Suggestion */
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge">Student Utility Hub</div>
+      <h1>Marks & Percentage Calculator</h1>
+      <p>Enter your subject marks to calculate total percentage and GPA.</p>
+    </header>
+
+    <div class="card">
+      <div class="subject-row" style="margin-bottom: 6px;">
+        <label>Subject</label>
+        <label>Scored</label>
+        <label>Max</label>
+        <div></div>
+      </div>
+
+      <div id="subjects-container">
+        <div class="subject-row">
+          <input type="text" placeholder="e.g., Math" value="Subject 1" class="sub-name">
+          <input type="number" placeholder="85" class="sub-obtained" min="0">
+          <input type="number" placeholder="100" value="100" class="sub-max" min="1">
+          <button type="button" class="btn-remove" onclick="removeSubject(this)">×</button>
+        </div>
+        <div class="subject-row">
+          <input type="text" placeholder="e.g., Physics" value="Subject 2" class="sub-name">
+          <input type="number" placeholder="78" class="sub-obtained" min="0">
+          <input type="number" placeholder="100" value="100" class="sub-max" min="1">
+          <button type="button" class="btn-remove" onclick="removeSubject(this)">×</button>
+        </div>
+        <div class="subject-row">
+          <input type="text" placeholder="e.g., English" value="Subject 3" class="sub-name">
+          <input type="number" placeholder="92" class="sub-obtained" min="0">
+          <input type="number" placeholder="100" value="100" class="sub-max" min="1">
+          <button type="button" class="btn-remove" onclick="removeSubject(this)">×</button>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button type="button" class="btn btn-secondary" onclick="addSubject()">+ Add Subject</button>
+        <button type="button" class="btn btn-primary" onclick="calculateMarks()">Calculate</button>
+      </div>
+
+      <div class="result-box" id="result-box">
+        <div class="result-meta">Your Overall Score</div>
+        <div class="result-value" id="percentage-output">0.00%</div>
+        <div class="result-meta" id="details-output">Total: 0 / 0 | Grade: -</div>
+      </div>
+    </div>
+
+    <footer>
+      <p>Have an idea for a tool we should add next?</p>
+      <p style="margin-top: 6px;">
+        <!-- Replace with your email or social handle -->
+        <a href="mailto:youremail@example.com">Suggest a feature</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    function addSubject() {
+      const container = document.getElementById('subjects-container');
+      const count = container.children.length + 1;
+      const row = document.createElement('div');
+      row.className = 'subject-row';
+      row.innerHTML = `
+        <input type="text" placeholder="Subject" value="Subject ${count}" class="sub-name">
+        <input type="number" placeholder="0" class="sub-obtained" min="0">
+        <input type="number" placeholder="100" value="100" class="sub-max" min="1">
+        <button type="button" class="btn-remove" onclick="removeSubject(this)">×</button>
+      `;
+      container.appendChild(row);
+    }
+
+    function removeSubject(btn) {
+      const container = document.getElementById('subjects-container');
+      if (container.children.length > 1) {
+        btn.parentElement.remove();
+      } else {
+        alert("You must have at least one subject.");
+      }
+    }
+
+    function calculateMarks() {
+      const obtainedInputs = document.querySelectorAll('.sub-obtained');
+      const maxInputs = document.querySelectorAll('.sub-max');
+
+      let totalObtained = 0;
+      let totalMax = 0;
+      let hasValidData = false;
+
+      for (let i = 0; i < obtainedInputs.length; i++) {
+        const obtained = parseFloat(obtainedInputs[i].value);
+        const max = parseFloat(maxInputs[i].value);
+
+        if (!isNaN(obtained) && !isNaN(max) && max > 0) {
+          totalObtained += obtained;
+          totalMax += max;
+          hasValidData = true;
+        }
+      }
+
+      if (!hasValidData || totalMax === 0) {
+        alert("Please enter valid marks for your subjects.");
+        return;
+      }
+
+      const percentage = (totalObtained / totalMax) * 100;
+      
+      let grade = "F";
+      if (percentage >= 90) grade = "A+ (Outstanding)";
+      else if (percentage >= 80) grade = "A (Excellent)";
+      else if (percentage >= 70) grade = "B (Very Good)";
+      else if (percentage >= 60) grade = "C (Good)";
+      else if (percentage >= 50) grade = "D (Pass)";
+
+      const resultBox = document.getElementById('result-box');
+      const percentageOutput = document.getElementById('percentage-output');
+      const detailsOutput = document.getElementById('details-output');
+
+      percentageOutput.textContent = percentage.toFixed(2) + "%";
+      detailsOutput.textContent = `Total: ${totalObtained} / ${totalMax} | Grade: ${grade}`;
+      resultBox.style.display = "block";
+    }
+  </script>
+</body>
+</html>
