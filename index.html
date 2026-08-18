@@ -3,321 +3,446 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Grade & Marks Calculator</title>
+  <title>Student Utility Hub - Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0f172a;
       --card-bg: #1e293b;
+      --card-border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
       --primary: #3b82f6;
       --primary-hover: #2563eb;
       --accent: #10b981;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --border: #334155;
       --danger: #ef4444;
+      --warning: #f59e0b;
+      --radius: 16px;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     body {
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.5;
-      padding: 24px 16px 60px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 20px 14px 60px;
     }
 
     .container {
-      max-width: 520px;
-      margin: 0 auto;
+      width: 100%;
+      max-width: 540px;
     }
 
-    header {
+    /* Top Navigation */
+    .top-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      background: var(--card-bg);
+      padding: 8px 14px;
+      border-radius: 9999px;
+      border: 1px solid var(--card-border);
+    }
+
+    .top-nav a {
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-active {
+      background: var(--primary);
+      color: #fff !important;
+    }
+
+    .nav-inactive {
+      color: var(--text-muted);
+    }
+
+    .header {
       text-align: center;
       margin-bottom: 24px;
     }
 
     .badge {
       display: inline-block;
-      padding: 4px 12px;
       background: rgba(59, 130, 246, 0.15);
-      color: var(--primary);
+      color: #60a5fa;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 12px;
       border-radius: 9999px;
-      font-size: 0.8rem;
-      font-weight: 600;
       margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     h1 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    header p {
-      color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
     }
 
     .card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
       padding: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    /* Exam Mode Pills */
+    .mode-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .mode-btn {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 10px 6px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .mode-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
     }
 
     .subject-row {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr auto;
+      grid-template-columns: 1.2fr 1fr 1fr auto;
       gap: 8px;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
-    label {
-      font-size: 0.75rem;
-      color: var(--muted);
-      font-weight: 600;
+    .subject-row.header-row {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
       text-transform: uppercase;
-      margin-bottom: 4px;
-      display: block;
+      margin-bottom: 6px;
     }
 
     input {
-      width: 100%;
-      background-color: #0f172a;
-      border: 1px solid var(--border);
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 10px 10px;
       color: var(--text);
-      padding: 10px 8px;
-      border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      width: 100%;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s ease;
     }
 
     input:focus {
       border-color: var(--primary);
     }
 
-    .btn-remove {
-      background: transparent;
-      border: none;
-      color: var(--danger);
-      font-size: 1.2rem;
-      cursor: pointer;
-      padding: 6px;
-      line-height: 1;
+    input:disabled {
+      opacity: 0.6;
+      background: #172033;
+      cursor: not-allowed;
     }
 
-    .btn-group {
+    .btn-icon {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--danger);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      cursor: pointer;
       display: flex;
-      gap: 10px;
-      margin-top: 16px;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .btn-action-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
     }
 
     .btn {
       flex: 1;
       padding: 12px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.95rem;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 700;
       cursor: pointer;
       border: none;
-      transition: background-color 0.2s;
-      text-align: center;
-      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
     }
 
-    .btn-primary {
-      background-color: var(--primary);
-      color: white;
+    .btn-add {
+      background: #0f172a;
+      color: var(--primary);
+      border: 1px dashed var(--primary);
     }
 
-    .btn-primary:hover {
-      background-color: var(--primary-hover);
+    .btn-calc {
+      background: var(--primary);
+      color: #fff;
     }
 
-    .btn-secondary {
-      background-color: #334155;
-      color: var(--text);
-    }
-
-    .btn-secondary:hover {
-      background-color: #475569;
+    .btn-calc:hover {
+      background: var(--primary-hover);
     }
 
     /* Results */
-    .result-box {
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .res-box {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
       border-radius: 12px;
-      padding: 16px;
+      padding: 14px;
       text-align: center;
-      display: none;
-      margin-top: 20px;
     }
 
-    .result-value {
-      font-size: 2rem;
+    .res-val {
+      font-size: 1.4rem;
       font-weight: 800;
-      color: var(--accent);
-      margin: 4px 0;
-    }
-
-    .result-meta {
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-
-    /* Footer & Suggestion */
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-
-    footer a {
       color: var(--primary);
-      text-decoration: none;
+      margin-top: 4px;
+    }
+
+    .res-grade {
+      color: var(--accent);
+    }
+
+    .progress-bar-bg {
+      background: #0f172a;
+      height: 10px;
+      border-radius: 9999px;
+      margin-top: 14px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+    }
+
+    .progress-bar-fill {
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      height: 100%;
+      width: 0%;
+      transition: width 0.4s ease;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-        <!-- Navigation Bar -->
-    <nav style="display:flex; justify-content:center; gap:16px; margin-bottom:24px; background:#1e293b; padding:10px 16px; border-radius:9999px; border:1px solid #334155;">
-      <a href="index.html" style="color:#3b82f6; text-decoration:none; font-size:0.9rem; font-weight:600;">📊 Calculator</a>
-      <a href="timer.html" style="color:#94a3b8; text-decoration:none; font-size:0.9rem; font-weight:600;">⏱️ Study Timer</a>
+    <!-- Navigation Bar -->
+    <nav class="top-nav">
+      <a href="index.html" class="nav-active">📊 Calculator</a>
+      <a href="timer.html" class="nav-inactive">⏱️ Study Timer</a>
     </nav>
-    
-    <header>
+
+    <div class="header">
       <div class="badge">Student Utility Hub</div>
-      <h1>Marks & Percentage Calculator</h1>
-      <p>Enter your subject marks to calculate total percentage and GPA.</p>
-    </header>
+      <h1>Marks & Grade Calculator</h1>
+    </div>
 
+    <!-- Exam Mode Selection -->
     <div class="card">
-      <div class="subject-row" style="margin-bottom: 6px;">
-        <label>Subject</label>
-        <label>Scored</label>
-        <label>Max</label>
-        <div></div>
+      <div class="section-title">Select Exam Type</div>
+      <div class="mode-selector">
+        <button class="mode-btn" onclick="setExamMode('unit')" id="btn-unit">Unit Test (50)</button>
+        <button class="mode-btn active" onclick="setExamMode('annual')" id="btn-annual">Annual (100)</button>
+        <button class="mode-btn" onclick="setExamMode('custom')" id="btn-custom">Custom</button>
       </div>
 
-      <div id="subjects-container">
-        <div class="subject-row">
-          <input type="text" placeholder="e.g., Math" value="Subject 1" class="sub-name">
-          <input type="number" placeholder="85" class="sub-obtained" min="0">
-          <input type="number" placeholder="100" value="100" class="sub-max" min="1">
-          <button type="button" class="btn-remove" onclick="removeSubject(this)">×</button>
-        </div>
-        <div class="subject-row">
-          <input type="text" placeholder="e.g., Physics" value="Subject 2" class="sub-name">
-          <input type="number" placeholder="78" class="sub-obtained" min="0">
-          <input type="number" placeholder="100" value="100" class="sub-max" min="1">
-          <button type="button" class="btn-remove" onclick="removeSubject(this)">×</button>
-        </div>
-        <div class="subject-row">
-          <input type="text" placeholder="e.g., English" value="Subject 3" class="sub-name">
-          <input type="number" placeholder="92" class="sub-obtained" min="0">
-          <input type="number" placeholder="100" value="100" class="sub-max" min="1">
-          <button type="button" class="btn-remove" onclick="removeSubject(this)">×</button>
-        </div>
+      <!-- Subject Table -->
+      <div class="subject-row header-row">
+        <span>Subject</span>
+        <span>Obtained</span>
+        <span>Max Marks</span>
+        <span></span>
       </div>
 
-      <div class="btn-group">
-        <button type="button" class="btn btn-secondary" onclick="addSubject()">+ Add Subject</button>
-        <button type="button" class="btn btn-primary" onclick="calculateMarks()">Calculate</button>
+      <div id="subject-list">
+        <!-- Default Subjects -->
       </div>
 
-      <div class="result-box" id="result-box">
-        <div class="result-meta">Your Overall Score</div>
-        <div class="result-value" id="percentage-output">0.00%</div>
-        <div class="result-meta" id="details-output">Total: 0 / 0 | Grade: -</div>
+      <div class="btn-action-group">
+        <button class="btn btn-add" onclick="addSubject()">+ Add Subject</button>
+        <button class="btn btn-calc" onclick="calculateResults()">⚡ Calculate</button>
       </div>
     </div>
 
-    <footer>
-      <p>Have an idea for a tool we should add next?</p>
-      <p style="margin-top: 6px;">
-        <!-- Replace with your email or social handle -->
-        <a href="mailto:youremail@example.com">Suggest a feature</a>
-      </p>
-    </footer>
+    <!-- Results Card -->
+    <div class="card" id="results-card" style="display: none;">
+      <div class="section-title">Performance Summary</div>
+      <div class="results-grid">
+        <div class="res-box">
+          <div style="font-size:0.75rem; color:var(--text-muted);">Total Marks</div>
+          <div class="res-val" id="res-total">0 / 0</div>
+        </div>
+        <div class="res-box">
+          <div style="font-size:0.75rem; color:var(--text-muted);">Percentage</div>
+          <div class="res-val" id="res-percentage">0%</div>
+        </div>
+        <div class="res-box">
+          <div style="font-size:0.75rem; color:var(--text-muted);">Final Grade</div>
+          <div class="res-val res-grade" id="res-grade">-</div>
+        </div>
+        <div class="res-box">
+          <div style="font-size:0.75rem; color:var(--text-muted);">Status</div>
+          <div class="res-val" id="res-status" style="font-size:1.1rem; color:var(--accent);">PASS</div>
+        </div>
+      </div>
+
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+    </div>
   </div>
 
   <script>
-    function addSubject() {
-      const container = document.getElementById('subjects-container');
-      const count = container.children.length + 1;
+    let currentMode = 'annual'; // 'unit' | 'annual' | 'custom'
+    let defaultSubjects = ['English', 'Mathematics', 'Science', 'Social Studies'];
+
+    function init() {
+      const container = document.getElementById('subject-list');
+      container.innerHTML = '';
+      defaultSubjects.forEach(name => addSubject(name));
+    }
+
+    function setExamMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`btn-${mode}`).classList.add('active');
+
+      const maxInputs = document.querySelectorAll('.input-max');
+      maxInputs.forEach(input => {
+        if (mode === 'unit') {
+          input.value = 50;
+          input.disabled = true;
+        } else if (mode === 'annual') {
+          input.value = 100;
+          input.disabled = true;
+        } else {
+          input.disabled = false;
+        }
+      });
+    }
+
+    function addSubject(name = '') {
+      const container = document.getElementById('subject-list');
       const row = document.createElement('div');
       row.className = 'subject-row';
+
+      const maxVal = currentMode === 'unit' ? 50 : (currentMode === 'annual' ? 100 : 100);
+      const isDisabled = currentMode !== 'custom' ? 'disabled' : '';
+
       row.innerHTML = `
-        <input type="text" placeholder="Subject" value="Subject ${count}" class="sub-name">
-        <input type="number" placeholder="0" class="sub-obtained" min="0">
-        <input type="number" placeholder="100" value="100" class="sub-max" min="1">
-        <button type="button" class="btn-remove" onclick="removeSubject(this)">×</button>
+        <input type="text" placeholder="Subject" value="${name}" class="input-name">
+        <input type="number" placeholder="Marks" min="0" class="input-obtained">
+        <input type="number" placeholder="Max" min="1" value="${maxVal}" class="input-max" ${isDisabled}>
+        <button class="btn-icon" onclick="this.parentElement.remove()">✕</button>
       `;
       container.appendChild(row);
     }
 
-    function removeSubject(btn) {
-      const container = document.getElementById('subjects-container');
-      if (container.children.length > 1) {
-        btn.parentElement.remove();
-      } else {
-        alert("You must have at least one subject.");
-      }
-    }
-
-    function calculateMarks() {
-      const obtainedInputs = document.querySelectorAll('.sub-obtained');
-      const maxInputs = document.querySelectorAll('.sub-max');
+    function calculateResults() {
+      const obtainedInputs = document.querySelectorAll('.input-obtained');
+      const maxInputs = document.querySelectorAll('.input-max');
 
       let totalObtained = 0;
       let totalMax = 0;
-      let hasValidData = false;
+      let hasData = false;
 
       for (let i = 0; i < obtainedInputs.length; i++) {
-        const obtained = parseFloat(obtainedInputs[i].value);
-        const max = parseFloat(maxInputs[i].value);
+        const obt = parseFloat(obtainedInputs[i].value) || 0;
+        const max = parseFloat(maxInputs[i].value) || (currentMode === 'unit' ? 50 : 100);
 
-        if (!isNaN(obtained) && !isNaN(max) && max > 0) {
-          totalObtained += obtained;
-          totalMax += max;
-          hasValidData = true;
+        if (obtainedInputs[i].value !== '') {
+          hasData = true;
         }
+
+        totalObtained += obt;
+        totalMax += max;
       }
 
-      if (!hasValidData || totalMax === 0) {
-        alert("Please enter valid marks for your subjects.");
+      if (!hasData || totalMax === 0) {
+        alert('Please enter your obtained marks!');
         return;
       }
 
       const percentage = (totalObtained / totalMax) * 100;
+
+      // Grade calculation
+      let grade = 'F';
+      let status = 'NEEDS WORK';
+      let statusColor = '#ef4444';
+
+      if (percentage >= 90) { grade = 'A+'; status = 'OUTSTANDING'; statusColor = '#10b981'; }
+      else if (percentage >= 80) { grade = 'A'; status = 'EXCELLENT'; statusColor = '#10b981'; }
+      else if (percentage >= 70) { grade = 'B'; status = 'VERY GOOD'; statusColor = '#3b82f6'; }
+      else if (percentage >= 60) { grade = 'C'; status = 'GOOD'; statusColor = '#3b82f6'; }
+      else if (percentage >= 50) { grade = 'D'; status = 'AVERAGE'; statusColor = '#f59e0b'; }
+      else if (percentage >= 33) { grade = 'E'; status = 'PASS'; statusColor = '#f59e0b'; }
+      else { grade = 'F'; status = 'FAIL'; statusColor = '#ef4444'; }
+
+      // Update UI
+      document.getElementById('res-total').textContent = `${totalObtained} / ${totalMax}`;
+      document.getElementById('res-percentage').textContent = `${percentage.toFixed(1)}%`;
+      document.getElementById('res-grade').textContent = grade;
       
-      let grade = "F";
-      if (percentage >= 90) grade = "A+ (Outstanding)";
-      else if (percentage >= 80) grade = "A (Excellent)";
-      else if (percentage >= 70) grade = "B (Very Good)";
-      else if (percentage >= 60) grade = "C (Good)";
-      else if (percentage >= 50) grade = "D (Pass)";
+      const statusElem = document.getElementById('res-status');
+      statusElem.textContent = status;
+      statusElem.style.color = statusColor;
 
-      const resultBox = document.getElementById('result-box');
-      const percentageOutput = document.getElementById('percentage-output');
-      const detailsOutput = document.getElementById('details-output');
-
-      percentageOutput.textContent = percentage.toFixed(2) + "%";
-      detailsOutput.textContent = `Total: ${totalObtained} / ${totalMax} | Grade: ${grade}`;
-      resultBox.style.display = "block";
+      document.getElementById('progress-fill').style.width = `${Math.min(percentage, 100)}%`;
+      document.getElementById('results-card').style.display = 'block';
     }
+
+    init();
   </script>
 </body>
 </html>
