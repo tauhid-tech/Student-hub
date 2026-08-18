@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Utility Hub - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #3b82f6;
+      --accent: #10b981;
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 30px;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .option-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .option-card:hover, .option-card:active {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.25);
+    }
+
+    .icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+
+    .calc-icon {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .timer-icon {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .card-info {
+      text-align: left;
+      flex: 1;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .card-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .arrow {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="badge">Student Utility Hub</div>
+    <h1>Welcome to my Website</h1>
+    <p class="subtitle">Select a tool below to get started</p>
+
+    <div class="options-grid">
+      <!-- Option 1: Calculator -->
+      <a href="index.html" class="option-card">
+        <div class="icon-box calc-icon">📊</div>
+        <div class="card-info">
+          <div class="card-title">1. Calculator</div>
+          <div class="card-desc">Unit Test, Annual & Custom Exam Marks</div>
+        </div>
+        <div class="arrow">➔</div>
+      </a>
+
+      <!-- Option 2: Study Timer -->
+      <a href="timer.html" class="option-card">
+        <div class="icon-box timer-icon">⏱️</div>
+        <div class="card-info">
+          <div class="card-title">2. Study Timer</div>
+          <div class="card-desc">Focus Pomodoro timer with study intervals</div>
+        </div>
+        <div class="arrow">➔</div>
+      </a>
+    </div>
+  </div>
+
+</body>
+  </html>
+  
