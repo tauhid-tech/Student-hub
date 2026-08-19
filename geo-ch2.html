@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geography Chapter 2 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Geography Chapter 2</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #38bdf8; margin-bottom: 4px;">Environment and Environmental Problems</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to practice 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Spheres, Major Pollutants & Definitions</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Acid Rain, Desertification & Scales of Problems</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Global Warming, Protocols & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Geography Ch 2 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "The earth's environment consists of how many major interacting spheres?",
+          options: ["Four (Lithosphere, Hydrosphere, Atmosphere, Biosphere)", "Two (Land and Water)", "Three (Air, Water, Soil)", "Five (Rock, Air, Water, Plants, Space)"],
+          answer: "Four (Lithosphere, Hydrosphere, Atmosphere, Biosphere)"
+        },
+        {
+          q: "What percentage of the earth's total surface area is covered by the hydrosphere (oceans and water bodies)?",
+          options: ["About 71%", "About 29%", "About 50%", "About 85%"],
+          answer: "About 71%"
+        },
+        {
+          q: "Which gas is the most abundant in the earth's atmosphere?",
+          options: ["Nitrogen (78.08%)", "Oxygen (20.95%)", "Carbon Dioxide (0.04%)", "Argon (0.93%)"],
+          answer: "Nitrogen (78.08%)"
+        },
+        {
+          q: "World Environment Day is celebrated worldwide on which date every year?",
+          options: ["5th June", "22nd April", "16th September", "21st March"],
+          answer: "5th June"
+        },
+        {
+          q: "Which primary greenhouse gas is largely responsible for modern anthropogenic global warming?",
+          options: ["Carbon Dioxide (CO2)", "Oxygen (O2)", "Nitrogen (N2)", "Argon (Ar)"],
+          answer: "Carbon Dioxide (CO2)"
+        },
+        {
+          q: "The sphere of the earth containing all forms of plant and animal life is known as:",
+          options: ["Biosphere", "Lithosphere", "Hydrosphere", "Stratosphere"],
+          answer: "Biosphere"
+        },
+        {
+          q: "Sound intensity is officially measured in which unit?",
+          options: ["Decibel (dB)", "Hertz (Hz)", "Pascal (Pa)", "Joule (J)"],
+          answer: "Decibel (dB)"
+        },
+        {
+          q: "Which layer of the atmosphere contains the ozone layer that protects life from harmful ultraviolet (UV) radiation?",
+          options: ["Stratosphere", "Troposphere", "Mesosphere", "Thermosphere"],
+          answer: "Stratosphere"
+        },
+        {
+          q: "Which of the following is considered a purely local environmental problem?",
+          options: [
+            "Pollution caused by a single small brick kiln in a village",
+            "Global warming",
+            "Depletion of the stratospheric ozone layer",
+            "Rising sea levels"
+          ],
+          answer: "Pollution caused by a single small brick kiln in a village"
+        },
+        {
+          q: "What is the expansion and creation of desert-like dry, barren conditions in semi-arid lands called?",
+          options: ["Desertification", "Deforestation", "Eutrophication", "Salinization"],
+          answer: "Desertification"
+        },
+        {
+          q: "Which gases are primarily responsible for the formation of Acid Rain?",
+          options: [
+            "Sulphur Dioxide (SO2) and Nitrogen Oxides (NOx)",
+            "Carbon Dioxide and Oxygen",
+            "Methane and Helium",
+            "Chlorine and Argon"
+          ],
+          answer: "Sulphur Dioxide (SO2) and Nitrogen Oxides (NOx)"
+        },
+        {
+          q: "What is the solid crust and upper mantle composed of rocks and soil called?",
+          options: ["Lithosphere", "Hydrosphere", "Atmosphere", "Mesosphere"],
+          answer: "Lithosphere"
+        },
+        {
+          q: "Chemical substances used in agriculture that cause severe soil and groundwater contamination are:",
+          options: ["Pesticides and chemical fertilizers", "Organic compost", "Humus", "Earthworms"],
+          answer: "Pesticides and chemical fertilizers"
+        },
+        {
+          q: "World Ozone Day is observed internationally on which date?",
+          options: ["16th September", "5th June", "22nd April", "1st December"],
+          answer: "16th September"
+        },
+        {
+          q: "Noise level above how many decibels (dB) is generally considered hazardous to human ear health?",
+          options: ["65–85 dB", "20 dB", "40 dB", "10 dB"],
+          answer: "65–85 dB"
+        }
+      ],
+      medium: [
+        {
+          q: "Match Column 'A' (Scale of Problem) with Column 'B' (Example):\n(i) Local Problem -> (a) Global Warming\n(ii) Regional Problem -> (b) River Brahmaputra Flood & Bank Erosion\n(iii) Global Problem -> (c) Smoke from a local municipal garbage dump",
+          options: [
+            "(i)-(c), (ii)-(b), (iii)-(a)",
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(c), (ii)-(a), (iii)-(b)"
+          ],
+          answer: "(i)-(c), (ii)-(b), (iii)-(a)"
+        },
+        {
+          q: "What is the main biological reason behind excessive algal bloom (Eutrophication) in water bodies?",
+          options: [
+            "Run-off of nitrogen and phosphorus from agricultural fertilizers into ponds and lakes",
+            "Excessive evaporation during summer",
+            "Growth of predatory marine fishes",
+            "Deposition of sand from river banks"
+          ],
+          answer: "Run-off of nitrogen and phosphorus from agricultural fertilizers into ponds and lakes"
+        },
+        {
+          q: "Which chemical compounds widely used in refrigeration and aerosol sprays were the main cause of ozone layer depletion?",
+          options: [
+            "Chlorofluorocarbons (CFCs)",
+            "Carbon Monoxide (CO)",
+            "Sulphur Hexafluoride",
+            "Hydrogen Sulphide"
+          ],
+          answer: "Chlorofluorocarbons (CFCs)"
+        },
+        {
+          q: "Match the major pollutants with their primary sources:\n(i) Carbon Monoxide -> (a) Agricultural runoff\n(ii) Chemical Pesticides -> (b) Incomplete fuel combustion in automobiles\n(iii) Fly Ash -> (c) Thermal power plants",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(c), (ii)-(b), (iii)-(a)",
+            "(i)-(b), (ii)-(c), (iii)-(a)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c)"
+        },
+        {
+          q: "What is the primary cause of Desertification in semi-arid marginal grasslands?",
+          options: [
+            "Overgrazing, deforestation, and unsustainable farming practices",
+            "Excessive monsoon rainfall",
+            "Planting drought-resistant trees",
+            "Building artificial water reservoirs"
+          ],
+          answer: "Overgrazing, deforestation, and unsustainable farming practices"
+        },
+        {
+          q: "What harmful ecological impact does Acid Rain have on aquatic ecosystems?",
+          options: [
+            "It lowers water pH drastically, killing fish eggs and aquatic organisms",
+            "It increases water oxygen content too rapidly",
+            "It converts fresh water into potable drinking water",
+            "It causes volcanic eruptions in seabed"
+          ],
+          answer: "It lowers water pH drastically, killing fish eggs and aquatic organisms"
+        },
+        {
+          q: "Which international convention was held in 1977 in Nairobi specifically to address the problem of desertification?",
+          options: [
+            "UN Conference on Desertification (UNCOD)",
+            "Kyoto Summit",
+            "Montreal Convention",
+            "Ramsar Treaty"
+          ],
+          answer: "UN Conference on Desertification (UNCOD)"
+        },
+        {
+          q: "What is the natural 'Greenhouse Effect' and why is it essential for life on Earth?",
+          options: [
+            "It traps atmospheric heat, maintaining an average global temperature suitable for living beings",
+            "It cools down the earth's core",
+            "It reflects 100% of solar energy into outer space",
+            "It stops ultraviolet rays from reaching oceans"
+          ],
+          answer: "It traps atmospheric heat, maintaining an average global temperature suitable for living beings"
+        },
+        {
+          q: "Which of the following is considered a major physical consequence of global warming on polar regions?",
+          options: [
+            "Melting of polar ice caps and glaciers leading to sea-level rise",
+            "Expansion of polar ice sheets",
+            "Cooling down of tropical ocean currents",
+            "Decrease in global flood frequencies"
+          ],
+          answer: "Melting of polar ice caps and glaciers leading to sea-level rise"
+        },
+        {
+          q: "What type of environmental contamination occurs when industrial thermal power plants discharge hot water into natural rivers?",
+          options: ["Thermal Pollution", "Radioactive Pollution", "Soil Salinization", "Noise Pollution"],
+          answer: "Thermal Pollution"
+        },
+        {
+          q: "Which region in Africa is one of the most severely affected zones of desertification in the world?",
+          options: ["Sahel region (south of Sahara)", "Congo Basin", "Nile Delta", "Madagascar Island"],
+          answer: "Sahel region (south of Sahara)"
+        },
+        {
+          q: "What are the three core spatial dimensions of environmental problems categorized in geography?",
+          options: [
+            "Local, Regional, and Global",
+            "Urban, Rural, and Tribal",
+            "National, Continental, and Universal",
+            "Biotic, Abiotic, and Neutral"
+          ],
+          answer: "Local, Regional, and Global"
+        },
+        {
+          q: "How does deforestation directly accelerate soil erosion and land degradation?",
+          options: [
+            "Tree roots hold the topsoil; removing them exposes loose soil to wind and torrential rain",
+            "It increases groundwater levels",
+            "It hardens soil minerals into solid granite",
+            "It permanently stops all biological respiration"
+          ],
+          answer: "Tree roots hold the topsoil; removing them exposes loose soil to wind and torrential rain"
+        },
+        {
+          q: "Which poisonous colorless and odorless gas is released from vehicle exhausts due to incomplete fuel combustion?",
+          options: ["Carbon Monoxide (CO)", "Carbon Dioxide (CO2)", "Nitrogen Gas (N2)", "Argon (Ar)"],
+          answer: "Carbon Monoxide (CO)"
+        },
+        {
+          q: "What is the historical significance of the 1972 United Nations Conference on Human Environment held in Stockholm?",
+          options: [
+            "It was the first major international summit placing global environmental protection on world political agendas",
+            "It established the first international space station",
+            "It banned all global petroleum extraction",
+            "It formed the World Trade Organization"
+          ],
+          answer: "It was the first major international summit placing global environmental protection on world political agendas"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): The greenhouse effect is naturally essential for life, but enhanced greenhouse effect causes global crisis.\nReason (R): Excessive emission of CO2, CH4, and CFCs from human activities traps surplus infrared radiation, causing global warming.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Consider the following statements regarding the dynamic interaction of earth's spheres:\n1. Hydrological cycle connects the atmosphere, hydrosphere, and lithosphere.\n2. The biosphere cannot exist in isolation without interacting with the other three spheres.\n3. Human pollution in the lithosphere remains permanently restricted to land without affecting the hydrosphere.\nWhich statements are TRUE?",
+          options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2, and 3"
+          ],
+          answer: "1 and 2 only"
+        },
+        {
+          q: "Assertion (A): Global warming leads to frequent inundation and threat of submersion of low-lying coastal islands like the Maldives.\nReason (R): Thermal expansion of ocean water combined with melting continental ice sheets causes global mean sea levels to rise.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Match the following Environmental Conferences/Protocols with their primary subject matter:\n(i) Montreal Protocol (1987) -> (a) Reduction of Greenhouse Gas emissions\n(ii) Kyoto Protocol (1997) -> (b) Protection of the Ozone Layer (phasing out CFCs)\n(iii) Ramsar Convention (1971) -> (c) Conservation of Wetlands of international importance",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(c), (ii)-(b), (iii)-(a)",
+            "(i)-(b), (ii)-(c), (iii)-(a)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c)"
+        },
+        {
+          q: "Which of the following describes the phenomenon of 'Biological Magnification' (Biomagnification)?",
+          options: [
+            "The progressive increase in concentration of non-biodegradable toxic chemicals (like DDT) at higher trophic levels of a food chain",
+            "Rapid multiplication of bacteria in organic compost",
+            "Enlargement of plant cells under high sunlight",
+            "Increase in fish population due to algae"
+          ],
+          answer: "The progressive increase in concentration of non-biodegradable toxic chemicals (like DDT) at higher trophic levels of a food chain"
+        },
+        {
+          q: "Consider the following greenhouse gases and their warming potentials:\n1. Carbon dioxide (CO2)\n2. Methane (CH4)\n3. Nitrous Oxide (N2O)\n4. Chlorofluorocarbons (CFCs)\nWhich of these are recognized greenhouse gases contributing to global warming?",
+          options: [
+            "1, 2, and 4 only",
+            "1, 3, and 4 only",
+            "2, 3, and 4 only",
+            "1, 2, 3, and 4 (All)"
+          ],
+          answer: "1, 2, 3, and 4 (All)"
+        },
+        {
+          q: "Assertion (A): Acid rain causes severe damage to historical monuments built of marble and limestone, known as 'Stone Cancer'.\nReason (R): Sulphuric and nitric acids react chemically with calcium carbonate ($CaCO_3$) in marble to form soluble calcium salts.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Why is water pollution considered more complex and widespread than localized soil pollution?",
+          options: [
+            "Because water is a universal solvent and flowing water transports dissolved toxic pollutants across regional and national boundaries",
+            "Because water has no chemical bonds",
+            "Because soil absorbs 100% of all chemical pollutants permanently without passing to aquifers",
+            "Because marine fish synthesize radioactive waste"
+          ],
+          answer: "Because water is a universal solvent and flowing water transports dissolved toxic pollutants across regional and national boundaries"
+        },
+        {
+          q: "Choose the correct chronological order of key global environmental agreements:\n(1) Ramsar Convention on Wetlands\n(2) Stockholm UN Conference on Human Environment\n(3) Montreal Protocol on Substances that Deplete the Ozone Layer\n(4) Kyoto Protocol on Climate Change",
+          options: [
+            "(1) -> (2) -> (3) -> (4)",
+            "(2) -> (1) -> (3) -> (4)",
+            "(1) -> (3) -> (2) -> (4)",
+            "(3) -> (1) -> (2) -> (4)"
+          ],
+          answer: "(1) -> (2) -> (3) -> (4)"
+        },
+        {
+          q: "What is meant by the 'Albedo Effect' and how does polar ice melting trigger a dangerous feedback loop?",
+          options: [
+            "White ice reflects most solar radiation; when ice melts into dark ocean water, more heat is absorbed, causing even faster warming",
+            "Ice produces carbon dioxide as it melts",
+            "Melting ice cools down the atmosphere permanently",
+            "Albedo refers to sound waves generated by ocean tides"
+          ],
+          answer: "White ice reflects most solar radiation; when ice melts into dark ocean water, more heat is absorbed, causing even faster warming"
+        },
+        {
+          q: "Consider the following statements regarding desertification:\n1. It only occurs inside established desert boundaries like the Sahara.\n2. Over-cultivation depletes soil nutrients and destroys soil crumb structure.\n3. Climate change and prolonged droughts accelerate the rate of desertification.\nWhich of the statements given above are CORRECT?",
+          options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2, and 3"
+          ],
+          answer: "2 and 3 only"
+        },
+        {
+          q: "Assertion (A): The problem of Arsenic and Fluoride contamination in groundwater is a severe regional health problem in parts of Assam and West Bengal.\nReason (R): Over-extraction of groundwater alters subsurface geochemical equilibria, leaching hazardous natural minerals into drinking water aquifers.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Which international treaty was adopted in 2015 to replace the Kyoto Protocol and maintain global temperature rise well below 2°C above pre-industrial levels?",
+          options: ["Paris Agreement", "Copenhagen Accord", "Doha Amendment", "Geneva Convention"],
+          answer: "Paris Agreement"
+        },
+        {
+          q: "What role do wetland ecosystems play that earns them the title 'Kidneys of the Earth'?",
+          options: [
+            "They filter sediments, absorb pollutants, regulate flood levels, and recharge clean groundwater aquifers",
+            "They release heavy metals into drinking rivers",
+            "They produce atmospheric CFCs naturally",
+            "They cool down tectonic plate movements"
+          ],
+          answer: "They filter sediments, absorb pollutants, regulate flood levels, and recharge clean groundwater aquifers"
+        },
+        {
+          q: "Consider the following measures to control global atmospheric warming:\n1. Transition from fossil fuels to renewable energy (solar, wind, hydro).\n2. Large-scale afforestation and protection of tropical rainforests.\n3. Improving energy efficiency in industries and automobiles.\nWhich of these are viable strategies?",
+          options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2, and 3 (All)"
+          ],
+          answer: "1, 2, and 3 (All)"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
