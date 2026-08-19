@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Political Science Chapter 1 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Pol. Science Chapter 1</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #38bdf8; margin-bottom: 4px;">Indian Democracy & Constitution</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Constituent Assembly, Dates & Preamble Basics</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Federal vs Unitary, Amendments & Ideals</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Parliamentary System, Quasi-Federal & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Pol Science Ch 1 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "Who was the Chairman of the Drafting Committee of the Indian Constitution?",
+          options: ["Dr. B.R. Ambedkar", "Dr. Rajendra Prasad", "Jawaharlal Nehru", "Sardar Vallabhbhai Patel"],
+          answer: "Dr. B.R. Ambedkar"
+        },
+        {
+          q: "Who was the permanent President of the Constituent Assembly of India?",
+          options: ["Dr. Rajendra Prasad", "Dr. Sachchidananda Sinha", "Dr. B.R. Ambedkar", "B.N. Rau"],
+          answer: "Dr. Rajendra Prasad"
+        },
+        {
+          q: "When was the Constitution of India officially adopted and enacted by the Constituent Assembly?",
+          options: ["26th November, 1949", "26th January, 1950", "15th August, 1947", "9th December, 1946"],
+          answer: "26th November, 1949"
+        },
+        {
+          q: "On which date did the Constitution of India fully come into force (celebrated as Republic Day)?",
+          options: ["26th January, 1950", "26th November, 1949", "15th August, 1947", "2nd October, 1950"],
+          answer: "26th January, 1950"
+        },
+        {
+          q: "In which year did the British Government send the 'Cabinet Mission' to India?",
+          options: ["March 1946", "August 1945", "March 1942", "July 1947"],
+          answer: "March 1946"
+        },
+        {
+          q: "What is known as the 'Soul' or introductory key of the Indian Constitution?",
+          options: ["The Preamble", "Fundamental Rights", "Directive Principles", "Seventh Schedule"],
+          answer: "The Preamble"
+        },
+        {
+          q: "Which two crucial words were added to the Preamble by the 42nd Constitutional Amendment in 1976?",
+          options: ["'Socialist' and 'Secular'", "'Democratic' and 'Republic'", "'Sovereign' and 'Justice'", "'Liberty' and 'Equality'"],
+          answer: "'Socialist' and 'Secular'"
+        },
+        {
+          q: "Who is the Constitutional / De Jure head of the Indian Republic?",
+          options: ["The President of India", "The Prime Minister", "The Chief Justice of India", "The Speaker of Lok Sabha"],
+          answer: "The President of India"
+        },
+        {
+          q: "Who is the real / executive head of the government in India's Parliamentary democracy?",
+          options: ["The Prime Minister", "The President", "The Governor", "The Chief Election Commissioner"],
+          answer: "The Prime Minister"
+        },
+        {
+          q: "The opening words of the Preamble of the Indian Constitution are:",
+          options: ["'WE, THE PEOPLE OF INDIA'", "'WE, THE CITIZENS OF BHARAT'", "'BY THE ORDER OF THE PRESIDENT'", "'IN THE NAME OF GOD'"],
+          answer: "'WE, THE PEOPLE OF INDIA'"
+        },
+        {
+          q: "Who was the temporary interim President of the Constituent Assembly on its first meeting (9th Dec 1946)?",
+          options: ["Dr. Sachchidananda Sinha", "Dr. Rajendra Prasad", "Dr. B.R. Ambedkar", "Jawaharlal Nehru"],
+          answer: "Dr. Sachchidananda Sinha"
+        },
+        {
+          q: "India's Parliamentary system of democracy is primarily modeled upon the system of which country?",
+          options: ["Great Britain (United Kingdom)", "United States of America", "Canada", "Switzerland"],
+          answer: "Great Britain (United Kingdom)"
+        },
+        {
+          q: "Total how many members were initially in the Drafting Committee appointed on 29th August 1947?",
+          options: ["7 members", "9 members", "11 members", "5 members"],
+          answer: "7 members"
+        },
+        {
+          q: "What type of citizenship does the Indian Constitution provide to its citizens?",
+          options: ["Single Citizenship", "Dual Citizenship", "State Citizenship", "Regional Citizenship"],
+          answer: "Single Citizenship"
+        },
+        {
+          q: "How many lists for the division of legislative powers between the Union and States are there in the 7th Schedule?",
+          options: ["Three (Union List, State List, Concurrent List)", "Two (Central and State)", "Four Lists", "One Single National List"],
+          answer: "Three (Union List, State List, Concurrent List)"
+        }
+      ],
+      medium: [
+        {
+          q: "Who were the three British Cabinet Ministers that constituted the Cabinet Mission of 1946?",
+          options: [
+            "Lord Pethick-Lawrence, Sir Stafford Cripps, and A.V. Alexander",
+            "Lord Mountbatten, Clement Attlee, and Winston Churchill",
+            "Lord Curzon, John Simon, and Lord Minto",
+            "Lord Wavell, Sir John Strachey, and Campbell-Bannerman"
+          ],
+          answer: "Lord Pethick-Lawrence, Sir Stafford Cripps, and A.V. Alexander"
+        },
+        {
+          q: "Match the constitutional terms in the Preamble with their correct meanings:\n(i) Sovereign -> (a) Free from external control and supreme internally\n(ii) Secular -> (b) State has no official religion & treats all equally\n(iii) Republic -> (c) Head of the State is elected, not hereditary",
+          options: [
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(b), (ii)-(c), (iii)-(a)",
+            "(i)-(c), (ii)-(a), (iii)-(b)",
+            "(i)-(a), (ii)-(c), (iii)-(b)"
+          ],
+          answer: "(i)-(a), (ii)-(b), (iii)-(c)"
+        },
+        {
+          q: "Why is the Indian Constitution described as 'Quasi-Federal' (Federal in form, Unitary in spirit)?",
+          options: [
+            "It has dual government structures, but possesses strong unitary features giving overriding powers to the Centre",
+            "It has no written constitution",
+            "State governments have the power to secede from India at will",
+            "The Judiciary has no power of judicial review"
+          ],
+          answer: "It has dual government structures, but possesses strong unitary features giving overriding powers to the Centre"
+        },
+        {
+          q: "Who introduced the historic 'Objectives Resolution' in the Constituent Assembly on 13th December 1946?",
+          options: [
+            "Pandit Jawaharlal Nehru",
+            "Dr. B.R. Ambedkar",
+            "Mahatma Gandhi",
+            "Sardar Vallabhbhai Patel"
+          ],
+          answer: "Pandit Jawaharlal Nehru"
+        },
+        {
+          q: "Which of the following is a classic UNITARY feature of the Indian Constitution?",
+          options: [
+            "Single Integrated Judiciary and appointment of Governors by the President",
+            "Division of powers between Centre and States",
+            "Bicameral Union Legislature",
+            "Written and Rigid Constitution"
+          ],
+          answer: "Single Integrated Judiciary and appointment of Governors by the President"
+        },
+        {
+          q: "Which Constitutional Amendment added the word 'Integrity' along with 'Socialist' and 'Secular' to the Preamble?",
+          options: ["42nd Constitutional Amendment Act, 1976", "44th Amendment Act, 1978", "73rd Amendment Act, 1992", "86th Amendment Act, 2002"],
+          answer: "42nd Constitutional Amendment Act, 1976"
+        },
+        {
+          q: "In India's parliamentary form of government, the Council of Ministers is collectively responsible to which house?",
+          options: [
+            "The Lok Sabha (House of the People)",
+            "The Rajya Sabha (Council of States)",
+            "The Supreme Court of India",
+            "The President of India personally"
+          ],
+          answer: "The Lok Sabha (House of the People)"
+        },
+        {
+          q: "Which country is regarded as the world's first modern federation and the homeland of true federalism?",
+          options: ["United States of America (USA)", "Great Britain", "Canada", "France"],
+          answer: "United States of America (USA)"
+        },
+        {
+          q: "Match the following Lists under the Seventh Schedule with their corresponding subjects:\n(i) Union List -> (a) Police, Public Health & Agriculture\n(ii) State List -> (b) Defense, Foreign Affairs & Railways\n(iii) Concurrent List -> (c) Education, Forests & Marriage",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(c), (ii)-(a), (iii)-(b)",
+            "(i)-(b), (ii)-(c), (iii)-(a)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c)"
+        },
+        {
+          q: "How long did the Constituent Assembly take to complete the drafting of the Constitution of India?",
+          options: [
+            "2 years, 11 months, and 18 days",
+            "3 years, 6 months, and 12 days",
+            "1 year, 8 months, and 20 days",
+            "4 years exactly"
+          ],
+          answer: "2 years, 11 months, and 18 days"
+        },
+        {
+          q: "What happens in case of a direct conflict between a Central law and a State law on a subject in the Concurrent List?",
+          options: [
+            "The Central law prevails over the State law",
+            "The State law prevails automatically",
+            "Both laws become null and void",
+            "The Governor decides which law to follow"
+          ],
+          answer: "The Central law prevails over the State law"
+        },
+        {
+          q: "Under which Article of the Indian Constitution does the President have the power to declare a National Financial Emergency?",
+          options: ["Article 360", "Article 352", "Article 356", "Article 370"],
+          answer: "Article 360"
+        },
+        {
+          q: "Which constitutional jurist famously characterized the Indian federal structure as 'a Federation with a strong centralizing tendency'?",
+          options: ["Sir Ivor Jennings", "Prof. K.C. Wheare", "Granville Austin", "A.V. Dicey"],
+          answer: "Sir Ivor Jennings"
+        },
+        {
+          q: "What is meant by 'Universal Adult Franchise' in Indian democracy?",
+          options: [
+            "Every citizen who is 18 years of age or above has the right to vote without discrimination",
+            "Only tax-paying graduates can vote",
+            "Only landowners can vote in national elections",
+            "Voting right granted only to government employees"
+          ],
+          answer: "Every citizen who is 18 years of age or above has the right to vote without discrimination"
+        },
+        {
+          q: "Who was the prominent Assamese leader who served as a distinguished member of the Drafting Committee of the Indian Constitution?",
+          options: [
+            "Syed Muhammad Saadulla",
+            "Gopinath Bordoloi",
+            "Bishnuram Medhi",
+            "Tarun Ram Phukan"
+          ],
+          answer: "Syed Muhammad Saadulla"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): The Indian Constitution is described by constitutional experts as 'Quasi-Federal'.\nReason (R): While it has dual governments, a written constitution, and independent judiciary, during emergencies it transforms into a unitary system.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Consider the following statements regarding the Preamble of the Indian Constitution:\n1. The Preamble derives its authority from the people of India.\n2. In the Kesavananda Bharati case (1973), the Supreme Court ruled that the Preamble is an integral part of the Constitution.\n3. The Preamble can be amended without altering its basic structure.\nWhich of the above are CORRECT?",
+          options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2, and 3 (All)"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "Which constitutional scholar described the Indian federal structure as 'Co-operative Federalism'?",
+          options: ["Granville Austin", "Prof. K.C. Wheare", "Sir Ivor Jennings", "Morris-Jones"],
+          answer: "Granville Austin"
+        },
+        {
+          q: "Match the emergency provisions of the Indian Constitution with their respective Articles:\n(i) National Emergency (War/Armed Rebellion) -> (a) Article 356\n(ii) President's Rule (Failure of Constitutional machinery in a State) -> (b) Article 352\n(iii) Financial Emergency -> (c) Article 360",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(c), (ii)-(a), (iii)-(b)",
+            "(i)-(b), (ii)-(c), (iii)-(a)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c)"
+        },
+        {
+          q: "Assertion (A): In India's parliamentary democracy, the Prime Minister is the cornerstone of the Cabinet arch.\nReason (R): If the Prime Minister resigns or dies in office, the entire Council of Ministers automatically dissolves.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Which of the following powers are vested EXCLUSIVELY with the Union Parliament under the Indian federal framework?",
+          options: [
+            "Residuary Powers (matters not listed in any of the three lists)",
+            "Police and Local Self Government",
+            "Agriculture and Fisheries",
+            "Public Health and Sanitation"
+          ],
+          answer: "Residuary Powers (matters not listed in any of the three lists)"
+        },
+        {
+          q: "Consider the federal differences between the USA and India:\n1. The US Constitution provides for Dual Citizenship; India has Single Citizenship.\n2. In the USA, each state has its own separate constitution; Indian states do not have separate constitutions.\n3. Residuary powers belong to states in the US, but to the Centre in India.\nWhich comparisons are accurate?",
+          options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2, and 3 (All)"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "Assertion (A): India chose a Parliamentary democracy over a Presidential system after independence.\nReason (R): Indian leaders already had considerable experience operating British parliamentary institutions under the Government of India Acts (1919 and 1935).",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Choose the correct chronological sequence in the making of the Indian Constitution:\n(1) Cabinet Mission arrives in India\n(2) First meeting of Constituent Assembly\n(3) Objectives Resolution moved by Nehru\n(4) Enactment and signature of the Constitution",
+          options: [
+            "(1) -> (2) -> (3) -> (4)",
+            "(2) -> (1) -> (3) -> (4)",
+            "(1) -> (3) -> (2) -> (4)",
+            "(3) -> (1) -> (2) -> (4)"
+          ],
+          answer: "(1) -> (2) -> (3) -> (4)"
+        },
+        {
+          q: "What makes the Indian Judiciary a unitary and integrated institution rather than a federal dual court structure?",
+          options: [
+            "A single unified hierarchy of courts enforcing both central and state laws, with the Supreme Court at the apex",
+            "Each state has completely independent sovereign supreme courts",
+            "Judges are elected directly by citizens in each district",
+            "Judicial decisions can be overridden by State Legislative Assemblies"
+          ],
+          answer: "A single unified hierarchy of courts enforcing both central and state laws, with the Supreme Court at the apex"
+        },
+        {
+          q: "Consider the following key ideals enumerated in the Preamble:\n1. Justice (Social, Economic, and Political)\n2. Liberty (of thought, expression, belief, faith, and worship)\n3. Equality (of status and opportunity)\n4. Fraternity (assuring dignity and unity)\nWhich of these are guaranteed in the Indian Preamble?",
+          options: [
+            "1, 2, and 3 only",
+            "2, 3, and 4 only",
+            "1, 3, and 4 only",
+            "1, 2, 3, and 4 (All)"
+          ],
+          answer: "1, 2, 3, and 4 (All)"
+        },
+        {
+          q: "Under Article 249 of the Constitution, who can authorize the Union Parliament to make laws on a State List subject in national interest?",
+          options: [
+            "The Rajya Sabha by passing a resolution supported by a 2/3rd majority",
+            "The President of India by executive decree",
+            "The Chief Justice of India",
+            "The Governor of the concerned state"
+          ],
+          answer: "The Rajya Sabha by passing a resolution supported by a 2/3rd majority"
+        },
+        {
+          q: "Assertion (A): The word 'Federation' is nowhere mentioned in the text of the Indian Constitution.\nReason (R): Article 1 of the Constitution officially describes India as a 'Union of States'.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Which constitutional doctrine prevents arbitrary executive action and ensures that no one is above the supreme law of the land?",
+          options: ["Rule of Law", "Doctrine of Eclipse", "Executive Privilege", "Laissez-faire"],
+          answer: "Rule of Law"
+        },
+        {
+          q: "Why is the Indian Constitution categorized as a combination of 'Rigidity and Flexibility'?",
+          options: [
+            "Some provisions can be amended by a simple majority, while fundamental federal clauses require special 2/3rd majority plus state ratifications",
+            "It can only be amended by a nationwide referendum",
+            "It cannot be amended under any circumstances",
+            "Any single state legislature can amend any clause of the Constitution"
+          ],
+          answer: "Some provisions can be amended by a simple majority, while fundamental federal clauses require special 2/3rd majority plus state ratifications"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
