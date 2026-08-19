@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SST Chapter 1 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">SST Chapter 1</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #f59e0b; margin-bottom: 4px;">Partition of Bengal & Swadeshi Movement</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Core Dates, Authors & Key Events</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Match Columns, Journals & Institutions</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Chronology, Circulars & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Chapter 1 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "Who was the Viceroy of India when the Partition of Bengal was executed in 1905?",
+          options: ["Lord Curzon", "Lord Ripon", "Lord Minto", "Lord Wellesley"],
+          answer: "Lord Curzon"
+        },
+        {
+          q: "On which exact date did the Partition of Bengal officially come into effect?",
+          options: ["16th October, 1905", "20th July, 1905", "15th August, 1905", "12th December, 1911"],
+          answer: "16th October, 1905"
+        },
+        {
+          q: "What was the capital of the newly created province of 'Eastern Bengal and Assam'?",
+          options: ["Dacca (Dhaka)", "Chittagong", "Shillong", "Calcutta"],
+          answer: "Dacca (Dhaka)"
+        },
+        {
+          q: "Who was appointed as the first Lieutenant-Governor of Eastern Bengal and Assam?",
+          options: ["Bampfylde Fuller", "Andrew Fraser", "Lord Morley", "Lord Hardinge"],
+          answer: "Bampfylde Fuller"
+        },
+        {
+          q: "Which patriotic song composed by Rabindranath Tagore became the anthem of the anti-partition movement?",
+          options: ["Amar Sonar Bangla", "Vande Mataram", "Jana Gana Mana", "Sare Jahan Se Achha"],
+          answer: "Amar Sonar Bangla"
+        },
+        {
+          q: "In which year was the All-India Muslim League established in Dacca?",
+          options: ["1906", "1905", "1907", "1911"],
+          answer: "1906"
+        },
+        {
+          q: "Who founded the 'Bengal Chemicals and Pharmaceutical Works' as part of the Swadeshi industrial initiative?",
+          options: ["Acharya Prafulla Chandra Roy", "J.N. Tata", "Satish Chandra Mukherjee", "Abanindranath Tagore"],
+          answer: "Acharya Prafulla Chandra Roy"
+        },
+        {
+          q: "In which year was the Partition of Bengal officially annulled by the British Crown?",
+          options: ["1911", "1908", "1910", "1914"],
+          answer: "1911"
+        },
+        {
+          q: "Who composed the world-famous novel 'Anandamath' containing the hymn 'Vande Mataram'?",
+          options: ["Bankim Chandra Chattopadhyay", "Rabindranath Tagore", "Michael Madhusudan Dutt", "Sarat Chandra Chattopadhyay"],
+          answer: "Bankim Chandra Chattopadhyay"
+        },
+        {
+          q: "What ritual did Rabindranath Tagore introduce on 16th October 1905 to symbolize Hindu-Muslim unity?",
+          options: ["Raksha Bandhan festival", "Prabhat Pheri", "Arandhan ritual", "Vow of Silence"],
+          answer: "Raksha Bandhan festival"
+        },
+        {
+          q: "Who was the editor of the nationalist journal 'Sanjibani'?",
+          options: ["Krishna Kumar Mitra", "Surendranath Banerjee", "Brahmabandhav Upadhyay", "Aurobindo Ghosh"],
+          answer: "Krishna Kumar Mitra"
+        },
+        {
+          q: "Where was the historic meeting held on 7th August 1905 where the formal resolution for the Boycott movement was passed?",
+          options: ["Calcutta Town Hall", "Albert Hall", "Pantheon Hall", "Curzon Hall"],
+          answer: "Calcutta Town Hall"
+        },
+        {
+          q: "Who was the first President of the National Council of Education formed in 1906?",
+          options: ["Rashbehari Ghosh", "Gurudas Banerjee", "Aurobindo Ghosh", "Satish Chandra Mukherjee"],
+          answer: "Rashbehari Ghosh"
+        },
+        {
+          q: "The headquarters of the British Indian capital was shifted from Calcutta to Delhi in which year?",
+          options: ["1911", "1905", "1909", "1919"],
+          answer: "1911"
+        },
+        {
+          q: "Who among the following was the founder of the 'Dawn Society' established in 1902?",
+          options: ["Satish Chandra Mukherjee", "Sister Nivedita", "Bipin Chandra Pal", "Brahmabandhav Upadhyay"],
+          answer: "Satish Chandra Mukherjee"
+        }
+      ],
+      medium: [
+        {
+          q: "Match Column 'A' (Journals) with Column 'B' (Editors):\n(i) The Bengali -> (a) Satish Chandra Mukherjee\n(ii) Sanjibani -> (b) Surendranath Banerjee\n(iii) The Dawn -> (c) Krishna Kumar Mitra\n(iv) Sandhya -> (d) Brahmabandhav Upadhyay",
+          options: [
+            "(i)-(b), (ii)-(c), (iii)-(a), (iv)-(d)",
+            "(i)-(c), (ii)-(b), (iii)-(d), (iv)-(a)",
+            "(i)-(a), (ii)-(d), (iii)-(b), (iv)-(c)",
+            "(i)-(d), (ii)-(a), (iii)-(c), (iv)-(b)"
+          ],
+          answer: "(i)-(b), (ii)-(c), (iii)-(a), (iv)-(d)"
+        },
+        {
+          q: "Which article published in 'Sanjibani' on 13th July 1905 inspired patriotic unity against partition?",
+          options: [
+            "Banger Sarbanash (The Ruin of Bengal)",
+            "Hitabadi",
+            "Su-Prabhat",
+            "Yugantar"
+          ],
+          answer: "Banger Sarbanash (The Ruin of Bengal)"
+        },
+        {
+          q: "Under whose visionary artistic leadership was the 'Bangiya Kala Sangsad' (Society of Oriental Art) established?",
+          options: [
+            "Abanindranath Tagore",
+            "Rabindranath Tagore",
+            "Rajnikanta Sen",
+            "Nandalal Bose"
+          ],
+          answer: "Abanindranath Tagore"
+        },
+        {
+          q: "Who served as the first Principal of the Bengal National College founded in August 1906?",
+          options: [
+            "Aurobindo Ghosh",
+            "Satish Chandra Mukherjee",
+            "Ashutosh Mukherjee",
+            "Surendranath Banerjee"
+          ],
+          answer: "Aurobindo Ghosh"
+        },
+        {
+          q: "Which notorious circular was issued by the British to expel students participating in the Swadeshi agitation?",
+          options: [
+            "Carlyle Circular",
+            "Hunter Circular",
+            "Rowlatt Circular",
+            "Macaulay Circular"
+          ],
+          answer: "Carlyle Circular"
+        },
+        {
+          q: "Match the nationalist organizations with their founders:\n(i) Swadeshi Bhandar -> (a) Sarala Devi Chaudhurani\n(ii) Lakshmir Bhandar -> (b) Rabindranath Tagore\n(iii) United Bengal Stores -> (c) Jogesh Chandra Chaudhury",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(a), (ii)-(c), (iii)-(b)",
+            "(i)-(c), (ii)-(b), (iii)-(a)",
+            "(i)-(b), (ii)-(c), (iii)-(a)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c)"
+        },
+        {
+          q: "Who were the leaders of the prominent revolutionary secret society 'Anushilan Samiti' formed in 1902?",
+          options: [
+            "Pramathanath Mitra and Satish Chandra Bose",
+            "Subhash Chandra Bose and CR Das",
+            "Bhagat Singh and Chandrashekhar Azad",
+            "Lala Lajpat Rai and Ajit Singh"
+          ],
+          answer: "Pramathanath Mitra and Satish Chandra Bose"
+        },
+        {
+          q: "What was the official administrative reason put forward by the British for partitioning Bengal?",
+          options: [
+            "The Bengal Presidency was too massive and difficult to administer efficiently",
+            "To promote Bengali language education",
+            "To build railway lines between Assam and Burma",
+            "To prevent foreign naval invasions"
+          ],
+          answer: "The Bengal Presidency was too massive and difficult to administer efficiently"
+        },
+        {
+          q: "At the 1906 Calcutta Session of INC under Dadabhai Naoroji, which four key resolutions were passed?",
+          options: [
+            "Swadeshi, Boycott, National Education, and Swaraj",
+            "Civil Disobedience, Satyagraha, Ahimsa, and Purna Swaraj",
+            "Non-Cooperation, Khilafat, Untouchability, and Charkha",
+            "Dominion Status, Cabinet Mission, Partition, and Defense"
+          ],
+          answer: "Swadeshi, Boycott, National Education, and Swaraj"
+        },
+        {
+          q: "Who founded the 'Anti-Circular Society' to provide shelter and education to victimized students?",
+          options: [
+            "Sachindra Prasad Bose",
+            "Krishna Kumar Mitra",
+            "Bipin Chandra Pal",
+            "Surendranath Banerjee"
+          ],
+          answer: "Sachindra Prasad Bose"
+        },
+        {
+          q: "Which famous dramatist wrote patriotic plays like 'Sirajuddaulah' and 'Mir Qasim' during Swadeshi days?",
+          options: [
+            "Girish Chandra Ghosh",
+            "Dwijendralal Roy",
+            "Dinabandhu Mitra",
+            "Kshirod Prasad Vidyavinod"
+          ],
+          answer: "Girish Chandra Ghosh"
+        },
+        {
+          q: "What festival did Sarala Devi Chaudhurani organize in Bengal to instill physical courage among youth?",
+          options: [
+            "Birastami Vrata",
+            "Shivaji Utsav",
+            "Ganapati Utsav",
+            "Durga Puja March"
+          ],
+          answer: "Birastami Vrata"
+        },
+        {
+          q: "In which year did the historic split between Moderates and Extremists occur in Surat?",
+          options: ["1907", "1905", "1906", "1911"],
+          answer: "1907"
+        },
+        {
+          q: "Who composed the patriotic collection 'Thakurmar Jhuli' during the Swadeshi movement?",
+          options: [
+            "Dakshinaranjan Mitra Majumdar",
+            "Abanindranath Tagore",
+            "Upendrakishore Ray Chowdhury",
+            "Rabindranath Tagore"
+          ],
+          answer: "Dakshinaranjan Mitra Majumdar"
+        },
+        {
+          q: "Who presided over the Banaras Session of the Indian National Congress in 1905 that endorsed the Swadeshi movement?",
+          options: [
+            "Gopal Krishna Gokhale",
+            "Dadabhai Naoroji",
+            "Rashbehari Ghosh",
+            "Bal Gangadhar Tilak"
+          ],
+          answer: "Gopal Krishna Gokhale"
+        }
+      ],
+      hard: [
+        {
+          q: "Choose the correct chronological sequence of events related to the Muslim League:\n1906 -> 1909 -> 1910 -> 1915",
+          options: [
+            "All India Muslim League established -> Separate Electorates granted -> Head office shifted to Lucknow -> Demise of Nawab Salimullah",
+            "All India Muslim League established -> Demise of Nawab Salimullah -> Head office shifted to Lucknow -> Separate Electorates",
+            "Separate Electorates -> Muslim League established -> Demise of Nawab Salimullah -> Head office shifted to Lucknow",
+            "Head office shifted to Lucknow -> Muslim League established -> Separate Electorates -> Demise of Nawab Salimullah"
+          ],
+          answer: "All India Muslim League established -> Separate Electorates granted -> Head office shifted to Lucknow -> Demise of Nawab Salimullah"
+        },
+        {
+          q: "Assertion (A): Lord Curzon divided Bengal along religious lines by carving out Eastern Bengal.\nReason (R): The true British motive was to destroy the nerve center of Indian nationalism and create communal division.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Consider the territories included in the new province of 'Eastern Bengal and Assam':\n1. Dacca, Chittagong, and Rajshahi Divisions\n2. The Chief Commissionership of Assam\n3. Malda and Hill Tippera\nWhich of the above are correct?",
+          options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2, and 3 (All)"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "Match the Extremist leaders with their respective regions of Swadeshi leadership:\n(i) Bal Gangadhar Tilak -> (a) Punjab\n(ii) Bipin Chandra Pal -> (b) Maharashtra\n(iii) Lala Lajpat Rai -> (c) Bengal\n(iv) V.O. Chidambaram Pillai -> (d) Madras (Tamil Nadu)",
+          options: [
+            "(i)-(b), (ii)-(c), (iii)-(a), (iv)-(d)",
+            "(i)-(a), (ii)-(b), (iii)-(d), (iv)-(c)",
+            "(i)-(c), (ii)-(d), (iii)-(a), (iv)-(b)",
+            "(i)-(d), (ii)-(a), (iii)-(c), (iv)-(b)"
+          ],
+          answer: "(i)-(b), (ii)-(c), (iii)-(a), (iv)-(d)"
+        },
+        {
+          q: "Assertion (A): The Carlyle Circular prohibited students from attending political rallies and singing 'Vande Mataram'.\nReason (R): The British government feared student participation would cripple bureaucratic discipline and fuel mass revolution.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "What were the direct terms of the Morley-Minto Reforms (Indian Councils Act 1909)?",
+          options: [
+            "Introduction of Separate Electorates for Muslims to entrench communal division",
+            "Granting immediate provincial autonomy",
+            "Complete repeal of the Carlyle Circular",
+            "Establishment of the Federal Court"
+          ],
+          answer: "Introduction of Separate Electorates for Muslims to entrench communal division"
+        },
+        {
+          q: "Arrange the following anti-partition milestones in exact chronological order:\n(1) Partition Proposal published by Risley\n(2) Official Declaration of Partition by Curzon\n(3) Formal Boycott resolution at Calcutta Town Hall\n(4) Day of Partition observed as Day of Mourning",
+          options: [
+            "(1) -> (2) -> (3) -> (4)",
+            "(2) -> (1) -> (3) -> (4)",
+            "(1) -> (3) -> (2) -> (4)",
+            "(3) -> (1) -> (2) -> (4)"
+          ],
+          answer: "(1) -> (2) -> (3) -> (4)"
+        },
+        {
+          q: "Who among the following wrote the revolutionary treatise 'Bhavani Mandir' promoting complete dedication to the motherland?",
+          options: [
+            "Aurobindo Ghosh",
+            "Barindra Kumar Ghosh",
+            "Sister Nivedita",
+            "Bhupendranath Dutta"
+          ],
+          answer: "Aurobindo Ghosh"
+        },
+        {
+          q: "Which revolutionary newspaper was started in 1906 by Barindra Kumar Ghosh and Bhupendranath Dutta?",
+          options: [
+            "Yugantar",
+            "Sandhya",
+            "Bande Mataram",
+            "The Bengali"
+          ],
+          answer: "Yugantar"
+        },
+        {
+          q: "Consider the following about Swadeshi industries:\n1. Banga Lakshmi Cotton Mill was established in 1906.\n2. Acharya PC Roy established Bengal Chemicals.\n3. Tata Iron and Steel Company (TISCO) was founded during this era (1907).\nWhich statements are correct?",
+          options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2, and 3 (All)"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "Why did the Surat Split of 1907 occur within the Indian National Congress?",
+          options: [
+            "Disagreements over extending the Boycott movement beyond Bengal and differing views between Moderates and Extremists",
+            "Conflict over supporting the British in the Anglo-Boer War",
+            "Refusal of Extremists to accept Dadabhai Naoroji as leader",
+            "Dispute over the location of the Muslim League headquarters"
+          ],
+          answer: "Disagreements over extending the Boycott movement beyond Bengal and differing views between Moderates and Extremists"
+        },
+        {
+          q: "Who painted the iconic and revered portrait of 'Bharat Mata' in 1905 depicting Mother India as a sadhvi?",
+          options: [
+            "Abanindranath Tagore",
+            "Raja Ravi Varma",
+            "Nandalal Bose",
+            "Gaganendranath Tagore"
+          ],
+          answer: "Abanindranath Tagore"
+        },
+        {
+          q: "Match the following historical events with their years:\n(i) Annulment of Bengal Partition -> (a) 1906\n(ii) Foundation of National Council of Education -> (b) 1911\n(iii) Surat Split -> (c) 1909\n(iv) Morley-Minto Reforms -> (d) 1907",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(d), (iv)-(c)",
+            "(i)-(a), (ii)-(b), (iii)-(c), (iv)-(d)",
+            "(i)-(c), (ii)-(d), (iii)-(a), (iv)-(b)",
+            "(i)-(b), (ii)-(d), (iii)-(a), (iv)-(c)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(d), (iv)-(c)"
+        },
+        {
+          q: "Assertion (A): Women of Bengal participated actively in the Swadeshi movement by breaking foreign bangles and picketing shops.\nReason (R): Leaders like Sarala Devi Chaudhurani organized women's societies and linked nationalism to cultural defense.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Which two provinces were modified/reconstituted when the Partition of Bengal was annulled in December 1911?",
+          options: [
+            "Assam reverted to a Chief Commissioner's province and Bihar & Orissa were separated from Bengal",
+            "Bengal was merged with Burma",
+            "Assam and East Bengal were made an independent Dominion",
+            "Bengal, Punjab, and Sindh were united into one Presidency"
+          ],
+          answer: "Assam reverted to a Chief Commissioner's province and Bihar & Orissa were separated from Bengal"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
