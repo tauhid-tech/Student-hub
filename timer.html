@@ -3,20 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pomodoro Study Timer | Student Hub</title>
+  <title>Study Focus Timer | Student Hub</title>
   <style>
-    :root {
-      --bg: #0f172a;
-      --card-bg: #1e293b;
-      --primary: #3b82f6;
-      --primary-hover: #2563eb;
-      --accent: #10b981;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --border: #334155;
-      --danger: #ef4444;
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -25,279 +13,381 @@
     }
 
     body {
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-      padding: 24px 16px 60px;
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
 
     .container {
-      max-width: 520px;
-      margin: 0 auto;
+      background: #1e293b;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 24px;
+      padding: 28px 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+      text-align: center;
     }
 
-    /* Navigation Bar */
-    nav {
+    .header-nav {
       display: flex;
-      justify-content: center;
-      gap: 16px;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 24px;
-      background: var(--card-bg);
-      padding: 10px 16px;
-      border-radius: 9999px;
-      border: 1px solid var(--border);
     }
 
-    nav a {
-      color: var(--muted);
+    .back-btn {
+      color: #94a3b8;
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 14px;
       font-weight: 600;
-      transition: color 0.2s;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      transition: all 0.2s;
     }
 
-    nav a.active {
-      color: var(--primary);
+    .back-btn:hover {
+      background: #475569;
+      color: #fff;
     }
 
-    header {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 4px 12px;
-      background: rgba(59, 130, 246, 0.15);
-      color: var(--primary);
-      border-radius: 9999px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    h1 {
-      font-size: 1.6rem;
+    .title {
+      font-size: 20px;
       font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    header p {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 30px 20px;
-      margin-bottom: 20px;
-      text-align: center;
+      color: #f8fafc;
     }
 
     /* Mode Selector Buttons */
-    .mode-group {
+    .mode-switch {
       display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 24px;
+      background: #0f172a;
+      padding: 4px;
+      border-radius: 14px;
+      margin-bottom: 30px;
+      gap: 4px;
     }
 
     .mode-btn {
+      flex: 1;
+      padding: 10px 0;
+      border: none;
       background: transparent;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-size: 0.85rem;
+      color: #94a3b8;
       font-weight: 600;
+      font-size: 13px;
+      border-radius: 10px;
       cursor: pointer;
       transition: all 0.2s;
     }
 
     .mode-btn.active {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: white;
+      background: #38bdf8;
+      color: #0f172a;
     }
 
-    /* Timer Display */
+    /* Circular Display */
+    .timer-circle-wrapper {
+      position: relative;
+      width: 240px;
+      height: 240px;
+      margin: 0 auto 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .timer-display {
-      font-size: 4rem;
+      font-size: 54px;
       font-weight: 800;
-      color: var(--text);
       letter-spacing: 2px;
-      margin: 10px 0 24px;
+      color: #f8fafc;
       font-variant-numeric: tabular-nums;
     }
 
+    .timer-label {
+      position: absolute;
+      bottom: 45px;
+      font-size: 13px;
+      color: #94a3b8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
     /* Controls */
-    .btn-group {
+    .controls {
       display: flex;
       gap: 12px;
       justify-content: center;
     }
 
     .btn {
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 1rem;
+      flex: 1;
+      padding: 14px 0;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
       cursor: pointer;
       border: none;
       transition: all 0.2s;
-      min-width: 110px;
     }
 
-    .btn-start {
-      background-color: var(--accent);
-      color: white;
-    }
-
-    .btn-pause {
-      background-color: #eab308;
+    .start-btn {
+      background: #38bdf8;
       color: #0f172a;
     }
 
-    .btn-reset {
-      background-color: #334155;
-      color: var(--text);
+    .start-btn:hover {
+      background: #7dd3fc;
     }
 
-    .btn-reset:hover {
-      background-color: #475569;
+    .pause-btn {
+      background: #f59e0b;
+      color: #0f172a;
     }
 
-    /* Stats Box */
-    .stats {
-      margin-top: 24px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.85rem;
+    .reset-btn {
+      background: #334155;
+      color: #cbd5e1;
     }
 
-    .stats span {
-      color: var(--accent);
-      font-weight: 700;
+    .reset-btn:hover {
+      background: #475569;
     }
 
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 0.85rem;
-      color: var(--muted);
+    /* Sound indicator */
+    .status-msg {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #64748b;
+      min-height: 18px;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- Navigation Bar -->
-    <nav>
-      <a href="index.html">📊 Calculator</a>
-      <a href="timer.html" class="active">⏱️ Study Timer</a>
-    </nav>
-
-    <header>
-      <div class="badge">Focus Booster</div>
-      <h1>Pomodoro Study Timer</h1>
-      <p>Study with full focus in 25-minute intervals.</p>
-    </header>
-
-    <div class="card">
-      <div class="mode-group">
-        <button class="mode-btn active" onclick="setMode('study', 25, this)">Focus (25m)</button>
-        <button class="mode-btn" onclick="setMode('shortBreak', 5, this)">Short Break (5m)</button>
-        <button class="mode-btn" onclick="setMode('longBreak', 15, this)">Long Break (15m)</button>
-      </div>
-
-      <div class="timer-display" id="time">25:00</div>
-
-      <div class="btn-group">
-        <button class="btn btn-start" id="start-btn" onclick="toggleTimer()">Start</button>
-        <button class="btn btn-reset" onclick="resetTimer()">Reset</button>
-      </div>
-
-      <div class="stats">
-        Completed Study Sessions: <span id="session-count">0</span>
-      </div>
+    <div class="header-nav">
+      <a href="index.html" class="back-btn">← Home</a>
+      <div class="title">Focus Timer</div>
+      <div style="width: 58px;"></div>
     </div>
 
-    <footer>
-      <p>Student Utility Hub • Built for productivity</p>
-    </footer>
+    <!-- Modes -->
+    <div class="mode-switch">
+      <button class="mode-btn active" data-mode="pomodoro" data-time="1500">Pomodoro (25m)</button>
+      <button class="mode-btn" data-mode="short" data-time="300">Short (5m)</button>
+      <button class="mode-btn" data-mode="long" data-time="900">Long (15m)</button>
+    </div>
+
+    <!-- Timer Display -->
+    <div class="timer-circle-wrapper">
+      <div class="timer-display" id="timeDisplay">25:00</div>
+      <div class="timer-label" id="modeLabel">Focus Session</div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button class="btn start-btn" id="startPauseBtn">Start</button>
+      <button class="btn reset-btn" id="resetBtn">Reset</button>
+    </div>
+
+    <div class="status-msg" id="statusMsg">Timer will continue even if you leave or refresh.</div>
   </div>
 
   <script>
-    let timer;
+    // State Variables
+    let modeDurations = {
+      pomodoro: 25 * 60,
+      short: 5 * 60,
+      long: 15 * 60
+    };
+
+    let currentMode = localStorage.getItem('study_timer_mode') || 'pomodoro';
+    let defaultTime = modeDurations[currentMode];
+    let remainingTime = defaultTime;
     let isRunning = false;
-    let totalSeconds = 25 * 60;
-    let defaultSeconds = 25 * 60;
-    let completedSessions = 0;
-    let currentMode = 'study';
+    let timerInterval = null;
 
-    const timeDisplay = document.getElementById('time');
-    const startBtn = document.getElementById('start-btn');
-    const sessionDisplay = document.getElementById('session-count');
+    const timeDisplay = document.getElementById('timeDisplay');
+    const modeLabel = document.getElementById('modeLabel');
+    const startPauseBtn = document.getElementById('startPauseBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const modeButtons = document.querySelectorAll('.mode-btn');
 
-    function updateDisplay() {
-      const minutes = Math.floor(totalSeconds / 60);
-      const seconds = totalSeconds % 60;
-      const formatted = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      timeDisplay.textContent = formatted;
-      document.title = `${formatted} - Pomodoro Timer`;
-    }
-
-    function toggleTimer() {
-      if (isRunning) {
-        clearInterval(timer);
-        isRunning = false;
-        startBtn.textContent = 'Resume';
-        startBtn.className = 'btn btn-start';
-      } else {
-        isRunning = true;
-        startBtn.textContent = 'Pause';
-        startBtn.className = 'btn btn-pause';
-        timer = setInterval(() => {
-          if (totalSeconds > 0) {
-            totalSeconds--;
-            updateDisplay();
-          } else {
-            clearInterval(timer);
-            isRunning = false;
-            startBtn.textContent = 'Start';
-            startBtn.className = 'btn btn-start';
-            alert(currentMode === 'study' ? '🎉 Focus session complete! Time for a break.' : '⏰ Break is over! Ready to study?');
-            if (currentMode === 'study') {
-              completedSessions++;
-              sessionDisplay.textContent = completedSessions;
-            }
-            resetTimer();
-          }
-        }, 1000);
+    // Beep sound function when timer completes
+    function playAlarm() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.2); // A5
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.8);
+      } catch (e) {
+        console.log("Audio alert not allowed without interaction.");
       }
     }
 
-    function resetTimer() {
-      clearInterval(timer);
+    // Format mm:ss
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Update display & document title
+    function updateUI() {
+      timeDisplay.textContent = formatTime(remainingTime);
+      document.title = `${formatTime(remainingTime)} - Study Timer`;
+      
+      const labels = {
+        pomodoro: 'Focus Session',
+        short: 'Short Break',
+        long: 'Long Break'
+      };
+      modeLabel.textContent = labels[currentMode];
+
+      modeButtons.forEach(btn => {
+        if (btn.getAttribute('data-mode') === currentMode) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      if (isRunning) {
+        startPauseBtn.textContent = 'Pause';
+        startPauseBtn.className = 'btn pause-btn';
+      } else {
+        startPauseBtn.textContent = 'Start';
+        startPauseBtn.className = 'btn start-btn';
+      }
+    }
+
+    // Sync from LocalStorage on page load/refresh
+    function syncFromStorage() {
+      currentMode = localStorage.getItem('study_timer_mode') || 'pomodoro';
+      defaultTime = modeDurations[currentMode];
+      
+      const storedEndTime = localStorage.getItem('study_timer_end_time');
+      const storedRemaining = localStorage.getItem('study_timer_remaining');
+      const storedIsRunning = localStorage.getItem('study_timer_running') === 'true';
+
+      if (storedIsRunning && storedEndTime) {
+        const now = Date.now();
+        const endTime = parseInt(storedEndTime, 10);
+        const diffSeconds = Math.round((endTime - now) / 1000);
+
+        if (diffSeconds > 0) {
+          remainingTime = diffSeconds;
+          isRunning = true;
+          startTick();
+        } else {
+          // Timer finished while user was away
+          remainingTime = 0;
+          isRunning = false;
+          clearStorageState();
+          playAlarm();
+        }
+      } else if (storedRemaining !== null) {
+        remainingTime = parseInt(storedRemaining, 10);
+        isRunning = false;
+      } else {
+        remainingTime = defaultTime;
+        isRunning = false;
+      }
+
+      updateUI();
+    }
+
+    function clearStorageState() {
+      localStorage.removeItem('study_timer_end_time');
+      localStorage.removeItem('study_timer_remaining');
+      localStorage.setItem('study_timer_running', 'false');
+    }
+
+    function startTick() {
+      if (timerInterval) clearInterval(timerInterval);
+
+      timerInterval = setInterval(() => {
+        const endTime = parseInt(localStorage.getItem('study_timer_end_time'), 10);
+        const now = Date.now();
+        const diff = Math.round((endTime - now) / 1000);
+
+        if (diff <= 0) {
+          clearInterval(timerInterval);
+          remainingTime = 0;
+          isRunning = false;
+          clearStorageState();
+          updateUI();
+          playAlarm();
+          alert('⏰ Session Complete! Take a break.');
+        } else {
+          remainingTime = diff;
+          updateUI();
+        }
+      }, 500);
+    }
+
+    // Start / Pause
+    startPauseBtn.addEventListener('click', () => {
+      if (isRunning) {
+        // Pausing
+        clearInterval(timerInterval);
+        isRunning = false;
+        localStorage.setItem('study_timer_running', 'false');
+        localStorage.setItem('study_timer_remaining', remainingTime);
+        localStorage.removeItem('study_timer_end_time');
+      } else {
+        // Starting
+        if (remainingTime <= 0) remainingTime = defaultTime;
+        
+        const targetEndTime = Date.now() + (remainingTime * 1000);
+        localStorage.setItem('study_timer_end_time', targetEndTime);
+        localStorage.setItem('study_timer_running', 'true');
+        isRunning = true;
+        startTick();
+      }
+      updateUI();
+    });
+
+    // Reset
+    resetBtn.addEventListener('click', () => {
+      clearInterval(timerInterval);
       isRunning = false;
-      totalSeconds = defaultSeconds;
-      startBtn.textContent = 'Start';
-      startBtn.className = 'btn btn-start';
-      updateDisplay();
-    }
+      defaultTime = modeDurations[currentMode];
+      remainingTime = defaultTime;
+      clearStorageState();
+      updateUI();
+    });
 
-    function setMode(mode, minutes, btn) {
-      currentMode = mode;
-      defaultSeconds = minutes * 60;
-      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      resetTimer();
-    }
+    // Switch Modes (Pomodoro / Short / Long)
+    modeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        clearInterval(timerInterval);
+        isRunning = false;
+        currentMode = button.getAttribute('data-mode');
+        localStorage.setItem('study_timer_mode', currentMode);
+        defaultTime = modeDurations[currentMode];
+        remainingTime = defaultTime;
+        clearStorageState();
+        updateUI();
+      });
+    });
 
-    updateDisplay();
+    // Run sync on startup
+    syncFromStorage();
   </script>
 </body>
 </html>
