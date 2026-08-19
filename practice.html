@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice Arena | Select Subject</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover {
+      background: #475569;
+      color: #fff;
+    }
+
+    .title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+
+    /* Subject Category Headers */
+    .subject-section {
+      margin-bottom: 22px;
+    }
+
+    .subject-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .color-math { color: #a855f7; }
+    .color-science { color: #38bdf8; }
+    .color-sst { color: #f59e0b; }
+    .color-english { color: #34d399; }
+    .color-mil { color: #f43f5e; }
+    .color-elective { color: #e879f9; }
+
+    /* Chapter Link Cards */
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .chapter-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 13px 15px;
+      border-radius: 14px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .chapter-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .chapter-card.disabled {
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .chapter-info h4 {
+      font-size: 14px;
+      color: #f8fafc;
+      margin-bottom: 2px;
+    }
+
+    .chapter-info p {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .status-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+
+    .badge-ready {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border: 1px solid #22c55e;
+    }
+
+    .badge-soon {
+      background: rgba(148, 163, 184, 0.1);
+      color: #94a3b8;
+      border: 1px solid #475569;
+    }
+
+    /* Sub-section styling for Elective */
+    .sub-elective-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin: 10px 0 6px 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <div class="header-nav">
+      <a href="index.html" class="back-btn">← Home</a>
+      <div class="title">Practice Arena</div>
+      <div style="width: 50px;"></div>
+    </div>
+
+    <!-- 1. MATHEMATICS -->
+    <div class="subject-section">
+      <div class="subject-title color-math">
+        <span>📐</span> Mathematics
+      </div>
+      <div class="grid-list">
+        <a href="math-ch1.html" class="chapter-card disabled">
+          <div class="chapter-info">
+            <h4>Chapter 1: Real Numbers</h4>
+            <p>Easy, Medium & Hard Levels</p>
+          </div>
+          <span class="status-badge badge-soon">Soon</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 2. SCIENCE -->
+    <div class="subject-section">
+      <div class="subject-title color-science">
+        <span>🧪</span> Science
+      </div>
+      <div class="grid-list">
+        <a href="science-ch1.html" class="chapter-card disabled">
+          <div class="chapter-info">
+            <h4>Chapter 1: Chemical Reactions & Equations</h4>
+            <p>Easy, Medium & Hard Levels</p>
+          </div>
+          <span class="status-badge badge-soon">Soon</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 3. SOCIAL SCIENCE (SST) -->
+    <div class="subject-section">
+      <div class="subject-title color-sst">
+        <span>🌍</span> Social Science (SST)
+      </div>
+      <div class="grid-list">
+        <!-- Ready Chapter 1 -->
+        <a href="sst-ch1.html" class="chapter-card">
+          <div class="chapter-info">
+            <h4>Chapter 1 Practice Bank</h4>
+            <p>Easy, Medium & Hard Levels</p>
+          </div>
+          <span class="status-badge badge-ready">Start</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 4. ENGLISH -->
+    <div class="subject-section">
+      <div class="subject-title color-english">
+        <span>📖</span> English
+      </div>
+      <div class="grid-list">
+        <a href="english-ch1.html" class="chapter-card disabled">
+          <div class="chapter-info">
+            <h4>Chapter 1 Practice Set</h4>
+            <p>Easy, Medium & Hard Levels</p>
+          </div>
+          <span class="status-badge badge-soon">Soon</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 5. MIL -->
+    <div class="subject-section">
+      <div class="subject-title color-mil">
+        <span>✍️</span> MIL
+      </div>
+      <div class="grid-list">
+        <a href="mil-ch1.html" class="chapter-card disabled">
+          <div class="chapter-info">
+            <h4>Chapter 1 Practice Set</h4>
+            <p>Easy, Medium & Hard Levels</p>
+          </div>
+          <span class="status-badge badge-soon">Soon</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 6. ELECTIVE (ADV. MATHS & COMPUTER SCIENCE) -->
+    <div class="subject-section">
+      <div class="subject-title color-elective">
+        <span>⚡</span> Elective Subjects
+      </div>
+      
+      <!-- Sub-part A: Advanced Maths -->
+      <div class="sub-elective-title">Option A: Adv. Maths</div>
+      <div class="grid-list" style="margin-bottom: 8px;">
+        <a href="advmath-ch1.html" class="chapter-card disabled">
+          <div class="chapter-info">
+            <h4>Chapter 1: Sets & Relations</h4>
+            <p>Easy, Medium & Hard Levels</p>
+          </div>
+          <span class="status-badge badge-soon">Soon</span>
+        </a>
+      </div>
+
+      <!-- Sub-part B: Computer Science -->
+      <div class="sub-elective-title">Option B: Computer Science</div>
+      <div class="grid-list">
+        <a href="cs-ch1.html" class="chapter-card disabled">
+          <div class="chapter-info">
+            <h4>Chapter 1: Basics & Logic</h4>
+            <p>Easy, Medium & Hard Levels</p>
+          </div>
+          <span class="status-badge badge-soon">Soon</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+          </html>
+
