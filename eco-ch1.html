@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Economics Chapter 1 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Economics Chapter 1</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #f59e0b; margin-bottom: 4px;">Financial Literacy</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Cards, PIN/CVV & Basic Banking Terms</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Financial Markets, UPI & Types of Fraud</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • RBI Regulators, Capital Market & Cyber Safety</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Economics Ch 1 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "What is the full form of ATM in modern banking?",
+          options: ["Automated Teller Machine", "Any Time Money", "Auto Transfer Mechanism", "Automatic Transaction Module"],
+          answer: "Automated Teller Machine"
+        },
+        {
+          q: "What does PIN stand for in debit/credit card security?",
+          options: ["Personal Identification Number", "Public Information Network", "Permanent Identity Note", "Private Index Number"],
+          answer: "Personal Identification Number"
+        },
+        {
+          q: "What is the full form of CVV found printed on the back of a banking card?",
+          options: ["Card Verification Value", "Customer Validation View", "Central Virtual Verification", "Credit Value Validity"],
+          answer: "Card Verification Value"
+        },
+        {
+          q: "Which card allows you to make purchases using your own deposited money in a bank account?",
+          options: ["Debit Card", "Credit Card", "Charge Card", "Kisan Credit Card only"],
+          answer: "Debit Card"
+        },
+        {
+          q: "Which card provides a short-term credit limit from the bank to buy goods even without account balance?",
+          options: ["Credit Card", "Debit Card", "Ration Card", "Identity Card"],
+          answer: "Credit Card"
+        },
+        {
+          q: "What is the full form of UPI used for instant mobile payments in India?",
+          options: ["Unified Payments Interface", "Universal Public Interface", "Union Payment Instrument", "Unique Private Identity"],
+          answer: "Unified Payments Interface"
+        },
+        {
+          q: "What is the central regulatory bank of India?",
+          options: ["Reserve Bank of India (RBI)", "State Bank of India (SBI)", "Punjab National Bank (PNB)", "NABARD"],
+          answer: "Reserve Bank of India (RBI)"
+        },
+        {
+          q: "Which of the following should you NEVER share with anyone over phone or text?",
+          options: ["OTP, ATM PIN, and CVV", "Bank Branch Name", "Account Holder's Name", "IFSC Code"],
+          answer: "OTP, ATM PIN, and CVV"
+        },
+        {
+          q: "What is the full form of OTP used in online transactions?",
+          options: ["One Time Password", "Official Transfer Pin", "Online True Pass", "Open Time Portal"],
+          answer: "One Time Password"
+        },
+        {
+          q: "What is the National Cyber Crime Reporting Helpline Number in India?",
+          options: ["1930", "100", "108", "1091"],
+          answer: "1930"
+        },
+        {
+          q: "Which organization develops and operates the UPI system and RuPay cards in India?",
+          options: ["National Payments Corporation of India (NPCI)", "SEBI", "IRDAI", "NITI Aayog"],
+          answer: "National Payments Corporation of India (NPCI)"
+        },
+        {
+          q: "What is the full form of IFSC code used in NEFT/RTGS bank transfers?",
+          options: ["Indian Financial System Code", "International Fund Settlement Code", "Indian Fiscal Service Code", "Integrated Fund System Channel"],
+          answer: "Indian Financial System Code"
+        },
+        {
+          q: "Which type of bank account is primarily designed to encourage regular people and students to save?",
+          options: ["Savings Bank Account", "Current Account", "Overdraft Account", "Demurrage Account"],
+          answer: "Savings Bank Account"
+        },
+        {
+          q: "What is the fraudulent attempt to obtain sensitive information like passwords by impersonating a trustworthy bank via email/SMS called?",
+          options: ["Phishing", "Surfing", "Browsing", "Streaming"],
+          answer: "Phishing"
+        },
+        {
+          q: "How many digits are usually in the CVV number printed on Visa and Mastercard cards?",
+          options: ["3 digits", "4 digits", "6 digits", "2 digits"],
+          answer: "3 digits"
+        }
+      ],
+      medium: [
+        {
+          q: "Match Column 'A' (Financial Term) with Column 'B' (Meaning):\n(i) Money Market -> (a) Long-term funds and shares/bonds\n(ii) Capital Market -> (b) Short-term lending and liquid borrowing\n(iii) KYC -> (c) Know Your Customer documentation",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(c), (ii)-(a), (iii)-(b)",
+            "(i)-(b), (ii)-(c), (iii)-(a)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c)"
+        },
+        {
+          q: "What is the key difference between NEFT and RTGS payment systems in India?",
+          options: [
+            "RTGS settles transactions instantly in real time (for high value), while NEFT settles in half-hourly batches",
+            "NEFT is only for international transfers; RTGS is local",
+            "RTGS can only be done inside post offices",
+            "NEFT does not require any IFSC code"
+          ],
+          answer: "RTGS settles transactions instantly in real time (for high value), while NEFT settles in half-hourly batches"
+        },
+        {
+          q: "Which regulatory authority in India regulates the securities market and protects stock market investors?",
+          options: ["SEBI (Securities and Exchange Board of India)", "RBI", "IRDAI", "TRAI"],
+          answer: "SEBI (Securities and Exchange Board of India)"
+        },
+        {
+          q: "What is a 'Fixed Deposit' (FD) account in a commercial bank?",
+          options: [
+            "A deposit scheme where a lump sum is deposited for a fixed maturity tenure offering a higher interest rate",
+            "An account that allows unlimited daily ATM withdrawals with zero interest",
+            "A loan account provided to companies",
+            "An account with zero balance limits and daily fees"
+          ],
+          answer: "A deposit scheme where a lump sum is deposited for a fixed maturity tenure offering a higher interest rate"
+        },
+        {
+          q: "What kind of cyber fraud is committed when fraudsters install an illegal skimming device inside an ATM card slot?",
+          options: ["ATM Card Skimming / Cloning", "Vishing", "Smishing", "Shoulder Surfing"],
+          answer: "ATM Card Skimming / Cloning"
+        },
+        {
+          q: "Match the following fraud tactics with their descriptions:\n(i) Vishing -> (a) Fraudulent phone calls posing as bank managers\n(ii) Smishing -> (b) Deceptive SMS texts with phishing links\n(iii) Identity Theft -> (c) Unauthorized use of someone's personal financial details",
+          options: [
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(c), (ii)-(b), (iii)-(a)",
+            "(i)-(a), (ii)-(c), (iii)-(b)"
+          ],
+          answer: "(i)-(a), (ii)-(b), (iii)-(c)"
+        },
+        {
+          q: "What is a major advantage of having high Financial Literacy in daily life?",
+          options: [
+            "Making informed budgeting decisions, managing credit safely, and avoiding cyber frauds",
+            "Getting unlimited loans without repayment",
+            "Bypassing tax obligations legally",
+            "Guaranteeing instant lottery winnings"
+          ],
+          answer: "Making informed budgeting decisions, managing credit safely, and avoiding cyber frauds"
+        },
+        {
+          q: "Which financial document provides official proof of identity and address during bank account opening (KYC)?",
+          options: [
+            "Aadhaar Card / PAN Card / Passport",
+            "School Library Card",
+            "Electricity bill in neighbour's name",
+            "Visiting card"
+          ],
+          answer: "Aadhaar Card / PAN Card / Passport"
+        },
+        {
+          q: "What is the primary function of a 'Current Account' in commercial banking?",
+          options: [
+            "Facilitating frequent, high-volume transactions with overdraft facilities primarily for businesses and traders",
+            "Providing the highest interest rate for retired pensioners",
+            "Offering student scholarships exclusively",
+            "Allowing cash deposits only once a year"
+          ],
+          answer: "Facilitating frequent, high-volume transactions with overdraft facilities primarily for businesses and traders"
+        },
+        {
+          q: "What is meant by 'Two-Factor Authentication' (2FA) in digital banking?",
+          options: [
+            "A dual security layer requiring password/PIN PLUS a dynamic OTP sent to the registered mobile device",
+            "Entering the same password twice",
+            "Using two different debit cards simultaneously",
+            "Logging in with two different users"
+          ],
+          answer: "A dual security layer requiring password/PIN PLUS a dynamic OTP sent to the registered mobile device"
+        },
+        {
+          q: "Which financial instrument represents a certificate of ownership in a fraction of a corporation's capital?",
+          options: ["Equity Share / Stock", "Treasury Bill", "Fixed Deposit Slip", "Promissory Note"],
+          answer: "Equity Share / Stock"
+        },
+        {
+          q: "What should you do immediately if you realize your debit or credit card has been lost or stolen?",
+          options: [
+            "Immediately block the card via the bank's mobile app, customer care, or net banking",
+            "Wait for the monthly billing cycle to end",
+            "Visit the market to search for the card",
+            "Share the card PIN with friends to trace transactions"
+          ],
+          answer: "Immediately block the card via the bank's mobile app, customer care, or net banking"
+        },
+        {
+          q: "What is a 'Recurring Deposit' (RD) account?",
+          options: [
+            "A deposit scheme where a fixed sum of money is deposited regularly each month for a specified duration",
+            "An account where money is withdrawn automatically every week",
+            "A zero-balance loan account",
+            "An account exclusively for buying government bonds"
+          ],
+          answer: "A deposit scheme where a fixed sum of money is deposited regularly each month for a specified duration"
+        },
+        {
+          q: "What is the primary role of Insurance in personal financial planning?",
+          options: [
+            "Risk management and financial protection against unexpected losses, illnesses, or damage",
+            "Doubling money within 30 days",
+            "Avoiding all banking documentation",
+            "Eliminating the need to work"
+          ],
+          answer: "Risk management and financial protection against unexpected losses, illnesses, or damage"
+        },
+        {
+          q: "Why is entering your UPI PIN necessary ONLY when SENDING money or checking balance, but NOT when RECEIVING money?",
+          options: [
+            "UPI PIN authorizes debit from your account; money can be received without entering any PIN",
+            "UPI PIN is needed for both debit and credit equally",
+            "Receiving money requires entering ATM CVV instead",
+            "UPI PIN expires after every incoming transaction"
+          ],
+          answer: "UPI PIN authorizes debit from your account; money can be received without entering any PIN"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): You never need to enter your UPI PIN to receive money into your bank account.\nReason (R): UPI PIN is a cryptographic authorization strictly meant to authenticate debit (deduction) of funds from the payer's account.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Consider the components of the Financial System:\n1. Financial Institutions (Banks, NBFCs, Insurance firms)\n2. Financial Markets (Money Market & Capital Market)\n3. Financial Instruments (Shares, Bonds, Debentures, Treasury bills)\nWhich of the above are fundamental parts of a modern financial architecture?",
+          options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2, and 3 (All)"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "Match the following financial regulators with their specialized domains:\n(i) RBI -> (a) Capital markets, Stock exchanges & Mutual funds\n(ii) SEBI -> (b) Banking system, Monetary policy & Currency issuance\n(iii) IRDAI -> (c) Insurance sector and policyholder protection\n(iv) PFRDA -> (d) Pension funds and retirement schemes",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c), (iv)-(d)",
+            "(i)-(a), (ii)-(b), (iii)-(d), (iv)-(c)",
+            "(i)-(c), (ii)-(d), (iii)-(a), (iv)-(b)",
+            "(i)-(b), (ii)-(c), (iii)-(a), (iv)-(d)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c), (iv)-(d)"
+        },
+        {
+          q: "What constitutes a 'Money Mule' fraud in digital financial crimes?",
+          options: [
+            "Luring innocent individuals to receive and transfer illicit stolen funds through their bank accounts in exchange for a commission",
+            "Forging paper cheques using thermal ink",
+            "Stealing gold directly from bank vaults",
+            "Setting up fake physical bank branches"
+          ],
+          answer: "Luring innocent individuals to receive and transfer illicit stolen funds through their bank accounts in exchange for a commission"
+        },
+        {
+          q: "Assertion (A): Commercial banks create credit and expand money supply in the economy.\nReason (R): Banks retain only a fraction of cash reserves (CRR/SLR) and lend out the remainder as loans, generating derivative deposits.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Which of the following is a Money Market Instrument used for short-term borrowing by the Government of India?",
+          options: ["Treasury Bills (T-Bills)", "Corporate Debentures", "Equity Shares", "Infrastructure Bonds"],
+          answer: "Treasury Bills (T-Bills)"
+        },
+        {
+          q: "Consider the following precautions for secure digital transactions:\n1. Never click on unverified links offering quick loans, lottery wins, or KYC updates.\n2. Avoid using public, unsecured Wi-Fi networks for net banking transactions.\n3. Verify official URL HTTPS locks and domain names before entering credentials.\nWhich practices ensure cyber safety?",
+          options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2, and 3 (All)"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "What is 'SIM Swapping' fraud and how do fraudsters exploit it?",
+          options: [
+            "Fraudsters obtain a duplicate SIM of the victim by identity theft to intercept bank OTPs and authorize illicit transactions",
+            "Swapping phones in crowded places",
+            "Using multiple SIM cards from the same telecom operator",
+            "Recharging another person's mobile balance accidentally"
+          ],
+          answer: "Fraudsters obtain a duplicate SIM of the victim by identity theft to intercept bank OTPs and authorize illicit transactions"
+        },
+        {
+          q: "Match the banking card security features with their technological functions:\n(i) EMV Chip -> (a) Dynamic encryption for POS card transactions preventing cloning\n(ii) Magnetic Stripe -> (b) Older track reading susceptible to skimming\n(iii) NFC Antenna -> (c) Contactless tap-and-pay transactions within limit",
+          options: [
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(c), (ii)-(a), (iii)-(b)",
+            "(i)-(a), (ii)-(c), (iii)-(b)"
+          ],
+          answer: "(i)-(a), (ii)-(b), (iii)-(c)"
+        },
+        {
+          q: "What distinguishes a 'Primary Market' from a 'Secondary Market' in capital finance?",
+          options: [
+            "Primary market deals with the issue of new securities (IPO), whereas secondary market is the platform where existing securities are traded",
+            "Primary market is only for government loans; secondary is for private companies",
+            "Primary market handles foreign exchange only",
+            "Secondary market deals with short-term loans under 30 days"
+          ],
+          answer: "Primary market deals with the issue of new securities (IPO), whereas secondary market is the platform where existing securities are traded"
+        },
+        {
+          q: "Assertion (A): Maintaining a high Credit Score (e.g., CIBIL score) is beneficial for individuals.\nReason (R): A higher credit score demonstrates prompt loan and credit card repayment discipline, leading to easier loan approvals and lower interest rates.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "What is a 'Ponzi Scheme' or fraudulent Multi-Level Marketing (MLM) investment trap?",
+          options: [
+            "A fraudulent system paying returns to earlier investors using capital from newer investors rather than legitimate profit",
+            "An RBI-backed mutual fund product",
+            "A scheme where the government invests in solar power",
+            "A fixed deposit scheme inside commercial banks"
+          ],
+          answer: "A fraudulent system paying returns to earlier investors using capital from newer investors rather than legitimate profit"
+        },
+        {
+          q: "Under the RBI Integrated Ombudsman Scheme, within what standard timeframe should customers report unauthorized electronic banking transactions to limit their liability to zero?",
+          options: ["Within 3 working days", "Within 30 working days", "Within 60 working days", "Within 90 days"],
+          answer: "Within 3 working days"
+        },
+        {
+          q: "Which type of financial documentation is mandatory for opening a Demat (Dematerialized) Account to hold electronic shares?",
+          options: [
+            "Permanent Account Number (PAN Card), Aadhaar, Bank proof, and KYC verification",
+            "Ration Card only",
+            "Birth Certificate only",
+            "Educational marksheet only"
+          ],
+          answer: "Permanent Account Number (PAN Card), Aadhaar, Bank proof, and KYC verification"
+        },
+        {
+          q: "What is 'Juice Jacking' cyber attack?",
+          options: [
+            "A cyber attack where malware is loaded or data is stolen from a smartphone plugged into a tampered public USB charging port",
+            "Stealing battery power from nearby devices",
+            "Sending spam emails from juice stalls",
+            "Overcharging credit cards during beverage purchase"
+          ],
+          answer: "A cyber attack where malware is loaded or data is stolen from a smartphone plugged into a tampered public USB charging port"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
