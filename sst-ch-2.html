@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SST Chapter 2 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">SST Chapter 2</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #f59e0b; margin-bottom: 4px;">Rise of Gandhi & Freedom Movement</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Dates, Leaders & Direct Facts</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Match Column, Causes & Reasoning</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Assertion-Reason & Chronology</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Chapter 2 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "In which year did Mahatma Gandhi return permanently to India from South Africa?",
+          options: ["1912", "1915", "1919", "1922"],
+          answer: "1915"
+        },
+        {
+          q: "On which date did the tragic Jallianwala Bagh massacre occur in Amritsar?",
+          options: ["13th April, 1919", "15th August, 1919", "26th January, 1920", "12th March, 1930"],
+          answer: "13th April, 1919"
+        },
+        {
+          q: "Who gave the historic call 'Do or Die' during the Quit India Movement?",
+          options: ["Jawaharlal Nehru", "Subhash Chandra Bose", "Mahatma Gandhi", "Bal Gangadhar Tilak"],
+          answer: "Mahatma Gandhi"
+        },
+        {
+          q: "The Non-Cooperation Movement was suspended in 1922 following violence at which place?",
+          options: ["Dandi", "Chauri Chaura", "Champaran", "Kheda"],
+          answer: "Chauri Chaura"
+        },
+        {
+          q: "Which British military officer gave the command to open fire on unarmed people at Jallianwala Bagh?",
+          options: ["General Dyer", "Lord Irwin", "Lord Mountbatten", "Sir John Simon"],
+          answer: "General Dyer"
+        },
+        {
+          q: "The historic Dandi March in 1930 started from Sabarmati Ashram and ended at Dandi to break which law?",
+          options: ["Salt Law", "Forest Law", "Press Law", "Revenue Law"],
+          answer: "Salt Law"
+        },
+        {
+          q: "Who was the British Prime Minister who announced the Communal Award in 1932?",
+          options: ["Winston Churchill", "Ramsay MacDonald", "Clement Attlee", "Neville Chamberlain"],
+          answer: "Ramsay MacDonald"
+        },
+        {
+          q: "In which city did the Muslim League pass the historic Lahore Resolution demanding Pakistan in 1940?",
+          options: ["Dhaka", "Karachi", "Lahore", "Lucknow"],
+          answer: "Lahore"
+        },
+        {
+          q: "Who was the first Indian Satyagrahi chosen by Gandhiji for Individual Satyagraha in 1940?",
+          options: ["Jawaharlal Nehru", "Acharya Vinoba Bhave", "Sardar Patel", "Dr. Rajendra Prasad"],
+          answer: "Acharya Vinoba Bhave"
+        },
+        {
+          q: "The Simon Commission arrived in India in which year?",
+          options: ["1925", "1927", "1928", "1930"],
+          answer: "1928"
+        },
+        {
+          q: "Who renounced his British Knighthood in protest against the Jallianwala Bagh massacre?",
+          options: ["Rabindranath Tagore", "Mahatma Gandhi", "Surendranath Banerjee", "Gopal Krishna Gokhale"],
+          answer: "Rabindranath Tagore"
+        },
+        {
+          q: "Which agreement was signed in 1931 leading to the suspension of the Civil Disobedience Movement?",
+          options: ["Lucknow Pact", "Poona Pact", "Gandhi-Irwin Pact", "Shimla Agreement"],
+          answer: "Gandhi-Irwin Pact"
+        },
+        {
+          q: "Who was the Viceroy of India when the Quit India Movement was launched in August 1942?",
+          options: ["Lord Curzon", "Lord Linlithgow", "Lord Wavell", "Lord Chelmsford"],
+          answer: "Lord Linlithgow"
+        },
+        {
+          q: "What was the primary newspaper founded by Mahatma Gandhi in South Africa to educate the Indian community?",
+          options: ["Young India", "Indian Opinion", "Harijan", "Navjivan"],
+          answer: "Indian Opinion"
+        },
+        {
+          q: "On which date did British rule in India officially come to an end?",
+          options: ["26th January, 1947", "15th August, 1947", "14th August, 1948", "30th January, 1948"],
+          answer: "15th August, 1947"
+        }
+      ],
+      medium: [
+        {
+          q: "Match Column 'A' with Column 'B':\n(i) Rowlatt Act -> (a) 1930\n(ii) Chauri Chaura -> (b) 1919\n(iii) Dandi March -> (c) 1942\n(iv) Quit India -> (d) 1922",
+          options: [
+            "(i)-(b), (ii)-(d), (iii)-(a), (iv)-(c)",
+            "(i)-(d), (ii)-(b), (iii)-(c), (iv)-(a)",
+            "(i)-(a), (ii)-(c), (iii)-(b), (iv)-(d)",
+            "(i)-(b), (ii)-(a), (iii)-(d), (iv)-(c)"
+          ],
+          answer: "(i)-(b), (ii)-(d), (iii)-(a), (iv)-(c)"
+        },
+        {
+          q: "Why was the Simon Commission boycotted by all major political parties across India?",
+          options: [
+            "It proposed an immediate partition of Bengal",
+            "It did not contain a single Indian member",
+            "It abolished provincial legislatures",
+            "It declared Hindi as the sole official language"
+          ],
+          answer: "It did not contain a single Indian member"
+        },
+        {
+          q: "Match the leaders with their associated movements/events:\n(i) Lala Lajpat Rai -> (a) First Individual Satyagrahi\n(ii) Acharya Vinoba Bhave -> (b) Anti-Simon Protest\n(iii) Khan Abdul Ghaffar Khan -> (c) Frontier Gandhi\n(iv) Subhash Chandra Bose -> (d) INA",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c), (iv)-(d)",
+            "(i)-(c), (ii)-(a), (iii)-(d), (iv)-(b)",
+            "(i)-(d), (ii)-(b), (iii)-(a), (iv)-(c)",
+            "(i)-(a), (ii)-(c), (iii)-(b), (iv)-(d)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c), (iv)-(d)"
+        },
+        {
+          q: "Complete the statement: The Poona Pact of September 1932 was signed between Mahatma Gandhi and ______ to secure reserved seats for Depressed Classes.",
+          options: ["Muhammad Ali Jinnah", "Dr. B.R. Ambedkar", "Motilal Nehru", "Tej Bahadur Sapru"],
+          answer: "Dr. B.R. Ambedkar"
+        },
+        {
+          q: "Why did Congress Ministries in 8 provinces resign in October-November 1939?",
+          options: [
+            "British involved India in World War II without consulting Indians",
+            "Failure of the Gandhi-Irwin Pact",
+            "Disagreements over provincial quotas",
+            "Introduction of the Rowlatt Act"
+          ],
+          answer: "British involved India in World War II without consulting Indians"
+        },
+        {
+          q: "Which of the following describes the core principle of Gandhi's Satyagraha?",
+          options: [
+            "Use of physical force to defeat oppressors",
+            "Firm adherence to truth combined with pure non-violence",
+            "Complete passive inaction in the face of injustice",
+            "Armed resistance during wartime crises"
+          ],
+          answer: "Firm adherence to truth combined with pure non-violence"
+        },
+        {
+          q: "The historic Purna Swaraj (Complete Independence) resolution was adopted at the Lahore Session (1929) under whose presidency?",
+          options: ["Mahatma Gandhi", "Jawaharlal Nehru", "Subhash Chandra Bose", "Sardar Vallabhbhai Patel"],
+          answer: "Jawaharlal Nehru"
+        },
+        {
+          q: "What was the immediate objective of the Rowlatt Act passed by the British in 1919?",
+          options: [
+            "To arrest and detain any person without trial on suspicion of treason",
+            "To ban foreign cloth importation",
+            "To recruit Indian soldiers forcefully",
+            "To introduce separate communal electorates"
+          ],
+          answer: "To arrest and detain any person without trial on suspicion of treason"
+        },
+        {
+          q: "In which Round Table Conference in London did Mahatma Gandhi participate as the sole representative of INC?",
+          options: ["First RTC (1930)", "Second RTC (1931)", "Third RTC (1932)", "Fourth RTC (1935)"],
+          answer: "Second RTC (1931)"
+        },
+        {
+          q: "Match the organization with its founder/leader:\n(i) Natal Indian Congress -> (a) Subhash Chandra Bose\n(ii) Forward Bloc -> (b) Mahatma Gandhi\n(iii) Khudai Khidmatgar -> (c) Khan Abdul Ghaffar Khan",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(a), (ii)-(c), (iii)-(b)",
+            "(i)-(c), (ii)-(b), (iii)-(a)",
+            "(i)-(b), (ii)-(c), (iii)-(a)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c)"
+        },
+        {
+          q: "Which proposal offered India 'Dominion Status' after WWII in August 1940, but was rejected by Congress and Muslim League?",
+          options: ["Cripps Mission", "August Offer", "Cabinet Mission Plan", "Wavell Plan"],
+          answer: "August Offer"
+        },
+        {
+          q: "Why did Mahatma Gandhi undertake a 'Fast Unto Death' in September 1932 in Yerwada Jail?",
+          options: [
+            "In protest against British Salt monopoly",
+            "Against Ramsay MacDonald's Communal Award providing separate electorates",
+            "In protest against execution of revolutionaries",
+            "To demand release of political prisoners"
+          ],
+          answer: "Against Ramsay MacDonald's Communal Award providing separate electorates"
+        },
+        {
+          q: "Who among the following British Prime Ministers sent the Cabinet Mission to India in 1946?",
+          options: ["Clement Attlee", "Winston Churchill", "David Lloyd George", "Stanley Baldwin"],
+          answer: "Clement Attlee"
+        },
+        {
+          q: "Which slogan was coined by Subhash Chandra Bose to inspire soldiers of the INA?",
+          options: ["'Swaraj is my birthright'", "'Delhi Chalo' and 'Jai Hind'", "'Inquilab Zindabad'", "'Vande Mataram'"],
+          answer: "'Delhi Chalo' and 'Jai Hind'"
+        },
+        {
+          q: "When Congress Ministries resigned in 1939, what name did the Muslim League give to the day celebrated on 22nd December 1939?",
+          options: ["Day of Deliverance", "Direct Action Day", "Day of Victory", "Independence Day"],
+          answer: "Day of Deliverance"
+        }
+      ],
+      hard: [
+        {
+          q: "Choose the correct chronological order of events:\n(1) Jallianwala Bagh Massacre\n(2) Dandi March\n(3) Chauri Chaura Incident\n(4) Quit India Movement\n(5) Cabinet Mission Plan",
+          options: [
+            "(1) -> (3) -> (2) -> (4) -> (5)",
+            "(3) -> (1) -> (2) -> (4) -> (5)",
+            "(1) -> (2) -> (3) -> (5) -> (4)",
+            "(2) -> (1) -> (3) -> (4) -> (5)"
+          ],
+          answer: "(1) -> (3) -> (2) -> (4) -> (5)"
+        },
+        {
+          q: "Assertion (A): The Simon Commission was greeted with black flags and slogans of 'Go Back Simon'.\nReason (R): The British Government deliberately excluded all Indian members from the Commission.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Which three British Cabinet members constituted the Cabinet Mission of 1946?",
+          options: [
+            "Lord Mountbatten, Winston Churchill, and Sir John Simon",
+            "Lord Pethick-Lawrence, Sir Stafford Cripps, and A.V. Alexander",
+            "Lord Linlithgow, Ramsay MacDonald, and Lord Wavell",
+            "General Dyer, Lord Curzon, and Clement Attlee"
+          ],
+          answer: "Lord Pethick-Lawrence, Sir Stafford Cripps, and A.V. Alexander"
+        },
+        {
+          q: "Consider the following about the Non-Cooperation Movement:\n1. Surrender of titles and honours.\n2. Boycott of government schools & law courts.\n3. Complete reliance on armed volunteer battalions.\n4. Boycott of foreign cloth & promotion of Khadi.\nWhich are CORRECT?",
+          options: ["1, 2, and 3 only", "1, 2, and 4 only", "2, 3, and 4 only", "All 1, 2, 3, and 4"],
+          answer: "1, 2, and 4 only"
+        },
+        {
+          q: "Assertion (A): Mahatma Gandhi withdrew the Non-Cooperation Movement in Feb 1922.\nReason (R): A violent mob set fire to a police station in Chauri Chaura, killing 22 policemen.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Match the British Acts/Missions with their years:\n(i) Indian Independence Act -> (a) 1946\n(ii) Cabinet Mission Plan -> (b) 1947\n(iii) Cripps Mission -> (c) 1935\n(iv) Government of India Act -> (d) 1942",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(d), (iv)-(c)",
+            "(i)-(a), (ii)-(b), (iii)-(c), (iv)-(d)",
+            "(i)-(c), (ii)-(d), (iii)-(a), (iv)-(b)",
+            "(i)-(b), (ii)-(d), (iii)-(a), (iv)-(c)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(d), (iv)-(c)"
+        },
+        {
+          q: "Choose the correct sequence of events (1940-1947):\n(1) Cripps Mission\n(2) August Offer\n(3) Mountbatten Plan\n(4) Direct Action Day",
+          options: [
+            "(2) -> (1) -> (4) -> (3)",
+            "(1) -> (2) -> (3) -> (4)",
+            "(2) -> (4) -> (1) -> (3)",
+            "(4) -> (2) -> (1) -> (3)"
+          ],
+          answer: "(2) -> (1) -> (4) -> (3)"
+        },
+        {
+          q: "Which of the following was NOT a proposal of the Mountbatten Plan of June 3, 1947?",
+          options: [
+            "Partition of British India into India and Pakistan",
+            "Immediate integration of all Princely States into a single central Parliament without choice",
+            "Demarcation of boundaries in Punjab and Bengal by Boundary Commission",
+            "Transfer of power on 15th August, 1947"
+          ],
+          answer: "Immediate integration of all Princely States into a single central Parliament without choice"
+        },
+        {
+          q: "Consider the statements regarding the INA:\n1. Captain Mohan Singh played a pivotal role in its initial formation.\n2. Subhash Chandra Bose established Azad Hind Sarkar in Singapore.\n3. Rani of Jhansi Regiment was a women's combat unit of the INA.\nWhich are TRUE?",
+          options: ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2, and 3"],
+          answer: "1, 2, and 3"
+        },
+        {
+          q: "Assertion (A): The Cripps Mission in 1942 failed to resolve the constitutional crisis in India.\nReason (R): It offered full independence with immediate effect instead of Dominion Status.",
+          options: [
+            "Both (A) and (R) are true",
+            "(A) is true, but (R) is false (it offered Dominion Status after the war, not immediate independence)",
+            "(A) is false, but (R) is true",
+            "Both (A) and (R) are false"
+          ],
+          answer: "(A) is true, but (R) is false (it offered Dominion Status after the war, not immediate independence)"
+        },
+        {
+          q: "Who served as Chairman of the Boundary Commission tasked with demarcating the border between India and Pakistan in 1947?",
+          options: ["Sir Cyril Radcliffe", "Sir John Simon", "Lord Pethick-Lawrence", "Sir Stafford Cripps"],
+          answer: "Sir Cyril Radcliffe"
+        },
+        {
+          q: "On 16th August 1946, Muslim League called for 'Direct Action Day' which led to widespread violence known as:",
+          options: ["Great Calcutta Killings", "Jallianwala Massacre", "Meerut Rebellion", "Malabar Rebellion"],
+          answer: "Great Calcutta Killings"
+        },
+        {
+          q: "Consider the Gandhi-Irwin Pact (1931):\n1. Congress agreed to suspend Civil Disobedience.\n2. British agreed to release political prisoners not convicted of violence.\n3. British agreed to grant complete independence immediately.\nWhich are TRUE?",
+          options: ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2, and 3"],
+          answer: "1 and 2 only"
+        },
+        {
+          q: "Which famous trial at Red Fort (1945-46) united Indians across communities in defence of the accused nationalist officers?",
+          options: ["INA Trials (Sahgal, Dhillon, Shahnawaz Khan)", "Meerut Conspiracy Trial", "Kakori Train Trial", "Lahore Conspiracy Case"],
+          answer: "INA Trials (Sahgal, Dhillon, Shahnawaz Khan)"
+        },
+        {
+          q: "Match the dates with their significance:\n(i) 26th Jan, 1930 -> (a) Direct Action Day\n(ii) 8th Aug, 1942 -> (b) Quit India Resolution passed\n(iii) 16th Aug, 1946 -> (c) First Independence Day celebrated\n(iv) 3rd June, 1947 -> (d) Mountbatten Partition Plan",
+          options: [
+            "(i)-(c), (ii)-(b), (iii)-(a), (iv)-(d)",
+            "(i)-(b), (ii)-(c), (iii)-(d), (iv)-(a)",
+            "(i)-(d), (ii)-(a), (iii)-(b), (iv)-(c)",
+            "(i)-(c), (ii)-(d), (iii)-(a), (iv)-(b)"
+          ],
+          answer: "(i)-(c), (ii)-(b), (iii)-(a), (iv)-(d)"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
