@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SST Chapter 3 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">SST Chapter 3</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #f59e0b; margin-bottom: 4px;">Anti-British Rising & Peasant Revolts in Assam</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Martyrs, Peasant Revolts & Core Dates</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Raijmels, Taxes & Tribal Leaders</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • 1857 Trials, Chronology & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Chapter 3 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "Who was the leader of the first anti-British rebellion in Assam in 1828?",
+          options: ["Gomdhar Konwar", "Maniram Dewan", "Piyoli Phukan", "Kandarpeswar Singha"],
+          answer: "Gomdhar Konwar"
+        },
+        {
+          q: "Who was hanged along with Maniram Dewan on 26th February 1858 in Jorhat?",
+          options: ["Piyoli Baruah", "Gomdhar Konwar", "Dutiram Baruah", "Bahadur Gaonburha"],
+          answer: "Piyoli Baruah"
+        },
+        {
+          q: "What was the first historic peasant uprising against British rule in Assam?",
+          options: ["Phulaguri Dhewa (1861)", "Patharughat Battle (1894)", "Rangia Uprising (1893)", "Lachima Peasant Revolt (1894)"],
+          answer: "Phulaguri Dhewa (1861)"
+        },
+        {
+          q: "The Phulaguri peasant uprising in 1861 was sparked by the British ban on the cultivation of which item?",
+          options: ["Opium (Kani)", "Betel nut and leaf", "Jute", "Tea"],
+          answer: "Opium (Kani)"
+        },
+        {
+          q: "Which British Assistant Commissioner was killed by enraged peasants during the Phulaguri Dhewa?",
+          options: ["Lt. Singer", "Captain Holroyd", "Mr. McCabe", "Major Jenkins"],
+          answer: "Lt. Singer"
+        },
+        {
+          q: "The tragic peasant massacre at Patharughat in 1894 took place in which district of Assam?",
+          options: ["Darrang", "Nagaon", "Kamrup", "Sibsagar"],
+          answer: "Darrang"
+        },
+        {
+          q: "Who led the anti-British rebellion of the Jaintias in 1860–1862?",
+          options: ["U Kiang Nongbah", "Tirut Sing", "Rambha Singh", "Sambhudhan Phonglo"],
+          answer: "U Kiang Nongbah"
+        },
+        {
+          q: "Who was the revolutionary Dimasa Kachari leader who organized an uprising against the British in North Cachar in 1881–82?",
+          options: ["Sambhudhan Phonglo", "Tirut Sing", "Pa Togan Sangma", "Tikendrajit"],
+          answer: "Sambhudhan Phonglo"
+        },
+        {
+          q: "Whom did Maniram Dewan and his associates intend to place on the throne of Assam during the Revolt of 1857?",
+          options: ["Kandarpeswar Singha", "Purandar Singha", "Jogeswar Singha", "Chandrakanta Singha"],
+          answer: "Kandarpeswar Singha"
+        },
+        {
+          q: "What traditional democratic public assemblies in Assam mobilized peasants against British tax hikes?",
+          options: ["Raijmel", "Gram Sabha", "Panchayat", "Sanjibani"],
+          answer: "Raijmel"
+        },
+        {
+          q: "Who was the British Commissioner of Assam during the Revolt of 1857?",
+          options: ["Major Jenkins", "Captain Holroyd", "David Scott", "Sir John Simon"],
+          answer: "Major Jenkins"
+        },
+        {
+          q: "Which Garo hero led the resistance against British annexation in the Garo Hills in 1872?",
+          options: ["Pa Togan Sangma", "U Tirot Sing", "U Kiang Nongbah", "Manikram"],
+          answer: "Pa Togan Sangma"
+        },
+        {
+          q: "What was the system of forced unpaid labour in Assam abolished by the British and replaced with money taxes?",
+          options: ["Paik System", "Ryotwari System", "Zamindari System", "Mahalwari System"],
+          answer: "Paik System"
+        },
+        {
+          q: "On which date did the historic Patharughat massacre take place?",
+          options: ["28th January, 1894", "16th October, 1861", "26th February, 1858", "15th August, 1893"],
+          answer: "28th January, 1894"
+        },
+        {
+          q: "Who was the patriotic prince of Manipur executed by the British after the Anglo-Manipur War of 1891?",
+          options: ["Bir Tikendrajit", "Kulachandra", "Churachand", "Gambhir Singh"],
+          answer: "Bir Tikendrajit"
+        }
+      ],
+      medium: [
+        {
+          q: "Match Column 'A' (Peasant Revolts) with Column 'B' (Years):\n(i) Phulaguri Dhewa -> (a) 1894\n(ii) Patharughat Revolt -> (b) 1861\n(iii) Rangia Peasant Uprising -> (c) 1893-94\n(iv) Lachima Peasant Revolt -> (d) 1894",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c), (iv)-(d)",
+            "(i)-(a), (ii)-(b), (iii)-(d), (iv)-(c)",
+            "(i)-(c), (ii)-(d), (iii)-(a), (iv)-(b)",
+            "(i)-(b), (ii)-(c), (iii)-(a), (iv)-(d)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c), (iv)-(d)"
+        },
+        {
+          q: "Why did the rebellion planned by Maniram Dewan in Assam fail during 1857?",
+          options: [
+            "His confidential letters detailing the conspiracy were intercepted by the British at Sibsagar",
+            "The Ahom nobility refused to support him",
+            "The British offered Maniram Dewan a high government post",
+            "The peasants refused to participate in Raijmels"
+          ],
+          answer: "His confidential letters detailing the conspiracy were intercepted by the British at Sibsagar"
+        },
+        {
+          q: "Which British Deputy Commissioner led the armed police forces that opened fire on unarmed peasants at Patharughat in 1894?",
+          options: ["J.D. Anderson", "Captain Holroyd", "Lt. Singer", "David Scott"],
+          answer: "J.D. Anderson"
+        },
+        {
+          q: "Match the tribal leaders with their respective tribes/regions:\n(i) U Tirot Sing -> (a) Khasi Hills\n(ii) U Kiang Nongbah -> (b) Jaintia Hills\n(iii) Sambhudhan Phonglo -> (c) North Cachar (Dimasa)\n(iv) Pa Togan Sangma -> (d) Garo Hills",
+          options: [
+            "(i)-(a), (ii)-(b), (iii)-(c), (iv)-(d)",
+            "(i)-(b), (ii)-(a), (iii)-(d), (iv)-(c)",
+            "(i)-(c), (ii)-(d), (iii)-(a), (iv)-(b)",
+            "(i)-(d), (ii)-(c), (iii)-(b), (iv)-(a)"
+          ],
+          answer: "(i)-(a), (ii)-(b), (iii)-(c), (iv)-(d)"
+        },
+        {
+          q: "What was the main economic cause behind the 1893–94 peasant revolts in Rangia, Lachima, and Patharughat?",
+          options: [
+            "Sudden and steep increase of land revenue (land tax) by 70% to 100%",
+            "Ban on rice exports from Assam",
+            "Introduction of foreign cloth in local bazaars",
+            "Destruction of betel nut plantations"
+          ],
+          answer: "Sudden and steep increase of land revenue (land tax) by 70% to 100%"
+        },
+        {
+          q: "Who was the British officer that sentenced Maniram Dewan and Piyoli Baruah to death after a summary trial?",
+          options: ["Captain Charles Holroyd", "Major Francis Jenkins", "Lt. Singer", "Colonel Campbell"],
+          answer: "Captain Charles Holroyd"
+        },
+        {
+          q: "Who were the two Muslim patriotic leaders sentenced to life imprisonment in the Andaman Islands for their role in the 1857 rebellion in Assam?",
+          options: [
+            "Bahadur Gaonburha and Farmud Ali",
+            "Shaheed Pir Ali and Barkatullah",
+            "Shariatullah and Dudu Miyan",
+            "Sayyid Ahmad and Inayat Ali"
+          ],
+          answer: "Bahadur Gaonburha and Farmud Ali"
+        },
+        {
+          q: "What punitive method was adopted by Deputy Commissioner McCabe to crush the Lachima peasant uprising in Kamrup?",
+          options: [
+            "Forcing peasant leaders to pull plows in place of bullocks and mass arrests",
+            "Setting fire to entire tea estates",
+            "Imposing heavy naval blockades",
+            "Abolishing the Ahom royal family pension"
+          ],
+          answer: "Forcing peasant leaders to pull plows in place of bullocks and mass arrests"
+        },
+        {
+          q: "Why did the Jaintia people rise in revolt against the British in 1860?",
+          options: [
+            "Imposition of House Tax and Income Tax along with interference in traditional religious customs",
+            "Ban on traditional shifting cultivation",
+            "Forceful recruitment into the British Assam Light Infantry",
+            "Division of the kingdom into tea estates"
+          ],
+          answer: "Imposition of House Tax and Income Tax along with interference in traditional religious customs"
+        },
+        {
+          q: "Which Assamese nobleman was executed in 1830 for attempting to overthrow British rule and restore Ahom sovereignty?",
+          options: ["Piyoli Phukan", "Gomdhar Konwar", "Dutiram Baruah", "Maniram Dewan"],
+          answer: "Piyoli Phukan"
+        },
+        {
+          q: "Where was Maniram Dewan staying when he established contact with Indian rebels and hatched the 1857 conspiracy for Assam?",
+          options: ["Calcutta", "Jorhat", "Dacca", "Patna"],
+          answer: "Calcutta"
+        },
+        {
+          q: "Which ethnic group rose in violent conflict against the British in 1879, killing political officer Damant at Khonoma?",
+          options: ["Angami Nagas", "Lushai (Mizo)", "Khamptis", "Singphos"],
+          answer: "Angami Nagas"
+        },
+        {
+          q: "What immediate rumor triggered the gathering of thousands of ryots at Phulaguri in October 1861?",
+          options: [
+            "The British government was going to impose taxes on betel leaf (pan) and betel nut (tamul)",
+            "The British were planning to seize all domestic cattle",
+            "The government was going to convert everyone to Christianity",
+            "The land was being transferred to European tea planters"
+          ],
+          answer: "The British government was going to impose taxes on betel leaf (pan) and betel nut (tamul)"
+        },
+        {
+          q: "Who was the loyal native officer whose timely tip-off to the British authorities helped foil the 1857 uprising in Assam?",
+          options: ["Haranath Parbatia Baruah", "Bahadur Gaonburha", "Dutiram Baruah", "Madhu Mallik"],
+          answer: "Haranath Parbatia Baruah"
+        },
+        {
+          q: "In which year did the Singpho rebellion against British control in Sadiya take place under Chief Nirang Phidu?",
+          options: ["1843", "1830", "1857", "1894"],
+          answer: "1843"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): The peasant uprisings in Assam during the 19th century were non-communal in nature.\nReason (R): Raijmels brought together peasants of all castes, communities, and religions against British exploitation.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Choose the correct chronological order of the following anti-British uprisings in Assam:\n(1) Gomdhar Konwar's Rebellion\n(2) Phulaguri Dhewa\n(3) Revolt of 1857 in Assam\n(4) Patharughat Peasant Massacre",
+          options: [
+            "(1) -> (3) -> (2) -> (4)",
+            "(1) -> (2) -> (3) -> (4)",
+            "(3) -> (1) -> (2) -> (4)",
+            "(1) -> (3) -> (4) -> (2)"
+          ],
+          answer: "(1) -> (3) -> (2) -> (4)"
+        },
+        {
+          q: "Which of the following was NOT a core reason for the failure of the 1857 rebellion in Assam?",
+          options: [
+            "Maniram Dewan's letters detailing the plot were intercepted by British police",
+            "The leaders failed to win the direct military support of the native sepoys stationed in Assam",
+            "Lack of proper organizational network and resources among the conspirators",
+            "The complete rejection of the rebellion by the peasantry in the Raijmels"
+          ],
+          answer: "The complete rejection of the rebellion by the peasantry in the Raijmels"
+        },
+        {
+          q: "Consider the following statements regarding the Ryotwari settlement in Assam:\n1. The British replaced the traditional Paik system with cash land revenue.\n2. Wasteland Rules were framed to favour European tea planters at very nominal rates.\n3. The indigenous peasantry was severely burdened by arbitrary land tax reassessments.\nWhich of the statements given above are CORRECT?",
+          options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2, and 3 (All)"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "Assertion (A): The Patharughat massacre of 1894 is often referred to as the 'Jallianwala Bagh of Assam'.\nReason (R): British police opened fire indiscriminately upon a peaceful gathering of unarmed peasants demanding tax reductions, killing scores.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Match the following personalities with their punishment after the 1857 uprising in Assam:\n(i) Maniram Dewan -> (a) Interned at Guwahati & estate seized\n(ii) Kandarpeswar Singha -> (b) Death by hanging at Jorhat\n(iii) Dutiram Baruah -> (c) Transported for life to Andaman Islands\n(iv) Farmud Ali -> (d) Life imprisonment in the Andamans",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c), (iv)-(d)",
+            "(i)-(a), (ii)-(b), (iii)-(d), (iv)-(c)",
+            "(i)-(c), (ii)-(d), (iii)-(a), (iv)-(b)",
+            "(i)-(b), (ii)-(c), (iii)-(a), (iv)-(d)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c), (iv)-(d)"
+        },
+        {
+          q: "Who was the Bengali Mukhtiar who acted as an emissary and secret courier between Maniram Dewan in Calcutta and Kandarpeswar Singha in Assam?",
+          options: ["Madhu Mallik", "Radhanath Sikdar", "Rammohan Roy", "Sisir Kumar Ghosh"],
+          answer: "Madhu Mallik"
+        },
+        {
+          q: "Consider the following statements regarding the role of Raijmels in 19th-century Assam:\n1. They functioned as collective decision-making bodies for the village community.\n2. They served as platforms to boycott payment of enhanced land taxes.\n3. The British administration banned Raijmels recognizing their potential to mobilize mass resistance.\nWhich are TRUE?",
+          options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2, and 3 (All)"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "Which Assam Light Infantry regiment was stationed at Dibrugarh and Golaghat during 1857 whose Indian soldiers were contacted by the rebels?",
+          options: [
+            "1st Assam Light Infantry",
+            "Gorkha Rifles Battalion",
+            "Calcutta Militia",
+            "Sylhet Light Infantry"
+          ],
+          answer: "1st Assam Light Infantry"
+        },
+        {
+          q: "Assertion (A): Tribal rebellions in the North-East hills (Khasis, Garos, Nagas) were fierce and protracted.\nReason (R): British forward policy threatened tribal autonomy, customs, and traditional sovereignty over forest lands.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "In which year was the Anglo-Khasi War under Tirot Sing successfully brought to an end after his capture by the British?",
+          options: ["1833", "1828", "1857", "1861"],
+          answer: "1833"
+        },
+        {
+          q: "Who served as the principal advisor to Gomdhar Konwar during the 1828 rebellion before being captured and sentenced?",
+          options: ["Dhananjoy Burhagohain", "Maniram Dewan", "Piyoli Phukan", "Kandarpeswar Singha"],
+          answer: "Dhananjoy Burhagohain"
+        },
+        {
+          q: "Which prominent social reformer submitted a historic memorandum to A.J. Moffat Mills in 1853 highlighting the grievances of the Assamese people?",
+          options: [
+            "Maniram Dewan and Anandaram Dhekial Phukan",
+            "Hemchandra Baruah",
+            "Gunabhiram Baruah",
+            "Gomdhar Konwar"
+          ],
+          answer: "Maniram Dewan and Anandaram Dhekial Phukan"
+        },
+        {
+          q: "Arrange the following tribal & peasant resistance movements in correct chronological order:\n(1) Khasi resistance under Tirot Sing\n(2) Jaintia rebellion under Kiang Nongbah\n(3) Dimasa uprising under Sambhudhan Phonglo\n(4) North Lushai Hills expedition",
+          options: [
+            "(1) -> (2) -> (3) -> (4)",
+            "(2) -> (1) -> (3) -> (4)",
+            "(1) -> (3) -> (2) -> (4)",
+            "(3) -> (1) -> (2) -> (4)"
+          ],
+          answer: "(1) -> (2) -> (3) -> (4)"
+        },
+        {
+          q: "Why did the British administration target opium cultivation in Phulaguri (Nagaon) while encouraging its trade via government monopoly?",
+          options: [
+            "To eradicate local cultivation and generate massive state revenue through high-priced government opium sales",
+            "To completely ban opium consumption across Assam on moral grounds",
+            "To convert all opium farmlands into indigo plantations",
+            "To replace opium with rubber cultivation"
+          ],
+          answer: "To eradicate local cultivation and generate massive state revenue through high-priced government opium sales"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
