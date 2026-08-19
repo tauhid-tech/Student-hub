@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geography Chapter 1 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Geography Chapter 1</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #38bdf8; margin-bottom: 4px;">Economic Geography: Subject Matter & Resource</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to practice 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Basic Definitions & Resource Types</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Organizations, IUCN & Classifications</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Assertion-Reason & Zimmerman's Theory</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Geography Ch 1 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "Economic Geography is an essential branch of which main division of Geography?",
+          options: ["Human Geography", "Physical Geography", "Biogeography", "Geomorphology"],
+          answer: "Human Geography"
+        },
+        {
+          q: "Which of the following is an example of an abiotic (non-living) resource?",
+          options: ["Mineral oil", "Flora", "Fauna", "Fungi"],
+          answer: "Mineral oil"
+        },
+        {
+          q: "Who is known as the Father of Modern Economic Geography?",
+          options: ["George Chisholm", "Erich Walter Zimmermann", "Alexander von Humboldt", "Carl Ritter"],
+          answer: "George Chisholm"
+        },
+        {
+          q: "Which of the following is a Non-Renewable (Exhaustible) resource?",
+          options: ["Coal", "Sunlight", "Wind energy", "Tidal power"],
+          answer: "Coal"
+        },
+        {
+          q: "What two fundamental characteristics must any substance possess to be classified as a resource?",
+          options: ["Functionality and Utility", "Durability and Weight", "Rarity and Lustre", "Shape and Size"],
+          answer: "Functionality and Utility"
+        },
+        {
+          q: "Which of the following is an example of an International or World Resource?",
+          options: ["Oceans outside exclusive economic zones", "A personal home", "A state forest reserve", "A private agricultural plot"],
+          answer: "Oceans outside exclusive economic zones"
+        },
+        {
+          q: "In which year was the International Union for Conservation of Nature (IUCN) established?",
+          options: ["1948", "1952", "1972", "1992"],
+          answer: "1948"
+        },
+        {
+          q: "Which book published by IUCN contains the list of all threatened and endangered species?",
+          options: ["Red Data Book", "Green Data Book", "Blue Planet Index", "Flora & Fauna Gazette"],
+          answer: "Red Data Book"
+        },
+        {
+          q: "Sunlight and air are classified under which category based on availability?",
+          options: ["Ubiquitous Resources", "Localized Resources", "Man-made Resources", "Non-renewable Resources"],
+          answer: "Ubiquitous Resources"
+        },
+        {
+          q: "Where was the historic United Nations Earth Summit (UNCED) held in 1992?",
+          options: ["Rio de Janeiro", "Stockholm", "Kyoto", "Paris"],
+          answer: "Rio de Janeiro"
+        },
+        {
+          q: "Which category of economic activity includes agriculture, fishing, forestry, and mining?",
+          options: ["Primary Activity", "Secondary Activity", "Tertiary Activity", "Quaternary Activity"],
+          answer: "Primary Activity"
+        },
+        {
+          q: "Which of the following is a purely Man-made (Anthropogenic) resource?",
+          options: ["Bridges and Technology", "River water", "Crude petroleum", "Natural vegetation"],
+          answer: "Bridges and Technology"
+        },
+        {
+          q: "Resources that can be regenerated or replenished naturally over time are called:",
+          options: ["Renewable Resources", "Exhaustible Resources", "Neutral Stuff", "Resistances"],
+          answer: "Renewable Resources"
+        },
+        {
+          q: "Who famously stated: 'Resources are not, they become'?",
+          options: ["E.W. Zimmermann", "George Chisholm", "C.F. Jones", "Peter Haggett"],
+          answer: "E.W. Zimmermann"
+        },
+        {
+          q: "In which year was the Ministry of Environment and Forests created in India?",
+          options: ["1985", "1972", "1992", "2000"],
+          answer: "1985"
+        }
+      ],
+      medium: [
+        {
+          q: "Match Column 'A' (Economic Activity) with Column 'B' (Example):\n(i) Primary Activity -> (a) Banking & Transport\n(ii) Secondary Activity -> (b) Mining & Agriculture\n(iii) Tertiary Activity -> (c) Steel Manufacturing\n(iv) Quaternary Activity -> (d) Research & IT consultancy",
+          options: [
+            "(i)-(b), (ii)-(c), (iii)-(a), (iv)-(d)",
+            "(i)-(a), (ii)-(b), (iii)-(c), (iv)-(d)",
+            "(i)-(c), (ii)-(a), (iii)-(d), (iv)-(b)",
+            "(i)-(b), (ii)-(a), (iii)-(c), (iv)-(d)"
+          ],
+          answer: "(i)-(b), (ii)-(c), (iii)-(a), (iv)-(d)"
+        },
+        {
+          q: "What is 'Neutral Stuff' in Economic Geography according to Zimmermann?",
+          options: [
+            "Things in nature that currently have neither positive utility nor cause harm to humans",
+            "Resources that are harmful and destructive",
+            "Man-made synthetic chemicals",
+            "Resources that are universally available"
+          ],
+          answer: "Things in nature that currently have neither positive utility nor cause harm to humans"
+        },
+        {
+          q: "Match the type of resource based on ownership with its correct example:\n(i) Individual Resource -> (a) Village grazing pasture\n(ii) Community Resource -> (b) Private house\n(iii) National Resource -> (c) Mineral wealth inside a country's boundary\n(iv) International Resource -> (d) Open sea bed beyond 200 nautical miles",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c), (iv)-(d)",
+            "(i)-(a), (ii)-(b), (iii)-(d), (iv)-(c)",
+            "(i)-(c), (ii)-(d), (iii)-(a), (iv)-(b)",
+            "(i)-(b), (ii)-(c), (iii)-(a), (iv)-(d)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c), (iv)-(d)"
+        },
+        {
+          q: "What is meant by the concept of 'Resistance' in resource geography?",
+          options: [
+            "Physical barriers and natural conditions like infertile soil or floods that impede human development",
+            "The capacity of an animal to resist diseases",
+            "Boycott of manufactured goods by citizens",
+            "The electrical conductivity of minerals"
+          ],
+          answer: "Physical barriers and natural conditions like infertile soil or floods that impede human development"
+        },
+        {
+          q: "What is the primary objective of 'Resource Conservation'?",
+          options: [
+            "Judicious, sustainable, and planned utilization of resources without unnecessary waste for future generations",
+            "Complete cessation of resource extraction and industrial activity",
+            "Using resources only during military emergencies",
+            "Preserving resources exclusively for developed nations"
+          ],
+          answer: "Judicious, sustainable, and planned utilization of resources without unnecessary waste for future generations"
+        },
+        {
+          q: "Under which IUCN category is an animal classified when it faces an extremely high risk of extinction in the wild in the immediate future?",
+          options: ["Critically Endangered", "Extinct", "Vulnerable", "Near Threatened"],
+          answer: "Critically Endangered"
+        },
+        {
+          q: "Which of the following is a non-governmental international organization working for nature conservation founded in 1961?",
+          options: ["WWF (World Wide Fund for Nature)", "UNESCO", "UNICEF", "WHO"],
+          answer: "WWF (World Wide Fund for Nature)"
+        },
+        {
+          q: "Which method of resource conservation involves replacing a scarce resource with an abundantly available alternative (e.g., using solar power instead of coal)?",
+          options: ["Alternative / Substitution Method", "Recycling Method", "Waste Prevention Method", "Strict Prohibition"],
+          answer: "Alternative / Substitution Method"
+        },
+        {
+          q: "Match the major branches of Economic Geography with their focus areas:\n(i) Agricultural Geography -> (a) Location of manufacturing plants\n(ii) Industrial Geography -> (b) Farming practices and crop distribution\n(iii) Transport Geography -> (c) Flow of goods and communication networks",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(a), (ii)-(c), (iii)-(b)",
+            "(i)-(c), (ii)-(b), (iii)-(a)",
+            "(i)-(b), (ii)-(c), (iii)-(a)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c)"
+        },
+        {
+          q: "What is meant by 'Human Resource' in modern Economic Geography?",
+          options: [
+            "Human population equipped with physical capacity, knowledge, skills, and innovative technology",
+            "Only the total count of manual laborers in a country",
+            "The ancient fossil remains of humans",
+            "The percentage of rural population"
+          ],
+          answer: "Human population equipped with physical capacity, knowledge, skills, and innovative technology"
+        },
+        {
+          q: "Which of the following is an example of a 'Localized Resource'?",
+          options: ["Petroleum and Uranium", "Sunlight", "Atmospheric Oxygen", "Rainwater"],
+          answer: "Petroleum and Uranium"
+        },
+        {
+          q: "What major international agreement came out of the 1992 Rio Earth Summit to protect biodiversity and promote sustainable development?",
+          options: ["Agenda 21", "Kyoto Protocol", "Montreal Protocol", "Paris Accord 2015"],
+          answer: "Agenda 21"
+        },
+        {
+          q: "Which Indian autonomous environmental organization was established in 1952 to advise the government on wildlife conservation?",
+          options: ["Indian Board for Wildlife (IBWL)", "National Green Tribunal (NGT)", "Zoological Survey of India", "Forest Survey of India"],
+          answer: "Indian Board for Wildlife (IBWL)"
+        },
+        {
+          q: "Why is crude petroleum classified as a dynamic concept rather than a permanent resource throughout history?",
+          options: [
+            "It was neutral stuff until human knowledge and technology discovered its refining and industrial utility",
+            "It changes colour over time",
+            "It can replenish within days",
+            "It is found in every country"
+          ],
+          answer: "It was neutral stuff until human knowledge and technology discovered its refining and industrial utility"
+        },
+        {
+          q: "Which of the following is NOT one of the R-principles of resource conservation?",
+          options: ["Reckless consumption", "Reduce", "Reuse", "Recycle"],
+          answer: "Reckless consumption"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): Resources are dynamic and constantly expanding in scope.\nReason (R): Advancement in science, technological innovation, and human knowledge transform neutral stuff and resistances into valuable resources over time.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Consider the following statements regarding Zimmermann's resource model:\n1. Nature provides raw physical stuff.\n2. Man is both the creator and the consumer of resources.\n3. Culture (science, skill, and technology) bridges nature and man.\nWhich of the above statements are CORRECT?",
+          options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2, and 3 (All)"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "Choose the correct chronological sequence of key global conservation landmarks:\n(1) Establishment of IUCN\n(2) Formation of WWF\n(3) UN Conference on Human Environment in Stockholm\n(4) Rio Earth Summit (UNCED)",
+          options: [
+            "(1) -> (2) -> (3) -> (4)",
+            "(2) -> (1) -> (3) -> (4)",
+            "(1) -> (3) -> (2) -> (4)",
+            "(3) -> (1) -> (2) -> (4)"
+          ],
+          answer: "(1) -> (2) -> (3) -> (4)"
+        },
+        {
+          q: "Assertion (A): Complete preservation and zero usage does not mean resource conservation.\nReason (R): Conservation implies judicious, efficient, and waste-free use of resources to support present welfare while securing the needs of future generations.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Match the following Environmental Acts/Conferences with their respective years:\n(i) Wildlife Protection Act (India) -> (a) 1986\n(ii) Environment (Protection) Act (India) -> (b) 1972\n(iii) Ramsar Convention on Wetlands -> (c) 1971\n(iv) Forest Conservation Act (India) -> (d) 1980",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c), (iv)-(d)",
+            "(i)-(a), (ii)-(b), (iii)-(d), (iv)-(c)",
+            "(i)-(c), (ii)-(d), (iii)-(a), (iv)-(b)",
+            "(i)-(b), (ii)-(d), (iii)-(a), (iv)-(c)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c), (iv)-(d)"
+        },
+        {
+          q: "Consider the following statements regarding the classification of resources by origin:\n1. Biotic resources are derived from living organisms and possess life cycles.\n2. Abiotic resources include all inorganic non-living materials like rocks, water, and minerals.\n3. Coal and mineral oil are abiotic because they are extracted from beneath the rocks.\nWhich of the above are strictly TRUE?",
+          options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2, and 3"
+          ],
+          answer: "1 and 2 only"
+        },
+        {
+          q: "Which of the following is NOT an effective long-term method for resource conservation?",
+          options: [
+            "Indiscriminate subsidization of non-renewable fossil fuel consumption",
+            "Developing alternative non-conventional energy sources",
+            "Enforcing stringent environmental impact assessment laws",
+            "Recycling and reprocessing scrap metals and plastic wastes"
+          ],
+          answer: "Indiscriminate subsidization of non-renewable fossil fuel consumption"
+        },
+        {
+          q: "Assertion (A): The Golden Langur and One-horned Rhinoceros of Assam are listed under endangered/threatened categories.\nReason (R): Habitat fragmentation, poaching, and anthropogenic encroachment have severely endangered their natural ecosystems.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Match the primary branches of Economic Geography with their specialized definitions:\n(i) Marketing Geography -> (a) Spatial distribution of tourist infrastructure\n(ii) Resource Geography -> (b) Location, exploration and appraisal of natural wealth\n(iii) Tourism Geography -> (c) Demand-supply patterns and commercial markets",
+          options: [
+            "(i)-(c), (ii)-(b), (iii)-(a)",
+            "(i)-(a), (ii)-(c), (iii)-(b)",
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(c), (ii)-(a), (iii)-(b)"
+          ],
+          answer: "(i)-(c), (ii)-(b), (iii)-(a)"
+        },
+        {
+          q: "Why are rivers and flowing water considered both 'Natural' and 'Renewable' resources, yet prone to localized exhaustion?",
+          options: [
+            "They renew through the hydrologic cycle, but severe pollution and unsustainable withdrawal exceed their natural replenishment capacity",
+            "Because water molecules evaporate permanently into outer space",
+            "Because building hydroelectric dams destroys all water molecules",
+            "Because water turns into abiotic solid rock permanently"
+          ],
+          answer: "They renew through the hydrologic cycle, but severe pollution and unsustainable withdrawal exceed their natural replenishment capacity"
+        },
+        {
+          q: "Consider the primary causes behind global resource depletion:\n1. Rapid population growth leading to hyper-consumption.\n2. Unequal distribution and over-utilization by affluent nations.\n3. Excessive reliance on linear 'extract-use-dispose' industrial patterns.\nWhich factors are responsible?",
+          options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2, and 3 (All)"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "What distinguishes Quaternary Economic Activities from Tertiary Activities?",
+          options: [
+            "Quaternary involves high-end intellectual tasks, scientific research, and information generation rather than standard personal services",
+            "Quaternary activities deal exclusively with extracting raw minerals",
+            "Quaternary activities are restricted to manual heavy industries",
+            "Quaternary activities have no economic value in world trade"
+          ],
+          answer: "Quaternary involves high-end intellectual tasks, scientific research, and information generation rather than standard personal services"
+        },
+        {
+          q: "Assertion (A): Soil is a renewable resource, but its formation requires centuries.\nReason (R): Improper farming methods and deforestation lead to rapid topsoil erosion, rendering fertile land practically non-renewable in human timescales.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Which of the following international protocols specifically aimed to limit and reduce Greenhouse Gas (GHG) emissions causing global warming?",
+          options: ["Kyoto Protocol (1997)", "Montreal Protocol (1987)", "Basel Convention (1989)", "Ramsar Convention (1971)"],
+          answer: "Kyoto Protocol (1997)"
+        },
+        {
+          q: "The term 'Sustainable Development' was officially popularized in 1987 by the World Commission on Environment and Development (WCED) in which famous report?",
+          options: ["Brundtland Report (Our Common Future)", "The Silent Spring", "Limits to Growth", "Earth Charter"],
+          answer: "Brundtland Report (Our Common Future)"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
