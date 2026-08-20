@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Science Chapter 1 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Science Chapter 1</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #10b981; margin-bottom: 4px;">Chemical Reactions and Equations</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Reaction Types, Balancing Basics & Observations</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Redox Reactions, Precipitation & Industrial Tests</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Stoichiometry, Decomposition & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Science Ch 1 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "What is observed when a magnesium ribbon is burned in air?",
+          options: [
+            "It burns with a dazzling white flame forming white magnesium oxide powder",
+            "It burns with a blue flame forming black powder",
+            "It turns yellow without burning",
+            "It produces a pungent smelling red gas"
+          ],
+          answer: "It burns with a dazzling white flame forming white magnesium oxide powder"
+        },
+        {
+          q: "What type of chemical reaction is the formation of slaked lime: CaO + H₂O → Ca(OH)₂ + Heat?",
+          options: ["Combination and Exothermic reaction", "Decomposition reaction", "Displacement reaction", "Endothermic reaction"],
+          answer: "Combination and Exothermic reaction"
+        },
+        {
+          q: "A chemical equation must be balanced in accordance with which fundamental law of nature?",
+          options: ["Law of Conservation of Mass", "Law of Constant Proportions", "Law of Multiple Proportions", "Avogadro's Law"],
+          answer: "Law of Conservation of Mass"
+        },
+        {
+          q: "What is the common chemical name of slaked lime Ca(OH)₂?",
+          options: ["Calcium hydroxide", "Calcium oxide", "Calcium carbonate", "Calcium sulphate"],
+          answer: "Calcium hydroxide"
+        },
+        {
+          q: "What is the chemical formula of Marble and Limestone?",
+          options: ["CaCO₃", "CaO", "Ca(OH)₂", "CaSO₄"],
+          answer: "CaCO₃"
+        },
+        {
+          q: "Which gas is evolved when zinc granules react with dilute sulphuric acid?",
+          options: ["Hydrogen gas (H₂)", "Oxygen gas (O₂)", "Sulphur dioxide (SO₂)", "Carbon dioxide (CO₂)"],
+          answer: "Hydrogen gas (H₂)"
+        },
+        {
+          q: "How is hydrogen gas tested in laboratory experiments?",
+          options: [
+            "It burns with a characteristic 'pop' sound when a burning splinter is brought near",
+            "It turns lime water milky",
+            "It smells like rotten eggs",
+            "It rekindles a glowing splint"
+          ],
+          answer: "It burns with a characteristic 'pop' sound when a burning splinter is brought near"
+        },
+        {
+          q: "Respiration in living organisms is classified as which type of process?",
+          options: ["Exothermic process", "Endothermic process", "Photochemical decomposition", "Double displacement"],
+          answer: "Exothermic process"
+        },
+        {
+          q: "When an iron nail is dipped in blue copper sulphate solution, the colour of the solution turns:",
+          options: ["Light green (FeSO₄ formed)", "Colourless", "Dark blue", "Deep yellow"],
+          answer: "Light green (FeSO₄ formed)"
+        },
+        {
+          q: "What is the chemical formula of rust formed on iron?",
+          options: ["Fe₂O₃·xH₂O", "FeO", "Fe₃O₄", "Fe(OH)₂"],
+          answer: "Fe₂O₃·xH₂O"
+        },
+        {
+          q: "Which inert gas is usually flushed into bags of potato chips to prevent rancidity?",
+          options: ["Nitrogen (N₂)", "Oxygen (O₂)", "Hydrogen (H₂)", "Chlorine (Cl₂)"],
+          answer: "Nitrogen (N₂)"
+        },
+        {
+          q: "A substance which gains oxygen or loses hydrogen during a chemical reaction is said to be:",
+          options: ["Oxidized", "Reduced", "Precipitated", "Neutralized"],
+          answer: "Oxidized"
+        },
+        {
+          q: "The reaction: Zn + CuSO₄ → ZnSO₄ + Cu is an example of:",
+          options: ["Displacement reaction", "Combination reaction", "Double displacement reaction", "Decomposition reaction"],
+          answer: "Displacement reaction"
+        },
+        {
+          q: "What insoluble substance is formed in a precipitation reaction?",
+          options: ["A precipitate", "A gas", "A concentrated acid", "Pure water"],
+          answer: "A precipitate"
+        },
+        {
+          q: "Which of the following processes represents a chemical change?",
+          options: ["Digestion of food", "Melting of ice", "Boiling of water", "Tearing of paper"],
+          answer: "Digestion of food"
+        }
+      ],
+      medium: [
+        {
+          q: "In the balanced equation: a Fe + b H₂O → c Fe₃O₄ + d H₂, the values of coefficients a, b, c, d are:",
+          options: ["3, 4, 1, 4", "3, 2, 1, 2", "2, 4, 1, 4", "3, 4, 2, 4"],
+          answer: "3, 4, 1, 4"
+        },
+        {
+          q: "What are the products formed upon thermal decomposition of green ferrous sulphate (FeSO₄·7H₂O) crystals?",
+          options: [
+            "Fe₂O₃ (brown ferric oxide) + SO₂ + SO₃",
+            "FeO + SO₂ + H₂O",
+            "Fe₃O₄ + SO₃",
+            "Fe + SO₂ + O₂"
+          ],
+          answer: "Fe₂O₃ (brown ferric oxide) + SO₂ + SO₃"
+        },
+        {
+          q: "When lead nitrate powder Pb(NO₃)₂ is heated in a test tube, which brown fumes are observed?",
+          options: ["Nitrogen dioxide (NO₂)", "Nitrous oxide (N₂O)", "Lead oxide (PbO)", "Oxygen gas (O₂)"],
+          answer: "Nitrogen dioxide (NO₂)"
+        },
+        {
+          q: "Identify the oxidizing and reducing agents in: CuO + H₂ → Cu + H₂O",
+          options: [
+            "Oxidizing agent: CuO, Reducing agent: H₂",
+            "Oxidizing agent: H₂, Reducing agent: CuO",
+            "Oxidizing agent: Cu, Reducing agent: H₂O",
+            "Oxidizing agent: H₂O, Reducing agent: Cu"
+          ],
+          answer: "Oxidizing agent: CuO, Reducing agent: H₂"
+        },
+        {
+          q: "During electrolysis of acidified water, what is the ratio of volumes of hydrogen and oxygen gas collected at the cathode and anode?",
+          options: ["2 : 1", "1 : 2", "1 : 1", "8 : 1"],
+          answer: "2 : 1"
+        },
+        {
+          q: "Why does white silver chloride (AgCl) turn grey when exposed to sunlight?",
+          options: [
+            "It undergoes photochemical decomposition to form silver metal (2AgCl → 2Ag + Cl₂)",
+            "It absorbs atmospheric carbon dioxide",
+            "It oxidizes to silver oxide",
+            "It dissolves in moisture"
+          ],
+          answer: "It undergoes photochemical decomposition to form silver metal (2AgCl → 2Ag + Cl₂)"
+        },
+        {
+          q: "When sodium sulphate (Na₂SO₄) solution is mixed with barium chloride (BaCl₂) solution, a white precipitate of which compound is formed?",
+          options: ["Barium sulphate (BaSO₄)", "Sodium chloride (NaCl)", "Barium sulphide (BaS)", "Sodium sulphate (Na₂SO₄)"],
+          answer: "Barium sulphate (BaSO₄)"
+        },
+        {
+          q: "What black substance is formed on the surface of copper powder when heated in a china dish?",
+          options: ["Copper(II) oxide (CuO)", "Copper(I) oxide (Cu₂O)", "Copper carbonate (CuCO₃)", "Copper nitrate"],
+          answer: "Copper(II) oxide (CuO)"
+        },
+        {
+          q: "Match the type of reaction with its corresponding chemical equation:\n(i) Combination -> (a) 2Pb(NO₃)₂ → 2PbO + 4NO₂ + O₂\n(ii) Decomposition -> (b) 2H₂ + O₂ → 2H₂O\n(iii) Double displacement -> (c) Na₂SO₄ + BaCl₂ → BaSO₄ + 2NaCl",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(c), (ii)-(a), (iii)-(b)",
+            "(i)-(b), (ii)-(c), (iii)-(a)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c)"
+        },
+        {
+          q: "Why is a solution of slaked lime applied to walls during whitewashing, and why does it acquire a shiny finish after 2 to 3 days?",
+          options: [
+            "Ca(OH)₂ reacts slowly with atmospheric CO₂ to form a thin shiny layer of CaCO₃",
+            "Water completely evaporates leaving behind calcium metal",
+            "It absorbs atmospheric nitrogen forming calcium nitride",
+            "It forms quicklime on drying"
+          ],
+          answer: "Ca(OH)₂ reacts slowly with atmospheric CO₂ to form a thin shiny layer of CaCO₃"
+        },
+        {
+          q: "Corrosion of copper items in moist air results in the formation of a green coating of:",
+          options: ["Basic copper carbonate [CuCO₃·Cu(OH)₂]", "Copper sulphate", "Copper oxide", "Copper chloride"],
+          answer: "Basic copper carbonate [CuCO₃·Cu(OH)₂]"
+        },
+        {
+          q: "In the redox reaction: MnO₂ + 4HCl → MnCl₂ + 2H₂O + Cl₂, which substance is oxidized?",
+          options: ["HCl is oxidized to Cl₂", "MnO₂ is oxidized to MnCl₂", "Cl₂ is reduced to HCl", "H₂O is oxidized"],
+          answer: "HCl is oxidized to Cl₂"
+        },
+        {
+          q: "What causes rancidity in oily and fatty foods kept for a long time?",
+          options: [
+            "Oxidation of fats and oils leading to foul odor and altered taste",
+            "Hydrolysis of carbohydrates",
+            "Evaporation of moisture",
+            "Growth of nitrogen crystals"
+          ],
+          answer: "Oxidation of fats and oils leading to foul odor and altered taste"
+        },
+        {
+          q: "Which of the following is an example of an ENDOTHERMIC reaction?",
+          options: [
+            "Decomposition of calcium carbonate: CaCO₃ + Heat → CaO + CO₂",
+            "Burning of natural gas: CH₄ + 2O₂ → CO₂ + 2H₂O + Heat",
+            "Dissolution of quicklime in water",
+            "Respiration"
+          ],
+          answer: "Decomposition of calcium carbonate: CaCO₃ + Heat → CaO + CO₂"
+        },
+        {
+          q: "Which photographic chemicals rely on photochemical decomposition reactions?",
+          options: ["AgBr and AgCl", "NaCl and KCl", "CuSO₄ and FeSO₄", "CaCO₃ and BaSO₄"],
+          answer: "AgBr and AgCl"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): Photosynthesis is an endothermic reaction.\nReason (R): Green plants absorb solar sunlight energy to synthesize glucose from CO₂ and water.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "A shiny brown coloured element 'X' on heating in air becomes black in colour compound 'Y'. If hydrogen gas is passed over heated 'Y', it turns back into 'X'. Identify X and Y:",
+          options: ["X = Cu, Y = CuO", "X = Fe, Y = Fe₂O₃", "X = Ag, Y = Ag₂S", "X = Mg, Y = MgO"],
+          answer: "X = Cu, Y = CuO"
+        },
+        {
+          q: "Assertion (A): Silver articles turn black after some days when exposed to air.\nReason (R): Silver reacts with trace hydrogen sulphide (H₂S) gas present in air to form a black coating of silver sulphide (Ag₂S).",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "In the reaction: PbO + C → 2Pb + CO₂,\n1. Lead oxide is getting reduced.\n2. Carbon is getting oxidized.\n3. Carbon dioxide is getting oxidized.\n4. Lead is getting reduced.\nWhich of the statements above are CORRECT?",
+          options: ["1 and 2 only", "1 and 4 only", "1, 2, and 3", "2 and 4 only"],
+          answer: "1 and 2 only"
+        },
+        {
+          q: "Assertion (A): Burning of natural gas (methane) is an exothermic reaction.\nReason (R): CH₄ + 2O₂ → CO₂ + 2H₂O + Large amount of heat energy.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "When a clear solution of potassium iodide (KI) is added to lead nitrate [Pb(NO₃)₂] solution, what precipitate and colour are formed?",
+          options: ["Yellow precipitate of PbI₂", "White precipitate of PbI₂", "Black precipitate of PbO", "Brown precipitate of KNO₃"],
+          answer: "Yellow precipitate of PbI₂"
+        },
+        {
+          q: "Consider the thermite reaction used to join railway tracks: Fe₂O₃(s) + 2Al(s) → 2Fe(l) + Al₂O₃(s) + Heat. What type of reaction is this?",
+          options: [
+            "Displacement and highly exothermic Redox reaction",
+            "Combination and Endothermic reaction",
+            "Neutralization reaction",
+            "Thermal decomposition"
+          ],
+          answer: "Displacement and highly exothermic Redox reaction"
+        },
+        {
+          q: "Why must magnesium ribbon be thoroughly cleaned with sandpaper before burning in air?",
+          options: [
+            "To remove the protective basic magnesium oxide/carbonate layer formed on its surface by atmospheric exposure",
+            "To make its surface shiny and reflect light",
+            "To increase its moisture content",
+            "To remove dust and rust particles of iron"
+          ],
+          answer: "To remove the protective basic magnesium oxide/carbonate layer formed on its surface by atmospheric exposure"
+        },
+        {
+          q: "What is observed when barium hydroxide is mixed with ammonium chloride in a test tube, and why does the bottom of the test tube feel freezing cold?",
+          options: [
+            "It is a highly endothermic reaction absorbing heat energy from surroundings",
+            "It is an exothermic reaction releasing heat",
+            "Ammonia gas condenses into solid ice instantly",
+            "Water vapour freezes due to pressure change"
+          ],
+          answer: "It is a highly endothermic reaction absorbing heat energy from surroundings"
+        },
+        {
+          q: "Assertion (A): All decomposition reactions are opposite to combination reactions.\nReason (R): In decomposition, a single compound breaks down into two or more simpler substances, whereas in combination two or more reactants combine to form a single product.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "In the electrolysis of water:\n1. Oxygen gas is collected at the anode (+ve electrode).\n2. Hydrogen gas is collected at the cathode (-ve electrode).\n3. Volume of H₂ collected is double the volume of O₂.\nWhich of the statements above are TRUE?",
+          options: [
+            "1, 2, and 3 (All)",
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "Match the type of decomposition with the source of energy required:\n(i) Thermal Decomposition -> (a) Sunlight\n(ii) Electrolytic Decomposition -> (b) Heat\n(iii) Photolytic Decomposition -> (c) Electricity",
+          options: [
+            "(i)-(b), (ii)-(c), (iii)-(a)",
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(c), (ii)-(a), (iii)-(b)",
+            "(i)-(b), (ii)-(a), (iii)-(c)"
+          ],
+          answer: "(i)-(b), (ii)-(c), (iii)-(a)"
+        },
+        {
+          q: "Assertion (A): Corrosion of iron is an electrochemical redox process.\nReason (R): Iron loses electrons (oxidation) in presence of atmospheric oxygen and moisture to form hydrated ferric oxide.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Which of the following methods are effective to prevent rancidity in packaged foods containing oil and fat?\n1. Adding antioxidants (like BHA/BHT).\n2. Packaging in airtight nitrogen flushed containers.\n3. Keeping food away from direct light and at low temperature in refrigerators.\nChoose the correct combination:",
+          options: [
+            "1, 2, and 3 (All)",
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "Assertion (A): Quicklime (CaO) reacting with water is used for whitewashing walls.\nReason (R): The reaction produces calcium hydroxide and evolves huge heat, making it an exothermic combination reaction.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
