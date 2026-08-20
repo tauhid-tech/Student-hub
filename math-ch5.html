@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maths Chapter 5 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Maths Chapter 5</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #a855f7; margin-bottom: 4px;">Arithmetic Progressions (AP)</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Common Difference, nth Term Formula & Basics</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Sum of n Terms, Missing Values & Term Checks</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • AP Ratios, Sum Properties & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Maths Ch 5 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "What is the formula for the nth term (a_n) of an Arithmetic Progression with first term 'a' and common difference 'd'?",
+          options: ["a_n = a + (n - 1)d", "a_n = a + nd", "a_n = a - (n - 1)d", "a_n = a + (n + 1)d"],
+          answer: "a_n = a + (n - 1)d"
+        },
+        {
+          q: "What is the common difference (d) of the AP: 3, 1, -1, -3, ...?",
+          options: ["-2", "2", "-1", "3"],
+          answer: "-2"
+        },
+        {
+          q: "What is the 10th term of the AP: 2, 7, 12, ...?",
+          options: ["47", "42", "52", "49"],
+          answer: "47"
+        },
+        {
+          q: "Which of the following sequences is an Arithmetic Progression (AP)?",
+          options: ["2, 4, 8, 16, ...", "1, 3, 9, 27, ...", "2, 4, 6, 8, ...", "1, 4, 9, 16, ..."],
+          answer: "2, 4, 6, 8, ..."
+        },
+        {
+          q: "What is the common difference of the AP: √2, √8, √18, √32, ...?",
+          options: ["√2", "2", "√6", "2√2"],
+          answer: "√2"
+        },
+        {
+          q: "What is the formula for the sum of the first n terms (S_n) of an AP?",
+          options: ["S_n = n/2 [2a + (n - 1)d]", "S_n = n [2a + (n - 1)d]", "S_n = n/2 [a + (n - 1)d]", "S_n = 2n [a + (n - 1)d]"],
+          answer: "S_n = n/2 [2a + (n - 1)d]"
+        },
+        {
+          q: "If the first term 'a' and last term 'l' are known, the sum of n terms S_n is:",
+          options: ["n/2 (a + l)", "n (a + l)", "n/2 (a - l)", "(a + l) / 2"],
+          answer: "n/2 (a + l)"
+        },
+        {
+          q: "The common difference of an AP can be:",
+          options: ["Positive, negative, or zero", "Positive only", "Negative only", "Non-zero only"],
+          answer: "Positive, negative, or zero"
+        },
+        {
+          q: "What is the 30th term of the AP: 10, 7, 4, ...?",
+          options: ["-77", "77", "-87", "-97"],
+          answer: "-77"
+        },
+        {
+          q: "What is the sum of the first n natural numbers?",
+          options: ["n(n + 1)/2", "n(n - 1)/2", "n²", "n(n + 1)"],
+          answer: "n(n + 1)/2"
+        },
+        {
+          q: "If a, b, c are in AP, then the relation between them is:",
+          options: ["2b = a + c", "b² = ac", "b = a + c", "2a = b + c"],
+          answer: "2b = a + c"
+        },
+        {
+          q: "What is the 11th term of the AP: -3, -1/2, 2, ...?",
+          options: ["22", "28", "-20", "25"],
+          answer: "22"
+        },
+        {
+          q: "If the nth term of an AP is a_n = 3 + 4n, then its common difference is:",
+          options: ["4", "3", "7", "1"],
+          answer: "4"
+        },
+        {
+          q: "In an AP, if d = -4, n = 7, and a_n = 4, then the first term 'a' is:",
+          options: ["28", "20", "6", "-24"],
+          answer: "28"
+        },
+        {
+          q: "What is the common difference of an AP whose nth term is a_n = 5 - 2n?",
+          options: ["-2", "2", "5", "3"],
+          answer: "-2"
+        }
+      ],
+      medium: [
+        {
+          q: "Which term of the AP: 21, 18, 15, ... is -81?",
+          options: ["35th term", "34th term", "36th term", "30th term"],
+          answer: "35th term"
+        },
+        {
+          q: "How many two-digit numbers are divisible by 3?",
+          options: ["30", "29", "31", "33"],
+          answer: "30"
+        },
+        {
+          q: "Find the sum of the first 22 terms of the AP: 8, 3, -2, ...",
+          options: ["-979", "-990", "979", "-968"],
+          answer: "-979"
+        },
+        {
+          q: "If the sum of the first 14 terms of an AP is 1050 and its first term is 10, what is its 20th term?",
+          options: ["200", "190", "210", "220"],
+          answer: "200"
+        },
+        {
+          q: "Find the 20th term from the last term of the AP: 3, 8, 13, ..., 253:",
+          options: ["158", "163", "153", "148"],
+          answer: "158"
+        },
+        {
+          q: "How many multiples of 4 lie between 10 and 250?",
+          options: ["60", "59", "61", "58"],
+          answer: "60"
+        },
+        {
+          q: "If the 3rd and 9th terms of an AP are 4 and -8 respectively, which term of this AP is zero?",
+          options: ["5th term", "4th term", "6th term", "7th term"],
+          answer: "5th term"
+        },
+        {
+          q: "What is the sum of the first 15 multiples of 8?",
+          options: ["960", "1040", "880", "1200"],
+          answer: "960"
+        },
+        {
+          q: "If the sum of the first n terms of an AP is given by S_n = 3n² + 5n, what is its 16th term?",
+          options: ["98", "92", "95", "101"],
+          answer: "98"
+        },
+        {
+          q: "For what value of k will (k + 9), (2k - 1), and (2k + 7) be the consecutive terms of an AP?",
+          options: ["18", "12", "15", "9"],
+          answer: "18"
+        },
+        {
+          q: "Is -150 a term of the AP: 11, 8, 5, 2, ...?",
+          options: ["No, because n is not a natural number (fraction)", "Yes, it is the 55th term", "Yes, it is the 54th term", "Cannot be determined"],
+          answer: "No, because n is not a natural number (fraction)"
+        },
+        {
+          q: "The 17th term of an AP exceeds its 10th term by 7. Find the common difference:",
+          options: ["1", "2", "7", "-1"],
+          answer: "1"
+        },
+        {
+          q: "Find the sum of all odd integers between 0 and 50:",
+          options: ["625", "650", "600", "576"],
+          answer: "625"
+        },
+        {
+          q: "If 7 times the 7th term of an AP is equal to 11 times its 11th term, then its 18th term will be:",
+          options: ["0", "1", "18", "77"],
+          answer: "0"
+        },
+        {
+          q: "How many terms of the AP: 9, 17, 25, ... must be taken to give a sum of 636?",
+          options: ["12", "14", "10", "16"],
+          answer: "12"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): The sum of the first n terms of an AP is given by S_n = n(n + 1)/2 for natural numbers.\nReason (R): For the AP of natural numbers 1, 2, 3, ..., n; first term a = 1 and common difference d = 1.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "If the ratio of the sum of the first n terms of two APs is (7n + 1) : (4n + 27), what is the ratio of their 9th terms?",
+          options: ["24 : 19", "120 : 95", "25 : 18", "13 : 11"],
+          answer: "24 : 19"
+        },
+        {
+          q: "If the mth term of an AP is 1/n and the nth term is 1/m, then the sum of its first (mn) terms is:",
+          options: ["(mn + 1) / 2", "(mn - 1) / 2", "mn / 2", "mn + 1"],
+          answer: "(mn + 1) / 2"
+        },
+        {
+          q: "If the pth, qth, and rth terms of an AP are a, b, and c respectively, then a(q - r) + b(r - p) + c(p - q) is equal to:",
+          options: ["0", "1", "p + q + r", "abc"],
+          answer: "0"
+        },
+        {
+          q: "Assertion (A): In an AP, if S_n = 3n² + 2n, then its common difference is 6.\nReason (R): The nth term a_n is given by S_n - S_(n-1), which gives a linear expression in n where coefficient of n is common difference d.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "If S_n denotes the sum of the first n terms of an AP, then the value of (S_12 - S_8) is equal to:",
+          options: ["4/3 S_3 or specific function of terms", "3(S_8 - S_4)", "S_4", "2 S_6"],
+          answer: "3(S_8 - S_4)"
+        },
+        {
+          q: "The sum of four consecutive numbers in an AP is 32 and the ratio of the product of the first and the last term to the product of two middle terms is 7 : 15. The numbers are:",
+          options: ["2, 6, 10, 14", "4, 6, 8, 10", "1, 5, 9, 13", "3, 6, 9, 12"],
+          answer: "2, 6, 10, 14"
+        },
+        {
+          q: "Find the sum of all 3-digit natural numbers which are multiples of 7:",
+          options: ["70336", "70343", "69993", "70228"],
+          answer: "70336"
+        },
+        {
+          q: "If the sum of the first p terms of an AP is equal to the sum of the first q terms (where p ≠ q), then the sum of its first (p + q) terms is:",
+          options: ["0", "p + q", "-(p + q)", "1"],
+          answer: "0"
+        },
+        {
+          q: "A spiral is made up of successive semicircles, with centres alternately at A and B, starting with radius 0.5 cm, 1.0 cm, 1.5 cm, 2.0 cm, ... What is the total length of such a spiral made up of 13 consecutive semicircles? (Take π = 22/7)",
+          options: ["143 cm", "154 cm", "132 cm", "165 cm"],
+          answer: "143 cm"
+        },
+        {
+          q: "200 logs are stacked in the following manner: 20 logs in the bottom row, 19 in the next row, 18 in the row next to it and so on. In how many rows are the 200 logs placed and how many logs are in the top row?",
+          options: ["16 rows, 5 logs in the top row", "25 rows, 0 logs in the top row", "15 rows, 6 logs in the top row", "18 rows, 4 logs in the top row"],
+          answer: "16 rows, 5 logs in the top row"
+        },
+        {
+          q: "Assertion (A): The sequence 5, 5, 5, 5, ... is an AP with common difference 0.\nReason (R): An AP is a list of numbers in which each term is obtained by adding a fixed number d to the preceding term.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "If the mth term of an AP is n and its nth term is m, then its rth term will be:",
+          options: ["m + n - r", "m + n + r", "m - n + r", "r - m - n"],
+          answer: "m + n - r"
+        },
+        {
+          q: "The sum of the 4th and 8th terms of an AP is 24 and the sum of the 6th and 10th terms is 44. Find the first three terms of the AP:",
+          options: ["-13, -8, -3", "-15, -10, -5", "-12, -7, -2", "-14, -9, -4"],
+          answer: "-13, -8, -3"
+        },
+        {
+          q: "Assertion (A): If the nth term of an AP is a_n = 2n + 1, then the sum of its first n terms is n(n + 2).\nReason (R): S_n = n/2 [a_1 + a_n], where a_1 = 3 and a_n = 2n + 1.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
