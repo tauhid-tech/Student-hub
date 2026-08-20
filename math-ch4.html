@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maths Chapter 4 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Maths Chapter 4</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #a855f7; margin-bottom: 4px;">Quadratic Equations</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Standard Form, Discriminant & Nature of Roots</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Factorisation, Quadratic Formula & Equal Roots</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Word Problems, Unknown Coefficients & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Maths Ch 4 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "What is the standard form of a quadratic equation in variable x?",
+          options: ["ax² + bx + c = 0 (where a ≠ 0)", "ax + b = 0", "ax³ + bx² + cx + d = 0", "ax² + bx = 0"],
+          answer: "ax² + bx + c = 0 (where a ≠ 0)"
+        },
+        {
+          q: "What is the formula for the discriminant (D) of the quadratic equation ax² + bx + c = 0?",
+          options: ["b² - 4ac", "b² + 4ac", "4ac - b²", "√(b² - 4ac)"],
+          answer: "b² - 4ac"
+        },
+        {
+          q: "If D = b² - 4ac > 0, then the quadratic equation has:",
+          options: ["Two distinct real roots", "Two equal real roots", "No real roots", "Infinitely many roots"],
+          answer: "Two distinct real roots"
+        },
+        {
+          q: "If D = b² - 4ac = 0, the roots of the quadratic equation are:",
+          options: ["Real and equal", "Real and distinct", "Not real", "Rational only"],
+          answer: "Real and equal"
+        },
+        {
+          q: "If D = b² - 4ac < 0, the quadratic equation has:",
+          options: ["No real roots", "Two distinct real roots", "Two equal real roots", "One real root"],
+          answer: "No real roots"
+        },
+        {
+          q: "Which of the following is a quadratic equation?",
+          options: ["(x - 2)² + 1 = 2x - 3", "x(x + 1) + 8 = (x + 2)(x - 2)", "x(2x + 3) = x² + 1", "x² + 3x = (-1)(1 - x)²"],
+          answer: "(x - 2)² + 1 = 2x - 3"
+        },
+        {
+          q: "The roots of the equation x² - 9 = 0 are:",
+          options: ["±3", "3 only", "-3 only", "9"],
+          answer: "±3"
+        },
+        {
+          q: "What is the maximum number of roots a quadratic equation can have?",
+          options: ["2", "1", "3", "Infinitely many"],
+          answer: "2"
+        },
+        {
+          q: "The quadratic formula (Shreedhar Acharya's formula) for solving ax² + bx + c = 0 is:",
+          options: ["x = (-b ± √(b² - 4ac)) / (2a)", "x = (-b ± √(b² + 4ac)) / (2a)", "x = (b ± √(b² - 4ac)) / (2a)", "x = (-b ± √(b² - 4ac)) / a"],
+          answer: "x = (-b ± √(b² - 4ac)) / (2a)"
+        },
+        {
+          q: "What is the discriminant of the quadratic equation 2x² - 4x + 3 = 0?",
+          options: ["-8", "8", "-40", "40"],
+          answer: "-8"
+        },
+        {
+          q: "The roots of the equation x² - 5x + 6 = 0 are:",
+          options: ["2 and 3", "-2 and -3", "1 and 6", "-1 and -6"],
+          answer: "2 and 3"
+        },
+        {
+          q: "If one root of the quadratic equation 2x² + kx - 6 = 0 is 2, then the value of k is:",
+          options: ["-1", "1", "2", "-2"],
+          answer: "-1"
+        },
+        {
+          q: "Which Indian mathematician gave the explicit quadratic formula known today?",
+          options: ["Shreedhar Acharya", "Aryabhata", "Brahmagupta", "Bhaskara II"],
+          answer: "Shreedhar Acharya"
+        },
+        {
+          q: "The roots of the equation (x - 3)(x + 4) = 0 are:",
+          options: ["3 and -4", "-3 and 4", "3 and 4", "-3 and -4"],
+          answer: "3 and -4"
+        },
+        {
+          q: "What is the degree of a quadratic equation?",
+          options: ["2", "1", "3", "0"],
+          answer: "2"
+        }
+      ],
+      medium: [
+        {
+          q: "For what value of k will the equation 2x² + kx + 3 = 0 have two equal roots?",
+          options: ["±2√6", "±√6", "±24", "±6"],
+          answer: "±2√6"
+        },
+        {
+          q: "Find the roots of the quadratic equation √2 x² + 7x + 5√2 = 0:",
+          options: ["-5/√2 and -√2", "5/√2 and √2", "-5/√2 and √2", "5/√2 and -√2"],
+          answer: "-5/√2 and -√2"
+        },
+        {
+          q: "The discriminant of the equation 3x² - 2x + 1/3 = 0 is:",
+          options: ["0", "4", "2/3", "-4"],
+          answer: "0"
+        },
+        {
+          q: "If the roots of the equation kx(x - 2) + 6 = 0 are equal, then the value of k is:",
+          options: ["6", "0", "-6", "4"],
+          answer: "6"
+        },
+        {
+          q: "The sum of a number and its reciprocal is 10/3. The number is:",
+          options: ["3 or 1/3", "2 or 1/2", "4 or 1/4", "5 or 1/5"],
+          answer: "3 or 1/3"
+        },
+        {
+          q: "The roots of 2x² - x + 1/8 = 0 are:",
+          options: ["1/4 and 1/4", "1/2 and 1/2", "1/8 and 1/8", "-1/4 and -1/4"],
+          answer: "1/4 and 1/4"
+        },
+        {
+          q: "The altitude of a right triangle is 7 cm less than its base. If the hypotenuse is 13 cm, find the base:",
+          options: ["12 cm", "5 cm", "9 cm", "10 cm"],
+          answer: "12 cm"
+        },
+        {
+          q: "Find the two consecutive positive integers whose sum of squares is 365:",
+          options: ["13 and 14", "11 and 12", "14 and 15", "12 and 13"],
+          answer: "13 and 14"
+        },
+        {
+          q: "If the equation x² - kx + 4 = 0 has no real roots, then:",
+          options: ["-4 < k < 4", "k > 4", "k < -4", "k = ±4"],
+          answer: "-4 < k < 4"
+        },
+        {
+          q: "The product of two consecutive positive integers is 306. The integers are:",
+          options: ["17 and 18", "16 and 17", "18 and 19", "15 and 16"],
+          answer: "17 and 18"
+        },
+        {
+          q: "If the roots of the equation ax² + bx + c = 0 are reciprocal to each other, then:",
+          options: ["a = c", "a = b", "b = c", "ac = 1"],
+          answer: "a = c"
+        },
+        {
+          q: "Solve for x: x² + 5√5 x - 70 = 0. The roots are:",
+          options: ["-7√5 and 2√5", "7√5 and -2√5", "-5√5 and 2√5", "5√5 and -7√5"],
+          answer: "-7√5 and 2√5"
+        },
+        {
+          q: "The diagonal of a rectangular field is 60 metres more than the shorter side. If the longer side is 30 metres more than the shorter side, the shorter side is:",
+          options: ["90 m", "120 m", "60 m", "80 m"],
+          answer: "90 m"
+        },
+        {
+          q: "If one root of 5x² + 13x + k = 0 is reciprocal of the other, then value of k is:",
+          options: ["5", "1/5", "13", "-5"],
+          answer: "5"
+        },
+        {
+          q: "Which of the following quadratic equations has 2 as a root?",
+          options: ["2x² - 7x + 6 = 0", "x² - 4x + 5 = 0", "x² + 3x - 12 = 0", "3x² - 6x - 2 = 0"],
+          answer: "2x² - 7x + 6 = 0"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): The equation x² + 4x + 5 = 0 has no real roots.\nReason (R): The discriminant D = 16 - 20 = -4 < 0.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Solve for x: 1/(x + 4) - 1/(x - 7) = 11/30 (x ≠ -4, 7):",
+          options: ["1 and 2", "-1 and -2", "1 and -2", "-1 and 2"],
+          answer: "1 and 2"
+        },
+        {
+          q: "A train travels 360 km at a uniform speed. If the speed had been 5 km/h more, it would have taken 1 hour less for the same journey. What is the original speed of the train?",
+          options: ["40 km/h", "45 km/h", "50 km/h", "35 km/h"],
+          answer: "40 km/h"
+        },
+        {
+          q: "Two water taps together can fill a tank in 9⅜ hours (75/8 hours). The tap of larger diameter takes 10 hours less than the smaller one alone. Find the time taken by the larger tap alone:",
+          options: ["15 hours", "25 hours", "20 hours", "10 hours"],
+          answer: "15 hours"
+        },
+        {
+          q: "If the roots of the equation (a² + b²)x² - 2(ac + bd)x + (c² + d²) = 0 are equal, then which relation is true?",
+          options: ["ad = bc", "ab = cd", "ac = bd", "a + d = b + c"],
+          answer: "ad = bc"
+        },
+        {
+          q: "Solve for x: 9x² - 9(a + b)x + (2a² + 5ab + 2b²) = 0:",
+          options: [
+            "(2a + b)/3 and (a + 2b)/3",
+            "(2a - b)/3 and (a - 2b)/3",
+            "(a + b)/3 and (2a + 2b)/3",
+            "(a - b)/3 and (2a - b)/3"
+          ],
+          answer: "(2a + b)/3 and (a + 2b)/3"
+        },
+        {
+          q: "Assertion (A): If the roots of ax² + bx + c = 0 are equal, then c = b²/(4a).\nReason (R): For equal roots, the discriminant D = b² - 4ac = 0.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Solve for x: 4x² - 4a²x + (a⁴ - b⁴) = 0:",
+          options: [
+            "(a² + b²)/2 and (a² - b²)/2",
+            "(a² + b²) and (a² - b²)",
+            "(a² + b²)/4 and (a² - b²)/4",
+            "(a + b)/2 and (a - b)/2"
+          ],
+          answer: "(a² + b²)/2 and (a² - b²)/2"
+        },
+        {
+          q: "If the equation (1 + m²)x² + 2mcx + (c² - a²) = 0 has equal roots, then:",
+          options: ["c² = a²(1 + m²)", "c² = a²(1 - m²)", "a² = c²(1 + m²)", "c = a(1 + m)"],
+          answer: "c² = a²(1 + m²)"
+        },
+        {
+          q: "An express train takes 1 hour less than a passenger train to travel 132 km between Mysore and Bangalore. If the average speed of the express train is 11 km/h more than that of the passenger train, find the average speed of the express train:",
+          options: ["44 km/h", "33 km/h", "55 km/h", "66 km/h"],
+          answer: "44 km/h"
+        },
+        {
+          q: "Solve for x: 1/(a + b + x) = 1/a + 1/b + 1/x (where a + b ≠ 0):",
+          options: ["-a and -b", "a and b", "-a and b", "a and -b"],
+          answer: "-a and -b"
+        },
+        {
+          q: "If the roots of the equation (c² - ab)x² - 2(a² - bc)x + (b² - ac) = 0 are equal, then:",
+          options: ["a = 0 or a³ + b³ + c³ = 3abc", "b = 0 or a³ + b³ + c³ = 0", "c = 0 or ab + bc + ca = 0", "a + b + c = 0 only"],
+          answer: "a = 0 or a³ + b³ + c³ = 3abc"
+        },
+        {
+          q: "A motor boat whose speed is 18 km/h in still water takes 1 hour more to go 24 km upstream than to return downstream to the same spot. Find the speed of the stream:",
+          options: ["6 km/h", "4 km/h", "8 km/h", "5 km/h"],
+          answer: "6 km/h"
+        },
+        {
+          q: "Assertion (A): Every quadratic equation has at least one real root.\nReason (R): A quadratic equation has at most two real roots.",
+          options: [
+            "(A) is false, but (R) is true",
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "(A) is false, but (R) is true"
+        },
+        {
+          q: "If p, q, r are real numbers and p ≠ q, then the roots of the equation (p - q)x² + 5(p + q)x - 2(p - q) = 0 are:",
+          options: ["Real and unequal", "Real and equal", "Not real", "Purely imaginary"],
+          answer: "Real and unequal"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
