@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maths Chapter 1 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Maths Chapter 1</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #a855f7; margin-bottom: 4px;">Real Numbers</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Prime Factors, HCF, LCM & Basic Rationality</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • HCF-LCM Product Formula, Divisibility & Powers</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Composite Logic, Exponent Problems & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Maths Ch 1 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "Which of the following is an irrational number?",
+          options: ["√5", "√4", "3/5", "0.25"],
+          answer: "√5"
+        },
+        {
+          q: "The prime factorization of 140 is:",
+          options: ["2² × 5 × 7", "2 × 5² × 7", "2³ × 5 × 7", "2 × 5 × 7²"],
+          answer: "2² × 5 × 7"
+        },
+        {
+          q: "What is the HCF of two consecutive even integers?",
+          options: ["2", "1", "4", "0"],
+          answer: "2"
+        },
+        {
+          q: "What is the HCF of two prime numbers a and b?",
+          options: ["1", "ab", "a + b", "a - b"],
+          answer: "1"
+        },
+        {
+          q: "The sum of a rational number and an irrational number is always:",
+          options: ["Irrational", "Rational", "An integer", "A natural number"],
+          answer: "Irrational"
+        },
+        {
+          q: "What is the LCM of two co-prime numbers p and q?",
+          options: ["p × q", "1", "p / q", "p + q"],
+          answer: "p × q"
+        },
+        {
+          q: "The prime factorization of 156 is:",
+          options: ["2² × 3 × 13", "2³ × 3 × 13", "2 × 3² × 13", "2² × 3² × 13"],
+          answer: "2² × 3 × 13"
+        },
+        {
+          q: "What is the least prime number?",
+          options: ["2", "1", "3", "0"],
+          answer: "2"
+        },
+        {
+          q: "What is the smallest composite number?",
+          options: ["4", "2", "1", "6"],
+          answer: "4"
+        },
+        {
+          q: "Every composite number can be expressed (factorised) as a product of primes uniquely. This is stated by:",
+          options: ["Fundamental Theorem of Arithmetic", "Euclid's Division Lemma", "Pythagoras Theorem", "Euler's Theorem"],
+          answer: "Fundamental Theorem of Arithmetic"
+        },
+        {
+          q: "The product of a non-zero rational number and an irrational number is always:",
+          options: ["Irrational", "Rational", "Always an integer", "Zero"],
+          answer: "Irrational"
+        },
+        {
+          q: "What is the HCF of 96 and 404?",
+          options: ["4", "2", "8", "12"],
+          answer: "4"
+        },
+        {
+          q: "What is the total number of factors of a prime number?",
+          options: ["2 (1 and itself)", "1", "3", "Infinitely many"],
+          answer: "2 (1 and itself)"
+        },
+        {
+          q: "Which of the following numbers is neither prime nor composite?",
+          options: ["1", "0", "2", "3"],
+          answer: "1"
+        },
+        {
+          q: "If HCF(a, b) = 1, then the numbers a and b are called:",
+          options: ["Co-prime numbers", "Composite numbers", "Twin primes", "Even numbers"],
+          answer: "Co-prime numbers"
+        }
+      ],
+      medium: [
+        {
+          q: "If HCF(306, 657) = 9, what is the LCM(306, 657)?",
+          options: ["22338", "22388", "21338", "23328"],
+          answer: "22338"
+        },
+        {
+          q: "If two positive integers a and b are written as a = x³y² and b = xy³, where x and y are prime numbers, then HCF(a, b) is:",
+          options: ["xy²", "xy", "x³y³", "x²y²"],
+          answer: "xy²"
+        },
+        {
+          q: "If two positive integers p and q can be expressed as p = ab² and q = a³b, where a and b are prime numbers, then LCM(p, q) is:",
+          options: ["a³b²", "ab", "a²b²", "a³b³"],
+          answer: "a³b²"
+        },
+        {
+          q: "If LCM(a, 18) = 36 and HCF(a, 18) = 2, then the value of a is:",
+          options: ["4", "2", "3", "1"],
+          answer: "4"
+        },
+        {
+          q: "The product of the HCF and LCM of two numbers 25 and 50 is equal to:",
+          options: ["1250", "1000", "625", "2500"],
+          answer: "1250"
+        },
+        {
+          q: "For any natural number n, the number 6ⁿ always ends with which digit except zero?",
+          options: ["6", "2", "4", "8"],
+          answer: "6"
+        },
+        {
+          q: "Can the number 4ⁿ, where n is a natural number, ever end with the digit 0?",
+          options: [
+            "No, because its prime factorisation contains only 2 and lacks 5",
+            "Yes, for even values of n",
+            "Yes, for n = 0",
+            "Yes, for multiple of 10"
+          ],
+          answer: "No, because its prime factorisation contains only 2 and lacks 5"
+        },
+        {
+          q: "The largest number which divides 70 and 125, leaving remainders 5 and 8 respectively, is:",
+          options: ["13", "65", "875", "1750"],
+          answer: "13"
+        },
+        {
+          q: "What is the HCF of the smallest composite number and the smallest prime number?",
+          options: ["2", "1", "4", "0"],
+          answer: "2"
+        },
+        {
+          q: "Three bells toll together at intervals of 9, 12, and 15 minutes respectively. If they start tolling together, after what time will they toll together next?",
+          options: ["180 minutes (3 hours)", "60 minutes", "120 minutes", "360 minutes"],
+          answer: "180 minutes (3 hours)"
+        },
+        {
+          q: "If p is a prime number and p divides a² (where a is a positive integer), then which must be true?",
+          options: ["p divides a", "a divides p", "p = a", "p² divides a"],
+          answer: "p divides a"
+        },
+        {
+          q: "Why is 7 × 11 × 13 + 13 classified as a composite number?",
+          options: [
+            "It has 13 as a common factor, meaning it has more than two factors",
+            "It is an odd number",
+            "It ends with digit 3",
+            "It cannot be divided by 2"
+          ],
+          answer: "It has 13 as a common factor, meaning it has more than two factors"
+        },
+        {
+          q: "What is the exponent of 2 in the prime factorisation of 144?",
+          options: ["4", "3", "2", "5"],
+          answer: "4"
+        },
+        {
+          q: "What is the LCM of 12, 15, and 21?",
+          options: ["420", "140", "210", "840"],
+          answer: "420"
+        },
+        {
+          q: "If HCF(a, b) = 12 and a × b = 1800, what is the LCM(a, b)?",
+          options: ["150", "900", "600", "120"],
+          answer: "150"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): √p is an irrational number for any prime number p.\nReason (R): The square root of any positive integer which is not a perfect square is irrational.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "If n is any natural number, then (9²ⁿ - 4²ⁿ) is always divisible by:",
+          options: ["Both 5 and 13", "5 only", "13 only", "Neither 5 nor 13"],
+          answer: "Both 5 and 13"
+        },
+        {
+          q: "Assertion (A): The HCF of two numbers is 5 and their LCM is 200.\nReason (R): The LCM of two numbers is always an exact multiple of their HCF.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Can two positive integers have 18 as their HCF and 380 as their LCM?",
+          options: [
+            "No, because 380 is not completely divisible by 18",
+            "Yes, always possible",
+            "Yes, if both numbers are even",
+            "Cannot be determined"
+          ],
+          answer: "No, because 380 is not completely divisible by 18"
+        },
+        {
+          q: "If the HCF of 65 and 117 is expressible in the form 65m - 117, then the value of m is:",
+          options: ["2", "1", "3", "4"],
+          answer: "2"
+        },
+        {
+          q: "What is the total number of digits in the prime factorisation of (2⁴ × 5³ × 3²)?",
+          options: [
+            "9 (consisting of 2⁴, 5³, and 3² factors)",
+            "4",
+            "3",
+            "6"
+          ],
+          answer: "9 (consisting of 2⁴, 5³, and 3² factors)"
+        },
+        {
+          q: "If the sum of LCM and HCF of two numbers is 1260 and their LCM is 900 more than their HCF, then the product of the two numbers is:",
+          options: ["194400", "205400", "180000", "216000"],
+          answer: "194400"
+        },
+        {
+          q: "Assertion (A): 3 × 5 × 7 + 7 is a composite number.\nReason (R): A composite number has at least one factor other than 1 and the number itself.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "What is the greatest possible speed at which a man can walk to cover distances of 52 km and 91 km in complete integer hours?",
+          options: ["13 km/h", "7 km/h", "26 km/h", "17 km/h"],
+          answer: "13 km/h"
+        },
+        {
+          q: "If p and q are positive integers such that p = 2³ × 3² × 5 and q = 2² × 3³ × 7, then LCM(p, q) / HCF(p, q) is:",
+          options: ["210", "420", "105", "840"],
+          answer: "210"
+        },
+        {
+          q: "A circular track has a circumference of 360 m. Two cyclists start together from the same point at speeds of 18 m/s and 24 m/s in the same direction. After how many seconds will they meet again at the starting point?",
+          options: ["60 seconds", "45 seconds", "90 seconds", "120 seconds"],
+          answer: "60 seconds"
+        },
+        {
+          q: "Assertion (A): For three positive integers a, b, and c: HCF(a,b,c) × LCM(a,b,c) ≠ a × b × c in general.\nReason (R): The formula HCF × LCM = Product of numbers is valid strictly for TWO numbers only.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "If a and b are two co-prime numbers, then what can be said about a² and b²?",
+          options: ["They are always co-prime", "They are always even", "They must have HCF = 2", "They are composite with common factors"],
+          answer: "They are always co-prime"
+        },
+        {
+          q: "What is the least number that is divisible by all the natural numbers from 1 to 10 (both inclusive)?",
+          options: ["2520", "5040", "1260", "7560"],
+          answer: "2520"
+        },
+        {
+          q: "Assertion (A): (2 + √3) is an irrational number.\nReason (R): The sum of a rational number and an irrational number is always irrational.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
