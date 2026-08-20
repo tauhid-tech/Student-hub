@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maths Chapter 6 Quiz | Triangles</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 520px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Maths Chapter 6</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #38bdf8; margin-bottom: 4px;">Triangles</h3>
+        <p style="font-size: 12px; color: #94a3b8;">BPT (Thales Theorem), Similarity Criteria (AAA, SSS, SAS), Areas & Pythagoras Properties.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Basic BPT, Similarity Ratios & Direct Pythagoras</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Unknown Side Calculations, Areas & Altitudes</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Algebraic Proofs, Trapezium Properties & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Maths Ch 6 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "Thales Theorem (Basic Proportionality Theorem) states that if a line is drawn parallel to one side of a triangle intersecting the other two sides, it divides them in:",
+          options: ["The same ratio", "Equal lengths", "A 1:2 ratio", "Inverse proportion"],
+          answer: "The same ratio"
+        },
+        {
+          q: "In ΔABC, DE || BC. If AD = 2 cm, DB = 3 cm, and AE = 4 cm, find EC.",
+          options: ["6 cm", "5 cm", "4.5 cm", "8 cm"],
+          answer: "6 cm"
+        },
+        {
+          q: "Two triangles are defined as similar if their corresponding angles are equal and their corresponding sides are:",
+          options: ["Proportional", "Equal", "Perpendicular", "Parallel"],
+          answer: "Proportional"
+        },
+        {
+          q: "If ΔABC ~ ΔDEF, which of the following statements represents the correct order of corresponding side ratios?",
+          options: ["AB/DE = BC/EF = AC/DF", "AB/EF = BC/DE = AC/DF", "AB/DE = BC/DF = AC/EF", "AB/BC = DE/EF = DF/AC"],
+          answer: "AB/DE = BC/EF = AC/DF"
+        },
+        {
+          q: "In ΔABC, DE || BC. If AD/DB = 3/4 and AC = 14 cm, what is the length of AE?",
+          options: ["6 cm", "8 cm", "7 cm", "4.5 cm"],
+          answer: "6 cm"
+        },
+        {
+          q: "Which of the following is NOT a criterion for the similarity of two triangles?",
+          options: ["SSA", "AAA", "SSS", "SAS"],
+          answer: "SSA"
+        },
+        {
+          q: "If ΔABC ~ ΔPQR, ∠A = 50°, and ∠B = 70°, what is the measure of ∠R?",
+          options: ["60°", "50°", "70°", "120°"],
+          answer: "60°"
+        },
+        {
+          q: "If ΔABC ~ ΔDEF, AB = 3 cm, DE = 6 cm, and area(ΔABC) = 9 cm², what is the area of ΔDEF?",
+          options: ["36 cm²", "18 cm²", "27 cm²", "54 cm²"],
+          answer: "36 cm²"
+        },
+        {
+          q: "In a right triangle ABC right-angled at B, if AB = 6 cm and BC = 8 cm, find AC.",
+          options: ["10 cm", "14 cm", "12 cm", "9 cm"],
+          answer: "10 cm"
+        },
+        {
+          q: "The sides of two similar triangles are in the ratio 4 : 9. The ratio of their areas is:",
+          options: ["16 : 81", "2 : 3", "8 : 18", "81 : 16"],
+          answer: "16 : 81"
+        },
+        {
+          q: "A vertical pole of length 6 m casts a shadow 4 m long on the ground. At the same time, a tower casts a shadow 28 m long. Find the height of the tower.",
+          options: ["42 m", "36 m", "48 m", "40 m"],
+          answer: "42 m"
+        },
+        {
+          q: "If ΔABC ~ ΔQRP, area(ΔABC)/area(ΔPQR) = 9/4, AB = 18 cm, and BC = 15 cm, then PR is equal to:",
+          options: ["10 cm", "12 cm", "8 cm", "9 cm"],
+          answer: "10 cm"
+        },
+        {
+          q: "In a square of side length 'a', what is the length of its diagonal?",
+          options: ["a√2", "a√3", "2a", "a/2"],
+          answer: "a√2"
+        },
+        {
+          q: "If D and E are midpoints of sides AB and AC of ΔABC respectively, then DE || BC and DE = 1/2 BC. This is an application of:",
+          options: ["Basic Proportionality Theorem", "Pythagoras Theorem", "Area Theorem", "Angle Bisector Theorem"],
+          answer: "Basic Proportionality Theorem"
+        },
+        {
+          q: "In ΔABC, AB = 6√3 cm, AC = 12 cm, and BC = 6 cm. What is the measure of ∠B?",
+          options: ["90°", "60°", "45°", "120°"],
+          answer: "90°"
+        }
+      ],
+      medium: [
+        {
+          q: "In ΔABC, DE || BC. If AD = x, DB = x - 2, AE = x + 2, and EC = x - 1, find the value of x.",
+          options: ["4", "3", "2", "5"],
+          answer: "4"
+        },
+        {
+          q: "In ΔABC, AD ⊥ BC. If AD² = BD · CD, then ΔABC is a right triangle right-angled at:",
+          options: ["A", "B", "C", "D"],
+          answer: "A"
+        },
+        {
+          q: "In ΔABC and ΔDEF, ∠B = ∠E, ∠F = ∠C, and AB = 3 DE. The two triangles are:",
+          options: ["Similar but not congruent", "Congruent as well as similar", "Neither similar nor congruent", "Congruent but not similar"],
+          answer: "Similar but not congruent"
+        },
+        {
+          q: "Given ΔABC ~ ΔEDF with AB = 5 cm, AC = 7 cm, DF = 15 cm, and DE = 12 cm. Find the length of BC.",
+          options: ["6.25 cm", "6.5 cm", "5.8 cm", "7.2 cm"],
+          answer: "6.25 cm"
+        },
+        {
+          q: "In ΔPQR, S and T are points on PR and QR respectively such that ∠P = ∠RTS. If PT = 2 cm, TR = 4 cm, and ST = 3 cm, find PQ.",
+          options: ["4.5 cm", "6 cm", "5 cm", "4 cm"],
+          answer: "4.5 cm"
+        },
+        {
+          q: "In an isosceles triangle ABC with AC = BC, if AB² = 2 AC², then ∠C is:",
+          options: ["90°", "45°", "60°", "30°"],
+          answer: "90°"
+        },
+        {
+          q: "The areas of two similar triangles are 81 cm² and 49 cm². If the altitude of the larger triangle is 4.5 cm, find the corresponding altitude of the smaller triangle.",
+          options: ["3.5 cm", "3.8 cm", "4.0 cm", "2.8 cm"],
+          answer: "3.5 cm"
+        },
+        {
+          q: "In trapezium ABCD with AB || DC, diagonals AC and BD intersect at O. If AB = 3 DC, find area(ΔAOB) : area(ΔCOD).",
+          options: ["9 : 1", "3 : 1", "6 : 1", "1 : 9"],
+          answer: "9 : 1"
+        },
+        {
+          q: "In ΔABC, D is a point on side BC such that ∠ADC = ∠BAC. Which relation is correct?",
+          options: ["CA² = CB · CD", "CB² = CA · CD", "CD² = CA · CB", "AB² = BC · CD"],
+          answer: "CA² = CB · CD"
+        },
+        {
+          q: "An equilateral triangle ABC has side length 2a. Find the length of each of its altitudes.",
+          options: ["a√3", "a√2", "2a√3", "a√3 / 2"],
+          answer: "a√3"
+        },
+        {
+          q: "In a rhombus ABCD of side length 10 cm, one diagonal is 12 cm long. Find the length of the second diagonal.",
+          options: ["16 cm", "14 cm", "18 cm", "15 cm"],
+          answer: "16 cm"
+        },
+        {
+          q: "A guy wire attached to a vertical pole of height 18 m is 24 m long and has a stake attached to the other end. How far from the base of the pole should the stake be driven so that the wire is taut?",
+          options: ["6√7 m", "12 m", "6√5 m", "8√3 m"],
+          answer: "6√7 m"
+        },
+        {
+          q: "If ΔABC ~ ΔDEF, area(ΔABC) = 64 cm², area(ΔDEF) = 121 cm², and EF = 15.4 cm, find BC.",
+          options: ["11.2 cm", "12.4 cm", "10.8 cm", "11.6 cm"],
+          answer: "11.2 cm"
+        },
+        {
+          q: "In ΔABC, DE || BC. If AD = 4x - 3, AE = 8x - 7, BD = 3x - 1, and CE = 5x - 3, find x.",
+          options: ["1", "2", "3", "0.5"],
+          answer: "1"
+        },
+        {
+          q: "If the perimeters of two similar triangles ΔABC and ΔDEF are 30 cm and 18 cm respectively, and BC = 9 cm, find EF.",
+          options: ["5.4 cm", "6.2 cm", "4.8 cm", "5.0 cm"],
+          answer: "5.4 cm"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): If DE || BC in ΔABC, then AD/AB = AE/AC.\nReason (R): If a line is drawn parallel to one side of a triangle, it divides the other two sides in the same ratio.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "In right triangle ABC right-angled at C, P and Q are points on sides CA and CB respectively. Which identity holds true?",
+          options: [
+            "AQ² + BP² = AB² + PQ²",
+            "AQ² + BP² = 2(AB² + PQ²)",
+            "AQ² + BP² = AC² + BC²",
+            "AQ · BP = AB · PQ"
+          ],
+          answer: "AQ² + BP² = AB² + PQ²"
+        },
+        {
+          q: "ABC is an equilateral triangle of side 'a'. If AD ⊥ BC, what is the value of AD²?",
+          options: ["3 BD²", "2 BD²", "4 BD²", "3/2 BD²"],
+          answer: "3 BD²"
+        },
+        {
+          q: "In an equilateral triangle ABC, D is a point on side BC such that BD = 1/3 BC. Which relation is correct?",
+          options: ["9 AD² = 7 AB²", "7 AD² = 9 AB²", "3 AD² = 2 AB²", "9 AD² = 8 AB²"],
+          answer: "9 AD² = 7 AB²"
+        },
+        {
+          q: "Assertion (A): Two figures having the same shape but not necessarily the same size are called similar figures.\nReason (R): All congruent figures are similar, but similar figures need not be congruent.",
+          options: [
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)"
+        },
+        {
+          q: "In ΔABC, DE || BC and CD || EF, where D, F lie on AB and E lies on AC. Then AD² is equal to:",
+          options: ["AF · AB", "AF · BD", "AB · EF", "AE · AC"],
+          answer: "AF · AB"
+        },
+        {
+          q: "Diagonals of trapezium ABCD (AB || DC) intersect at O. If AO = 3x - 1, OC = 5x - 3, BO = 2x + 1, and OD = 6x - 5, find x.",
+          options: ["2", "3", "1", "4"],
+          answer: "2"
+        },
+        {
+          q: "In right triangle ABC right-angled at B, BD ⊥ AC. If AD = 4 cm and CD = 9 cm, find BD and AB.",
+          options: ["BD = 6 cm, AB = 2√13 cm", "BD = 6 cm, AB = 13 cm", "BD = 5 cm, AB = 6 cm", "BD = 36 cm, AB = 12 cm"],
+          answer: "BD = 6 cm, AB = 2√13 cm"
+        },
+        {
+          q: "The hypotenuse of a right triangle is 25 cm and the difference between the lengths of the other two sides is 5 cm. Find the perimeter of the triangle.",
+          options: ["60 cm", "55 cm", "65 cm", "50 cm"],
+          answer: "60 cm"
+        },
+        {
+          q: "In ΔABC, AD is the internal bisector of ∠A meeting BC at D. If AB = 6 cm, AC = 8 cm, and BD = 3 cm, find CD.",
+          options: ["4 cm", "5 cm", "4.5 cm", "3.5 cm"],
+          answer: "4 cm"
+        },
+        {
+          q: "If ΔABC ~ ΔDEF, where AM and DN are medians of ΔABC and ΔDEF respectively, then AM/DN is equal to:",
+          options: ["AB/DE", "(AB/DE)²", "1/2 (AB/DE)", "2 (AB/DE)"],
+          answer: "AB/DE"
+        },
+        {
+          q: "In an isosceles triangle ABC with AB = AC = 13 cm, the altitude from A to BC is 12 cm. Find the length of base BC.",
+          options: ["10 cm", "12 cm", "8 cm", "14 cm"],
+          answer: "10 cm"
+        },
+        {
+          q: "Assertion (A): If ΔABC ~ ΔPQR with AB/PQ = 1/3, then area(ΔABC)/area(ΔPQR) = 1/9.\nReason (R): The ratio of the areas of two similar triangles is equal to the square of the ratio of their corresponding sides.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "P and Q are points on sides AB and AC of ΔABC such that PQ || BC. If AP : PB = 2 : 3, find area(ΔAPQ) : area(trapezium PBCQ).",
+          options: ["4 : 21", "4 : 25", "2 : 3", "9 : 16"],
+          answer: "4 : 21"
+        },
+        {
+          q: "A ladder 15 m long reaches a window 9 m high on one side of a street. Turning it to the other side from the same foot point, it reaches a window 12 m high. Find the total width of the street.",
+          options: ["21 m", "25 m", "18 m", "24 m"],
+          answer: "21 m"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
+
