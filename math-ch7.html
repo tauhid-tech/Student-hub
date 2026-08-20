@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maths Chapter 7 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Maths Chapter 7</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #a855f7; margin-bottom: 4px;">Coordinate Geometry</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Distance Formula, Origin Distance & Coordinates</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Section Formula, Mid-point & Equidistant Points</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Trisection, Centroid, Quadrilaterals & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Maths Ch 7 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "What is the distance of the point P(x, y) from the origin O(0, 0)?",
+          options: ["√(x² + y²)", "x² + y²", "x + y", "√(x² - y²)"],
+          answer: "√(x² + y²)"
+        },
+        {
+          q: "What is the distance between the points A(x1, y1) and B(x2, y2)?",
+          options: [
+            "√[(x2 - x1)² + (y2 - y1)²]",
+            "√[(x2 + x1)² + (y2 + y1)²]",
+            "(x2 - x1)² + (y2 - y1)²",
+            "√[(x2 - x1) + (y2 - y1)]"
+          ],
+          answer: "√[(x2 - x1)² + (y2 - y1)²]"
+        },
+        {
+          q: "The distance of the point P(3, 4) from the origin is:",
+          options: ["5 units", "7 units", "25 units", "1 unit"],
+          answer: "5 units"
+        },
+        {
+          q: "What is the distance of the point P(-6, 8) from the origin?",
+          options: ["10 units", "14 units", "2 units", "8 units"],
+          answer: "10 units"
+        },
+        {
+          q: "The distance of the point P(2, 3) from the X-axis is:",
+          options: ["3 units", "2 units", "5 units", "1 unit"],
+          answer: "3 units"
+        },
+        {
+          q: "The distance of the point P(-4, 7) from the Y-axis is:",
+          options: ["4 units", "-4 units", "7 units", "11 units"],
+          answer: "4 units"
+        },
+        {
+          q: "The mid-point of the line segment joining (x1, y1) and (x2, y2) is given by:",
+          options: [
+            "((x1 + x2)/2, (y1 + y2)/2)",
+            "((x1 - x2)/2, (y1 - y2)/2)",
+            "((x1 + x2), (y1 + y2))",
+            "((x1 + y1)/2, (x2 + y2)/2)"
+          ],
+          answer: "((x1 + x2)/2, (y1 + y2)/2)"
+        },
+        {
+          q: "What are the coordinates of the midpoint of the segment joining A(2, 4) and B(6, 8)?",
+          options: ["(4, 6)", "(8, 12)", "(3, 5)", "(4, 4)"],
+          answer: "(4, 6)"
+        },
+        {
+          q: "Any point lying on the X-axis has coordinates of the form:",
+          options: ["(x, 0)", "(0, y)", "(x, y)", "(0, 0)"],
+          answer: "(x, 0)"
+        },
+        {
+          q: "Any point lying on the Y-axis has coordinates of the form:",
+          options: ["(0, y)", "(x, 0)", "(x, y)", "(y, 0)"],
+          answer: "(0, y)"
+        },
+        {
+          q: "The coordinates of the origin O are:",
+          options: ["(0, 0)", "(1, 1)", "(0, 1)", "(1, 0)"],
+          answer: "(0, 0)"
+        },
+        {
+          q: "The distance between the points (0, 5) and (-5, 0) is:",
+          options: ["5√2 units", "5 units", "10 units", "25 units"],
+          answer: "5√2 units"
+        },
+        {
+          q: "The x-coordinate of a point is also known as its:",
+          options: ["Abscissa", "Ordinate", "Origin", "Quadrant"],
+          answer: "Abscissa"
+        },
+        {
+          q: "The y-coordinate of a point is also known as its:",
+          options: ["Ordinate", "Abscissa", "Slope", "Radius"],
+          answer: "Ordinate"
+        },
+        {
+          q: "In which quadrant does the point (-3, 5) lie?",
+          options: ["Second Quadrant", "First Quadrant", "Third Quadrant", "Fourth Quadrant"],
+          answer: "Second Quadrant"
+        }
+      ],
+      medium: [
+        {
+          q: "Find the distance between the points A(a, b) and B(-a, -b):",
+          options: ["2√(a² + b²)", "√(a² + b²)", "2(a + b)", "4√(a² + b²)"],
+          answer: "2√(a² + b²)"
+        },
+        {
+          q: "The point on the X-axis which is equidistant from (2, -5) and (-2, 9) is:",
+          options: ["(-7, 0)", "(7, 0)", "(0, -7)", "(-6, 0)"],
+          answer: "(-7, 0)"
+        },
+        {
+          q: "In what ratio does the point P(4, m) divide the line segment joining A(2, 3) and B(6, -3)?",
+          options: ["1 : 1", "1 : 2", "2 : 1", "3 : 1"],
+          answer: "1 : 1"
+        },
+        {
+          q: "Find the ratio in which the Y-axis divides the line segment joining the points (5, -6) and (-1, -4):",
+          options: ["5 : 1", "1 : 5", "2 : 3", "3 : 2"],
+          answer: "5 : 1"
+        },
+        {
+          q: "Find the ratio in which the X-axis divides the line segment joining the points A(1, -5) and B(-4, 5):",
+          options: ["1 : 1", "2 : 1", "1 : 2", "3 : 1"],
+          answer: "1 : 1"
+        },
+        {
+          q: "If the distance between the points A(x, 2) and B(3, -6) is 10 units, then the positive value of x is:",
+          options: ["9", "3", "-3", "6"],
+          answer: "9"
+        },
+        {
+          q: "The coordinates of the point P which divides the line joining A(x1, y1) and B(x2, y2) internally in the ratio m1 : m2 are:",
+          options: [
+            "((m1x2 + m2x1)/(m1 + m2), (m1y2 + m2y1)/(m1 + m2))",
+            "((m1x1 + m2x2)/(m1 + m2), (m1y1 + m2y2)/(m1 + m2))",
+            "((m1x2 - m2x1)/(m1 - m2), (m1y2 - m2y1)/(m1 - m2))",
+            "((x1 + x2)/(m1 + m2), (y1 + y2)/(m1 + m2))"
+          ],
+          answer: "((m1x2 + m2x1)/(m1 + m2), (m1y2 + m2y1)/(m1 + m2))"
+        },
+        {
+          q: "If the mid-point of the segment joining A(2a, 4) and B(-2, 3b) is (1, 2a + 1), then the values of a and b are:",
+          options: ["a = 2, b = 2", "a = 1, b = 2", "a = 2, b = 1", "a = 3, b = 2"],
+          answer: "a = 2, b = 2"
+        },
+        {
+          q: "The coordinates of the centroid of a triangle with vertices (x1, y1), (x2, y2), and (x3, y3) are:",
+          options: [
+            "((x1 + x2 + x3)/3, (y1 + y2 + y3)/3)",
+            "((x1 + x2 + x3)/2, (y1 + y2 + y3)/2)",
+            "((x1 + x2 + x3), (y1 + y2 + y3))",
+            "((x1 - x2 + x3)/3, (y1 - y2 + y3)/3)"
+          ],
+          answer: "((x1 + x2 + x3)/3, (y1 + y2 + y3)/3)"
+        },
+        {
+          q: "Find the centroid of a triangle whose vertices are (3, -5), (-7, 4), and (10, -2):",
+          options: ["(2, -1)", "(1, -1)", "(2, 1)", "(3, -1)"],
+          answer: "(2, -1)"
+        },
+        {
+          q: "If A(1, 2), B(4, y), C(x, 6), and D(3, 5) are the vertices of a parallelogram taken in order, find x and y:",
+          options: ["x = 6, y = 3", "x = 3, y = 6", "x = 5, y = 2", "x = 2, y = 5"],
+          answer: "x = 6, y = 3"
+        },
+        {
+          q: "What type of triangle is formed by the vertices A(3, 0), B(6, 4), and C(-1, 3)?",
+          options: [
+            "Right-angled isosceles triangle",
+            "Equilateral triangle",
+            "Scalene right triangle",
+            "Acute isosceles triangle"
+          ],
+          answer: "Right-angled isosceles triangle"
+        },
+        {
+          q: "The perimeter of a triangle with vertices (0, 4), (0, 0), and (3, 0) is:",
+          options: ["12 units", "7 + √5 units", "5 units", "10 units"],
+          answer: "12 units"
+        },
+        {
+          q: "If P(a/3, 4) is the midpoint of the line segment joining Q(-6, 5) and R(-2, 3), then the value of a is:",
+          options: ["-12", "-4", "12", "-6"],
+          answer: "-12"
+        },
+        {
+          q: "Find the coordinates of the point which divides the join of (-1, 7) and (4, -3) in the ratio 2 : 3:",
+          options: ["(1, 3)", "(2, 3)", "(1, 4)", "(3, 1)"],
+          answer: "(1, 3)"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): The points A(1, 5), B(2, 3), and C(-2, -11) are non-collinear.\nReason (R): For collinearity of three points A, B, and C, the sum of any two distances must equal the third (AB + BC = AC).",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is false, but (R) is true",
+            "(A) is true, but (R) is false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Find the coordinates of the points of trisection of the line segment joining (2, -2) and (-7, 4):",
+          options: [
+            "(-1, 0) and (-4, 2)",
+            "(1, 0) and (-4, 2)",
+            "(-1, 2) and (-4, 0)",
+            "(-2, 1) and (-5, 3)"
+          ],
+          answer: "(-1, 0) and (-4, 2)"
+        },
+        {
+          q: "Find the coordinates of a point A, where AB is the diameter of a circle whose centre is (2, -3) and B is (1, 4):",
+          options: ["(3, -10)", "(-3, 10)", "(3, 10)", "(0, -7)"],
+          answer: "(3, -10)"
+        },
+        {
+          q: "If P(9a - 2, -b) divides the line segment joining A(3a + 1, -3) and B(8a, 5) in the ratio 3 : 1, then the values of a and b are:",
+          options: ["a = 1, b = -3", "a = 2, b = 3", "a = -1, b = 3", "a = 1, b = 3"],
+          answer: "a = 1, b = -3"
+        },
+        {
+          q: "Find the centre of a circle passing through the points (6, -6), (3, -7), and (3, 3):",
+          options: ["(3, -2)", "(2, -3)", "(3, 2)", "(-3, 2)"],
+          answer: "(3, -2)"
+        },
+        {
+          q: "Assertion (A): The point (0, 4) lies on the Y-axis.\nReason (R): The x-coordinate (abscissa) of every point on the Y-axis is 0.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "If the point C(-1, 2) divides internally the line segment joining A(2, 5) and B(x, y) in the ratio 3 : 4, find the coordinates of B:",
+          options: ["(-5, -2)", "(-5, 2)", "(5, -2)", "(4, -3)"],
+          answer: "(-5, -2)"
+        },
+        {
+          q: "Determine the relation between x and y such that the point (x, y) is equidistant from the points (3, 6) and (-3, 4):",
+          options: ["3x + y - 5 = 0", "3x - y + 5 = 0", "x + 3y - 5 = 0", "3x + y + 5 = 0"],
+          answer: "3x + y - 5 = 0"
+        },
+        {
+          q: "If two vertices of an equilateral triangle are (0, 0) and (3, √3), what are the coordinates of the third vertex?",
+          options: ["(0, 2√3) or (3, -√3)", "(0, √3)", "(3, 0)", "(2√3, 0)"],
+          answer: "(0, 2√3) or (3, -√3)"
+        },
+        {
+          q: "Find the ratio in which the line 2x + y - 4 = 0 divides the line segment joining the points A(2, -2) and B(3, 7):",
+          options: ["2 : 9", "9 : 2", "1 : 3", "3 : 4"],
+          answer: "2 : 9"
+        },
+        {
+          q: "Assertion (A): The points A(4, 3), B(6, 4), C(5, -6), and D(-3, -7) form a parallelogram.\nReason (R): Diagonals of a parallelogram bisect each other (their midpoints coincide).",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is false, but (R) is true",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "If the points A(k + 1, 2k), B(3k, 2k + 3), and C(5k - 1, 5k) are collinear, then the value of k is:",
+          options: ["2 or -1/2", "1 or -1", "3 or -1/3", "2 only"],
+          answer: "2 or -1/2"
+        },
+        {
+          q: "If A(-2, -1), B(a, 0), C(4, b), and D(1, 2) are the vertices of a parallelogram, find the values of a and b:",
+          options: ["a = 1, b = 3", "a = 2, b = 2", "a = 3, b = 1", "a = -1, b = 3"],
+          answer: "a = 1, b = 3"
+        },
+        {
+          q: "The line segment joining the points A(3, -4) and B(1, 2) is trisected at the points P and Q. If the coordinates of P and Q are (p, -2) and (5/3, q) respectively, then:",
+          options: ["p = 7/3, q = 0", "p = 2, q = 1", "p = 8/3, q = -1", "p = 7/3, q = 1"],
+          answer: "p = 7/3, q = 0"
+        },
+        {
+          q: "Assertion (A): The distance between the points (a cos θ + b sin θ, 0) and (0, a sin θ - b cos θ) is √(a² + b²).\nReason (R): sin² θ + cos² θ = 1.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
