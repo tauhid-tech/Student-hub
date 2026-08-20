@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Science Chapter 5 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Science Chapter 5</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #10b981; margin-bottom: 4px;">Periodic Classification of Elements</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Dobereiner, Newlands, Mendeleev & Modern Law</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Periodic Trends (Radius, Valency, Metallic Character)</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Electronic Config, Anomalies & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Science Ch 5 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "Who proposed the Modern Periodic Law based on atomic numbers?",
+          options: ["Henry Moseley", "Dmitri Mendeleev", "John Newlands", "J.W. Döbereiner"],
+          answer: "Henry Moseley"
+        },
+        {
+          q: "The Modern Periodic Law states that properties of elements are a periodic function of their:",
+          options: ["Atomic numbers", "Atomic masses", "Mass numbers", "Number of neutrons"],
+          answer: "Atomic numbers"
+        },
+        {
+          q: "How many vertical columns (groups) and horizontal rows (periods) are there in the Modern Periodic Table?",
+          options: ["18 groups and 7 periods", "7 groups and 18 periods", "16 groups and 8 periods", "8 groups and 7 periods"],
+          answer: "18 groups and 7 periods"
+        },
+        {
+          q: "Mendeleev arranged elements in his periodic table on the basis of increasing:",
+          options: ["Atomic mass", "Atomic number", "Valency", "Number of electrons"],
+          answer: "Atomic mass"
+        },
+        {
+          q: "Which of the following forms a recognized Döbereiner's Triad?",
+          options: ["Li, Na, K", "Na, Mg, Al", "Fe, Co, Ni", "F, Cl, Br only partially"],
+          answer: "Li, Na, K"
+        },
+        {
+          q: "According to Newlands' Law of Octaves, properties of every eighth element resembled the properties of the first element, similar to musical notes. Up to which element was this law applicable?",
+          options: ["Calcium (Ca)", "Potassium (K)", "Cobalt (Co)", "Thorium (Th)"],
+          answer: "Calcium (Ca)"
+        },
+        {
+          q: "How many elements were known when Mendeleev started formulating his periodic table?",
+          options: ["63 elements", "56 elements", "118 elements", "30 elements"],
+          answer: "63 elements"
+        },
+        {
+          q: "What is the valency of elements belonging to Group 1 (Alkali metals)?",
+          options: ["1", "2", "7", "0"],
+          answer: "1"
+        },
+        {
+          q: "What is the valency of Noble Gases situated in Group 18?",
+          options: ["0", "8", "2", "1"],
+          answer: "0"
+        },
+        {
+          q: "Elements belonging to the same group have the same number of:",
+          options: ["Valence electrons", "Shells", "Atomic number", "Neutrons"],
+          answer: "Valence electrons"
+        },
+        {
+          q: "Elements belonging to the same period have the same number of:",
+          options: ["Occupied electron shells", "Valence electrons", "Protons", "Valency"],
+          answer: "Occupied electron shells"
+        },
+        {
+          q: "Which element was later discovered and took the place of 'Eka-aluminium' predicted by Mendeleev?",
+          options: ["Gallium (Ga)", "Germanium (Ge)", "Scandium (Sc)", "Silicon (Si)"],
+          answer: "Gallium (Ga)"
+        },
+        {
+          q: "Which element was later discovered to occupy the position of 'Eka-silicon' predicted by Mendeleev?",
+          options: ["Germanium (Ge)", "Gallium (Ga)", "Scandium (Sc)", "Titanium (Ti)"],
+          answer: "Germanium (Ge)"
+        },
+        {
+          q: "As we move from left to right across a period, atomic size (atomic radius):",
+          options: ["Decreases", "Increases", "Remains unchanged", "First increases then decreases"],
+          answer: "Decreases"
+        },
+        {
+          q: "As we move down a group in the periodic table, atomic size (atomic radius):",
+          options: ["Increases", "Decreases", "Remains the same", "Becomes zero"],
+          answer: "Increases"
+        }
+      ],
+      medium: [
+        {
+          q: "Why does the atomic radius decrease as we move from left to right across a period?",
+          options: [
+            "Due to an increase in nuclear charge which pulls valence electrons closer to the nucleus",
+            "Due to the addition of new electron shells",
+            "Due to decrease in atomic mass",
+            "Due to repulsion between inner electrons"
+          ],
+          answer: "Due to an increase in nuclear charge which pulls valence electrons closer to the nucleus"
+        },
+        {
+          q: "Why does metallic character (electropositive nature) increase down a group?",
+          options: [
+            "Distance between valence electrons and nucleus increases, making it easier to lose electrons",
+            "Nuclear pull on valence electrons becomes much stronger",
+            "Number of valence electrons increases rapidly",
+            "Effective nuclear charge becomes infinite"
+          ],
+          answer: "Distance between valence electrons and nucleus increases, making it easier to lose electrons"
+        },
+        {
+          q: "An element X has atomic number 12. In which group and period does it belong?",
+          options: ["Group 2, Period 3", "Group 3, Period 2", "Group 12, Period 3", "Group 2, Period 2"],
+          answer: "Group 2, Period 3"
+        },
+        {
+          q: "An element with electronic configuration (2, 8, 7) is chemically most similar to which of the following elements?",
+          options: ["Fluorine (F, Z=9)", "Nitrogen (N, Z=7)", "Sodium (Na, Z=11)", "Argon (Ar, Z=18)"],
+          answer: "Fluorine (F, Z=9)"
+        },
+        {
+          q: "Which of the following is the correct order of increasing non-metallic character for B, C, N, F, and O across Period 2?",
+          options: ["B < C < N < O < F", "F < O < N < C < B", "B < N < C < F < O", "C < B < N < O < F"],
+          answer: "B < C < N < O < F"
+        },
+        {
+          q: "What were the formulae of oxides and hydrides used by Mendeleev as basic criteria for classification?",
+          options: ["R₂O / RH, RO / RH₂, R₂O₃ / RH₃, etc.", "Only binary halogen salts", "Only nitrates and sulphates", "Carbonates only"],
+          answer: "R₂O / RH, RO / RH₂, R₂O₃ / RH₃, etc."
+        },
+        {
+          q: "Which group of elements was missing from Mendeleev's original periodic table and was added later without disturbing the existing order?",
+          options: ["Noble gases (Group 18)", "Halogens", "Alkali metals", "Alkaline earth metals"],
+          answer: "Noble gases (Group 18)"
+        },
+        {
+          q: "Match the following historical classifications with their main limitations:\n(i) Döbereiner -> (a) Applicable only up to Calcium\n(ii) Newlands -> (b) Could identify only three triads\n(iii) Mendeleev -> (c) Anomalous position of Hydrogen and isotopes",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(c), (ii)-(a), (iii)-(b)",
+            "(i)-(b), (ii)-(c), (iii)-(a)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c)"
+        },
+        {
+          q: "Which of the following elements has the highest electro-negativity (tendency to gain electrons)?",
+          options: ["Fluorine (F)", "Chlorine (Cl)", "Oxygen (O)", "Nitrogen (N)"],
+          answer: "Fluorine (F)"
+        },
+        {
+          q: "Which of the following elements has the largest atomic size in Period 3 (Na, Mg, Al, Si, P, S, Cl)?",
+          options: ["Sodium (Na)", "Chlorine (Cl)", "Aluminium (Al)", "Silicon (Si)"],
+          answer: "Sodium (Na)"
+        },
+        {
+          q: "What is the nature of oxides formed by elements on the extreme left (metals) versus extreme right (non-metals) of the periodic table?",
+          options: [
+            "Left form Basic oxides; Right form Acidic oxides",
+            "Left form Acidic oxides; Right form Basic oxides",
+            "Both form strictly Amphoteric oxides",
+            "Left form Neutral oxides; Right form Basic oxides"
+          ],
+          answer: "Left form Basic oxides; Right form Acidic oxides"
+        },
+        {
+          q: "Which of the following elements is a Metalloid (Semi-metal) displaying properties of both metals and non-metals?",
+          options: ["Silicon (Si)", "Sodium (Na)", "Sulphur (S)", "Aluminium (Al)"],
+          answer: "Silicon (Si)"
+        },
+        {
+          q: "An element X forms a chloride with formula XCl₂ which is a solid with a high melting point. X would most likely be in the same group as:",
+          options: ["Magnesium (Mg)", "Sodium (Na)", "Aluminium (Al)", "Silicon (Si)"],
+          answer: "Magnesium (Mg)"
+        },
+        {
+          q: "How does the valency of elements vary in Period 3 from left to right?",
+          options: [
+            "Increases from 1 to 4 and then decreases to 0",
+            "Remains constant throughout",
+            "Increases continuously from 1 to 8",
+            "Decreases continuously from 8 to 0"
+          ],
+          answer: "Increases from 1 to 4 and then decreases to 0"
+        },
+        {
+          q: "Which of the following atoms has the smallest atomic radius?",
+          options: ["Helium (He)", "Lithium (Li)", "Sodium (Na)", "Potassium (K)"],
+          answer: "Helium (He)"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): Mendeleev placed Cobalt (atomic mass 58.9) before Nickel (atomic mass 58.7).\nReason (R): Mendeleev prioritized grouping elements with similar chemical properties together over strict atomic mass sequence.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Assertion (A): Position of Hydrogen in the Modern Periodic Table is unique and debated.\nReason (R): Hydrogen can lose one electron like alkali metals (Group 1) and gain one electron like halogens (Group 17).",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Consider three elements A, B, and C with atomic numbers 11, 14, and 17 respectively:\n1. Element A (Na) is a highly electropositive metal.\n2. Element B (Si) is a metalloid forming covalent bonds.\n3. Element C (Cl) is a highly electronegative non-metal.\nWhich of the above are CORRECT?",
+          options: [
+            "1, 2, and 3 (All)",
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "Why could isotopes of elements not be given separate places in Mendeleev's periodic table?",
+          options: [
+            "Isotopes have different atomic masses but identical chemical properties and atomic numbers",
+            "Isotopes are radioactive and destroy glass tables",
+            "Isotopes were discovered before Dalton's theory",
+            "Isotopes have no electrons"
+          ],
+          answer: "Isotopes have different atomic masses but identical chemical properties and atomic numbers"
+        },
+        {
+          q: "An element belongs to Period 3 and Group 16. What is its electronic configuration, valency, and non-metallic nature?",
+          options: [
+            "Config: (2, 8, 6), Valency: 2, Non-metal (Sulphur)",
+            "Config: (2, 8, 8), Valency: 0, Noble gas",
+            "Config: (2, 6), Valency: 2, Non-metal",
+            "Config: (2, 8, 3), Valency: 3, Metal"
+          ],
+          answer: "Config: (2, 8, 6), Valency: 2, Non-metal (Sulphur)"
+        },
+        {
+          q: "Assertion (A): Noble gases are placed in a separate zero group (Group 18).\nReason (R): They have completely filled outermost shells and are chemically inert under standard conditions.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Arrange the following elements in decreasing order of their metallic character: Na, Si, Cl, Mg, Al",
+          options: [
+            "Na > Mg > Al > Si > Cl",
+            "Cl > Si > Al > Mg > Na",
+            "Na > Al > Mg > Si > Cl",
+            "Mg > Na > Al > Si > Cl"
+          ],
+          answer: "Na > Mg > Al > Si > Cl"
+        },
+        {
+          q: "Which element has two shells, both of which are completely filled with electrons?",
+          options: ["Neon (2, 8)", "Argon (2, 8, 8)", "Helium (2)", "Krypton"],
+          answer: "Neon (2, 8)"
+        },
+        {
+          q: "An element X has electronic configuration (2, 8, 8, 2):\n1. It belongs to Group 2 and Period 4.\n2. Its oxide is basic in nature with formula XO.\n3. It is less reactive than Potassium (K).\nWhich statements are TRUE?",
+          options: [
+            "1, 2, and 3 (All)",
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "Assertion (A): Effective nuclear charge experienced by valence electrons increases across a period.\nReason (R): Electrons are added to the same valence shell while the number of protons in the nucleus increases by one unit with each successive element.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Match the predicted 'Eka' elements of Mendeleev with their modern discovered names:\n(i) Eka-Boron -> (a) Germanium\n(ii) Eka-Aluminium -> (b) Scandium\n(iii) Eka-Silicon -> (c) Gallium",
+          options: [
+            "(i)-(b), (ii)-(c), (iii)-(a)",
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(c), (ii)-(a), (iii)-(b)",
+            "(i)-(b), (ii)-(a), (iii)-(c)"
+          ],
+          answer: "(i)-(b), (ii)-(c), (iii)-(a)"
+        },
+        {
+          q: "What is the maximum number of electrons that can be accommodated in the nth shell of an atom according to the Bohr-Bury scheme?",
+          options: ["2n²", "n²", "2n", "8"],
+          answer: "2n²"
+        },
+        {
+          q: "Why does the second period of the periodic table contain only 8 elements?",
+          options: [
+            "The second shell (L shell) can hold a maximum of 2(2)² = 8 electrons",
+            "Because only 8 metals were known",
+            "Because atomic mass cannot exceed 20",
+            "Because Group 18 was prohibited in Period 2"
+          ],
+          answer: "The second shell (L shell) can hold a maximum of 2(2)² = 8 electrons"
+        },
+        {
+          q: "Assertion (A): Fluorine is more reactive than Chlorine, but Chlorine is more reactive than Bromine.\nReason (R): Down the halogen group (Group 17), atomic size increases and electron-gaining tendency (non-metallic reactivity) decreases.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "An element 'M' is in Group 13. What will be the chemical formula of its oxide and chloride respectively?",
+          options: ["M₂O₃ and MCl₃", "MO and MCl₂", "M₂O and MCl", "MO₂ and MCl₄"],
+          answer: "M₂O₃ and MCl₃"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
