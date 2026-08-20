@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Science Chapter 11 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Science Chapter 11</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #10b981; margin-bottom: 4px;">Human Eye and Colourful World</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Eye Anatomy, Near/Far Point & Basic Defects</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Dispersion, Rainbow Formation & Atmospheric Refraction</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Tyndall Effect, Rayleigh Scattering & Corrective Optics</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Science Ch 11 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "What is the least distance of distinct vision (near point) for a normal young human eye?",
+          options: ["25 cm", "2.5 cm", "25 m", "Infinity"],
+          answer: "25 cm"
+        },
+        {
+          q: "What is the far point of a normal human eye?",
+          options: ["Infinity", "25 m", "100 m", "1 km"],
+          answer: "Infinity"
+        },
+        {
+          q: "On which light-sensitive screen at the back of the human eye is the image formed?",
+          options: ["Retina", "Cornea", "Iris", "Pupil"],
+          answer: "Retina"
+        },
+        {
+          q: "What type of image is formed on the human retina by the eye lens?",
+          options: ["Real and inverted", "Virtual and erect", "Real and erect", "Virtual and inverted"],
+          answer: "Real and inverted"
+        },
+        {
+          q: "Which part of the eye regulates and controls the amount of light entering the eye by adjusting pupil size?",
+          options: ["Iris", "Cornea", "Ciliary muscles", "Sclera"],
+          answer: "Iris"
+        },
+        {
+          q: "The ability of the human eye lens to adjust its focal length using ciliary muscles is called:",
+          options: ["Power of Accommodation", "Persistence of Vision", "Dispersion", "Refraction"],
+          answer: "Power of Accommodation"
+        },
+        {
+          q: "Which optical defect of vision is also known as 'Near-sightedness'?",
+          options: ["Myopia", "Hypermetropia", "Presbyopia", "Astigmatism"],
+          answer: "Myopia"
+        },
+        {
+          q: "Which type of corrective lens is used to correct Myopia?",
+          options: ["Concave lens (Diverging lens)", "Convex lens", "Bifocal lens", "Cylindrical lens"],
+          answer: "Concave lens (Diverging lens)"
+        },
+        {
+          q: "Which defect of vision is known as 'Far-sightedness' where near objects cannot be seen clearly?",
+          options: ["Hypermetropia", "Myopia", "Cataract", "Glaucoma"],
+          answer: "Hypermetropia"
+        },
+        {
+          q: "Which type of corrective lens is used to correct Hypermetropia?",
+          options: ["Convex lens (Converging lens)", "Concave lens", "Bifocal lens", "Plane glass"],
+          answer: "Convex lens (Converging lens)"
+        },
+        {
+          q: "The splitting of white light into its seven constituent spectral colours when passing through a glass prism is called:",
+          options: ["Dispersion of light", "Total internal reflection", "Scattering of light", "Diffraction"],
+          answer: "Dispersion of light"
+        },
+        {
+          q: "Which colour of white light deviates the MOST when passing through a glass prism?",
+          options: ["Violet", "Red", "Green", "Yellow"],
+          answer: "Violet"
+        },
+        {
+          q: "Which colour of white light deviates the LEAST when passing through a glass prism?",
+          options: ["Red", "Violet", "Blue", "Orange"],
+          answer: "Red"
+        },
+        {
+          q: "The twinkling of stars at night is primarily caused by:",
+          options: ["Atmospheric refraction of starlight", "Dispersion by water droplets", "Scattering by dust particles", "Total internal reflection"],
+          answer: "Atmospheric refraction of starlight"
+        },
+        {
+          q: "Why does the clear sky appear blue on a sunny day?",
+          options: [
+            "Due to scattering of shorter wavelength blue light by fine atmospheric gas molecules",
+            "Due to reflection of ocean water",
+            "Due to presence of water vapour",
+            "Due to dispersion by clouds"
+          ],
+          answer: "Due to scattering of shorter wavelength blue light by fine atmospheric gas molecules"
+        }
+      ],
+      medium: [
+        {
+          q: "What causes the defect of vision known as 'Presbyopia' in elderly people?",
+          options: [
+            "Gradual weakening of ciliary muscles and diminishing flexibility of the crystalline eye lens with age",
+            "Excessive elongation of the eyeball",
+            "Clouding of the cornea",
+            "Loss of rod and cone photoreceptors"
+          ],
+          answer: "Gradual weakening of ciliary muscles and diminishing flexibility of the crystalline eye lens with age"
+        },
+        {
+          q: "Which type of lenses are prescribed to people suffering from both Myopia and Hypermetropia (Presbyopia)?",
+          options: [
+            "Bifocal lenses (Upper part concave for distant vision, lower part convex for reading)",
+            "Purely concave lenses",
+            "Purely convex lenses",
+            "Cylindrical lenses"
+          ],
+          answer: "Bifocal lenses (Upper part concave for distant vision, lower part convex for reading)"
+        },
+        {
+          q: "Where is the image of a distant object formed in an eye suffering from uncorrected Myopia?",
+          options: ["In front of the retina", "Behind the retina", "On the yellow spot", "On the blind spot"],
+          answer: "In front of the retina"
+        },
+        {
+          q: "Where is the image of a nearby object formed in an eye suffering from uncorrected Hypermetropia?",
+          options: ["Behind the retina", "In front of the retina", "On the cornea", "Inside the vitreous humour"],
+          answer: "Behind the retina"
+        },
+        {
+          q: "What optical phenomena are involved in the formation of a natural Rainbow in the sky?",
+          options: [
+            "Refraction, Dispersion, and Total Internal Reflection of sunlight by tiny suspended raindrops",
+            "Scattering and polarization only",
+            "Atmospheric refraction and diffraction",
+            "Simple reflection from clouds"
+          ],
+          answer: "Refraction, Dispersion, and Total Internal Reflection of sunlight by tiny suspended raindrops"
+        },
+        {
+          q: "Why do planets NOT twinkle at night like stars?",
+          options: [
+            "Planets are much closer to Earth and act as extended sources of light, averaging out atmospheric refractive fluctuations to zero",
+            "Planets do not reflect sunlight",
+            "Planets have their own steady light",
+            "Planets are situated outside the solar system"
+          ],
+          answer: "Planets are much closer to Earth and act as extended sources of light, averaging out atmospheric refractive fluctuations to zero"
+        },
+        {
+          q: "Due to atmospheric refraction, the Sun is visible to us about how many minutes BEFORE actual sunrise and AFTER actual sunset?",
+          options: ["2 minutes before and 2 minutes after", "4 minutes before and 4 minutes after", "1 minute before and 1 minute after", "5 minutes before and 5 minutes after"],
+          answer: "2 minutes before and 2 minutes after"
+        },
+        {
+          q: "Why are danger signal lights and rear brake lights of automobiles always painted RED?",
+          options: [
+            "Red light has the longest wavelength among visible colours and is scattered the least by fog, smoke, or dust",
+            "Red light travels faster than all colours in vacuum",
+            "Red light deviates the most in air",
+            "Red colour absorbs moisture completely"
+          ],
+          answer: "Red light has the longest wavelength among visible colours and is scattered the least by fog, smoke, or dust"
+        },
+        {
+          q: "What is the phenomenon of scattering of light by colloidal particles suspended in a medium called?",
+          options: ["Tyndall Effect", "Raman Effect", "Photoelectric Effect", "Compton Effect"],
+          answer: "Tyndall Effect"
+        },
+        {
+          q: "How would the sky appear to an astronaut in outer space or on the Moon where there is no atmosphere?",
+          options: ["Dark and black", "Deep blue", "Bright white", "Reddish orange"],
+          answer: "Dark and black"
+        },
+        {
+          q: "Who was the first scientist to use a glass prism to obtain the spectrum of sunlight?",
+          options: ["Sir Isaac Newton", "Christian Huygens", "Albert Einstein", "Thomas Young"],
+          answer: "Sir Isaac Newton"
+        },
+        {
+          q: "How did Isaac Newton prove that white light is composed of seven constituent colours?",
+          options: [
+            "By placing a second identical inverted prism in front of the dispersed spectrum to recombine the colours into white light",
+            "By passing light through oil drops",
+            "By using a magnifying glass in sunlight",
+            "By measuring shadows at noon"
+          ],
+          answer: "By placing a second identical inverted prism in front of the dispersed spectrum to recombine the colours into white light"
+        },
+        {
+          q: "What causes the Sun to appear reddish during early sunrise and late sunset?",
+          options: [
+            "Sunlight travels a longer distance through the atmosphere; shorter blue wavelengths are scattered away, leaving longer red wavelengths to reach our eyes",
+            "The Sun cools down during sunrise and sunset",
+            "Atmosphere absorbs all red light",
+            "Sun reflects the red earth surface"
+          ],
+          answer: "Sunlight travels a longer distance through the atmosphere; shorter blue wavelengths are scattered away, leaving longer red wavelengths to reach our eyes"
+        },
+        {
+          q: "What is 'Cataract' in human eyes and how is it medically treated?",
+          options: [
+            "The crystalline eye lens becomes milky and cloudy in old age; treated by surgical replacement with an artificial intraocular lens",
+            "High fluid pressure inside the eye; treated with eye drops only",
+            "Damage to the optic nerve; treated by laser alignment",
+            "Loss of cone cells; treated with spectacles"
+          ],
+          answer: "The crystalline eye lens becomes milky and cloudy in old age; treated by surgical replacement with an artificial intraocular lens"
+        },
+        {
+          q: "Which photoreceptor cells on the human retina respond to the intensity (brightness) of light and which respond to colours?",
+          options: [
+            "Rods respond to light intensity/twilight; Cones respond to colour and bright light",
+            "Cones respond to twilight; Rods respond to colour",
+            "Both rods and cones detect only white light",
+            "Ciliary muscles detect colour directly"
+          ],
+          answer: "Rods respond to light intensity/twilight; Cones respond to colour and bright light"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): A myopic person cannot see distant objects distinctly without corrective lenses.\nReason (R): In a myopic eye, the eyeball is elongated or the lens curvature is excessively high, focusing distant rays in front of the retina.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "A person with a myopic eye cannot see objects beyond 1.2 m distinctly. What should be the type and power of the corrective lens required to restore proper vision?",
+          options: [
+            "Concave lens of power -0.83 D",
+            "Convex lens of power +0.83 D",
+            "Concave lens of power -1.2 D",
+            "Convex lens of power +1.2 D"
+          ],
+          answer: "Concave lens of power -0.83 D"
+        },
+        {
+          q: "The near point of a hypermetropic eye is 1 m (100 cm). What is the power of the convex lens required to read a book held at standard 25 cm?",
+          options: ["+3.0 D", "+4.0 D", "-3.0 D", "+2.5 D"],
+          answer: "+3.0 D"
+        },
+        {
+          q: "Assertion (A): Stars appear slightly higher in the sky than their actual position.\nReason (R): Starlight entering the Earth's atmosphere continuously travels from an optically rarer layer to denser layers, bending progressively towards the normal.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "According to Rayleigh's Law of Scattering, the intensity of scattered light (I) is related to wavelength (λ) by:",
+          options: [
+            "I ∝ 1 / λ⁴",
+            "I ∝ λ⁴",
+            "I ∝ 1 / λ²",
+            "I ∝ λ²"
+          ],
+          answer: "I ∝ 1 / λ⁴"
+        },
+        {
+          q: "Assertion (A): At noon, the Sun appears white whereas during sunset it appears deep red.\nReason (R): At noon, sunlight travels a relatively shorter distance through the atmosphere, resulting in very little scattering of light colours.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "A person needs a lens of power -5.5 D for correcting his distant vision and a lens of power +1.5 D for near vision. What are the focal lengths of the lenses for distant and near vision?",
+          options: [
+            "Distant: -18.2 cm; Near: +66.7 cm",
+            "Distant: -55 cm; Near: +15 cm",
+            "Distant: +18.2 cm; Near: -66.7 cm",
+            "Distant: -10 cm; Near: +30 cm"
+          ],
+          answer: "Distant: -18.2 cm; Near: +66.7 cm"
+        },
+        {
+          q: "In a triangular glass prism, why does dispersion occur when white light passes through it?",
+          options: [
+            "Different spectral wavelengths travel with different speeds in glass and therefore undergo different angles of refraction ($n_v > n_r$)",
+            "The prism generates new colours chemically",
+            "Prism absorbs red light completely",
+            "Glass molecules emit photons of seven colours"
+          ],
+          answer: "Different spectral wavelengths travel with different speeds in glass and therefore undergo different angles of refraction ($n_v > n_r$)"
+        },
+        {
+          q: "Match the following optical phenomena with their physical explanations:\n(i) Blue sky -> (a) Rayleigh scattering of short wavelengths\n(ii) Rainbow -> (b) Dispersion and internal reflection in water droplets\n(iii) Advanced sunrise -> (c) Atmospheric refraction due to air density gradient",
+          options: [
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(c), (ii)-(a), (iii)-(b)",
+            "(i)-(a), (ii)-(c), (iii)-(b)"
+          ],
+          answer: "(i)-(a), (ii)-(b), (iii)-(c)"
+        },
+        {
+          q: "Assertion (A): A rainbow is always observed in the direction opposite to that of the Sun.\nReason (R): Water droplets act as tiny glass prisms, refracting and dispersing the incident sunlight, then reflecting it internally and finally refracting it out to the observer's eye.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Why do ciliary muscles relax when looking at distant objects, and what happens to the eye lens?",
+          options: [
+            "The lens becomes thinner and its focal length increases to focus distant parallel rays onto the retina",
+            "The lens becomes thicker and focal length decreases",
+            "The pupil dilates completely to maximum size",
+            "The cornea curves outward by 50%"
+          ],
+          answer: "The lens becomes thinner and its focal length increases to focus distant parallel rays onto the retina"
+        },
+        {
+          q: "What causes the apparent flickering of objects seen through a turbulent stream of hot air rising above a fire?",
+          options: [
+            "The refractive index of hot air is slightly less than cooler air, and the physical fluctuations in temperature cause rapid random deviations of light rays",
+            "Combustion smoke creates miniature prisms",
+            "Carbon particles absorb and emit light rhythmically",
+            "Total internal reflection inside hot air bubbles"
+          ],
+          answer: "The refractive index of hot air is slightly less than cooler air, and the physical fluctuations in temperature cause rapid random deviations of light rays"
+        },
+        {
+          q: "Assertion (A): Danger signals on communication towers and traffic lights use red light.\nReason (R): Red light has the longest wavelength among visible spectra ($~700 \\text{ nm}$) and scatters the least, ensuring maximum visibility through fog and haze.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Why does the path of a beam of light become visible when passing through a dense forest canopy or a smoke-filled room?",
+          options: [
+            "Due to the Tyndall effect where tiny suspended water droplets or smoke particles scatter the light beam into our eyes",
+            "Due to dispersion into seven spectral colours",
+            "Due to phosphorescence of leaves",
+            "Due to magnetic polarization of oxygen"
+          ],
+          answer: "Due to the Tyndall effect where tiny suspended water droplets or smoke particles scatter the light beam into our eyes"
+        },
+        {
+          q: "A person with normal vision looks at an object held closer than 25 cm from the eye. What happens?",
+          options: [
+            "The ciliary muscles cannot contract enough to increase the curvature further, causing eye strain and a blurred image",
+            "The image is formed clearly without effort",
+            "The pupil closes permanently",
+            "The focal length increases to infinity"
+          ],
+          answer: "The ciliary muscles cannot contract enough to increase the curvature further, causing eye strain and a blurred image"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
