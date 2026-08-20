@@ -3,179 +3,382 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Utility Hub - Home</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Student Hub | Practice, Tools & Timer</title>
   <style>
-    :root {
-      --bg: #0f172a;
-      --card-bg: #1e293b;
-      --card-border: #334155;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --primary: #3b82f6;
-      --accent: #10b981;
-      --radius: 18px;
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     body {
-      background-color: var(--bg);
-      color: var(--text);
+      background: #0f172a;
+      color: #f8fafc;
       min-height: 100vh;
+      padding: 24px 16px;
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: 24px 16px;
     }
 
-    .container {
+    .app-container {
       width: 100%;
-      max-width: 480px;
-      text-align: center;
-    }
-
-    .badge {
-      display: inline-block;
-      background: rgba(59, 130, 246, 0.15);
-      color: #60a5fa;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 6px 14px;
-      border-radius: 9999px;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    h1 {
-      font-size: 1.85rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 30px;
-    }
-
-    .options-grid {
+      max-width: 600px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 20px;
     }
 
-    .option-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
+    /* Top App Header */
+    .app-header {
+      text-align: center;
+      padding: 12px 0 6px 0;
+    }
+
+    .app-header h1 {
+      font-size: 24px;
+      font-weight: 800;
+      color: #38bdf8;
+      letter-spacing: -0.5px;
+    }
+
+    .app-header p {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+
+    /* Card Wrapper */
+    .section-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 20px;
       padding: 20px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    }
+
+    .section-title {
       display: flex;
       align-items: center;
-      gap: 16px;
-      text-decoration: none;
-      color: var(--text);
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .option-card:hover, .option-card:active {
-      transform: translateY(-2px);
-      border-color: var(--primary);
-      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.25);
-    }
-
-    .icon-box {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.6rem;
-      flex-shrink: 0;
-    }
-
-    .calc-icon {
-      background: rgba(59, 130, 246, 0.15);
-      border: 1px solid rgba(59, 130, 246, 0.3);
-    }
-
-    .timer-icon {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-
-    .card-info {
-      text-align: left;
-      flex: 1;
-    }
-
-    .card-title {
-      font-size: 1.1rem;
+      gap: 10px;
+      font-size: 16px;
       font-weight: 700;
-      margin-bottom: 3px;
+      color: #f8fafc;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 10px;
     }
 
-    .card-desc {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    .section-icon {
+      font-size: 20px;
     }
 
-    .arrow {
-      font-size: 1.2rem;
-      color: var(--text-muted);
+    /* SECTION 1: PRACTICE AREA */
+    .practice-banner {
+      background: linear-gradient(135deg, #1e3a8a, #0369a1);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      transition: 0.2s transform, 0.2s box-shadow;
+      border: 1px solid #38bdf8;
+    }
+
+    .practice-banner:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.25);
+    }
+
+    .practice-info h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .practice-info p {
+      font-size: 12px;
+      color: #bae6fd;
+      line-height: 1.4;
+    }
+
+    .badge-go {
+      background: #38bdf8;
+      color: #0f172a;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 8px 16px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+
+    /* SECTION 2: CALCULATOR */
+    .calc-screen {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 14px 16px;
+      text-align: right;
+      font-size: 26px;
+      font-weight: 700;
+      color: #38bdf8;
+      min-height: 58px;
+      margin-bottom: 14px;
+      overflow-x: auto;
+      word-break: break-all;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .calc-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .calc-btn:hover {
+      background: #334155;
+      border-color: #38bdf8;
+    }
+
+    .calc-btn.op {
+      background: #334155;
+      color: #38bdf8;
+      font-weight: 700;
+    }
+
+    .calc-btn.action {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border-color: #ef4444;
+    }
+
+    .calc-btn.equal {
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 800;
+      grid-column: span 2;
+    }
+
+    /* SECTION 3: TIMER */
+    .timer-display {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      font-size: 42px;
+      font-weight: 800;
+      color: #facc15;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .timer-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .timer-btn {
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .btn-start { background: #22c55e; color: #0f172a; }
+    .btn-pause { background: #eab308; color: #0f172a; }
+    .btn-reset { background: #ef4444; color: white; }
+
+    .timer-btn:hover { opacity: 0.9; }
+
+    /* FOOTER */
+    .app-footer {
+      text-align: center;
+      padding: 20px 0 10px 0;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .app-footer span {
+      color: #38bdf8;
+      font-weight: 700;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <div class="badge">Student Utility Hub</div>
-    <h1>Welcome to my Website</h1>
-    <p class="subtitle">Select a tool below to get started</p>
+  <div class="app-container">
 
-    <div class="options-grid">
-      <!-- Option 1: Calculator -->
-      <a href="calc.html" class="option-card">
-        <div class="icon-box calc-icon">📊</div>
-        <div class="card-info">
-          <div class="card-title">1. Calculator</div>
-          <div class="card-desc">Unit Test, Annual & Custom Exam Marks</div>
-        </div>
-        <div class="arrow">➔</div>
-      </a>
-
-      <!-- Option 2: Study Timer -->
-      <a href="timer.html" class="option-card">
-        <div class="icon-box timer-icon">⏱️</div>
-        <div class="card-info">
-          <div class="card-title">2. Study Timer</div>
-          <div class="card-desc">Focus Pomodoro timer with study intervals</div>
-        </div>
-        <div class="arrow">➔</div>
-      </a>
-            <!-- Option 3: Practice Arena -->
-      <a href="practice.html" class="option-card">
-        <div class="icon-box" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">📝</div>
-        <div class="card-info">
-          <div class="card-title">3. MCQ Practice Arena</div>
-          <div class="card-desc">Chapter-wise quizzes with Easy, Medium & Hard levels</div>
-        </div>
-        <div class="arrow">➔</div>
-      </a>
-      
+    <!-- App Header -->
+    <div class="app-header">
+      <h1>Student Hub</h1>
+      <p>Board Examination Preparation & Utility Suite</p>
     </div>
-    
+
+    <!-- 1. PRACTICE AREA -->
+    <div class="section-card">
+      <div class="section-title">
+        <span class="section-icon">🎯</span>
+        <span>1. Practice Area</span>
+      </div>
+
+      <a href="practice.html" class="practice-banner">
+        <div class="practice-info">
+          <h3>Subject Chapters & Quizzes</h3>
+          <p>45-Question Board Sets • Easy, Medium & Hard<br>Maths, Science, English & Economics</p>
+        </div>
+        <div class="badge-go">Open ➔</div>
+      </a>
+    </div>
+
+    <!-- 2. CALCULATOR -->
+    <div class="section-card">
+      <div class="section-title">
+        <span class="section-icon">🧮</span>
+        <span>2. Calculator</span>
+      </div>
+
+      <div class="calc-screen" id="calcDisplay">0</div>
+
+      <div class="calc-grid">
+        <button class="calc-btn action" onclick="clearCalc()">C</button>
+        <button class="calc-btn action" onclick="deleteLast()">⌫</button>
+        <button class="calc-btn op" onclick="pressCalc('%')">%</button>
+        <button class="calc-btn op" onclick="pressCalc('/')">÷</button>
+
+        <button class="calc-btn" onclick="pressCalc('7')">7</button>
+        <button class="calc-btn" onclick="pressCalc('8')">8</button>
+        <button class="calc-btn" onclick="pressCalc('9')">9</button>
+        <button class="calc-btn op" onclick="pressCalc('*')">×</button>
+
+        <button class="calc-btn" onclick="pressCalc('4')">4</button>
+        <button class="calc-btn" onclick="pressCalc('5')">5</button>
+        <button class="calc-btn" onclick="pressCalc('6')">6</button>
+        <button class="calc-btn op" onclick="pressCalc('-')">−</button>
+
+        <button class="calc-btn" onclick="pressCalc('1')">1</button>
+        <button class="calc-btn" onclick="pressCalc('2')">2</button>
+        <button class="calc-btn" onclick="pressCalc('3')">3</button>
+        <button class="calc-btn op" onclick="pressCalc('+')">+</button>
+
+        <button class="calc-btn" onclick="pressCalc('0')">0</button>
+        <button class="calc-btn" onclick="pressCalc('.')">.</button>
+        <button class="calc-btn equal" onclick="solveCalc()">=</button>
+      </div>
+    </div>
+
+    <!-- 3. TIMER -->
+    <div class="section-card">
+      <div class="section-title">
+        <span class="section-icon">⏱️</span>
+        <span>3. Study Focus Timer</span>
+      </div>
+
+      <div class="timer-display" id="timeDisplay">00:00:00</div>
+
+      <div class="timer-controls">
+        <button class="timer-btn btn-start" id="startBtn" onclick="startTimer()">Start</button>
+        <button class="timer-btn btn-pause" id="pauseBtn" onclick="pauseTimer()">Pause</button>
+        <button class="timer-btn btn-reset" onclick="resetTimer()">Reset</button>
+      </div>
+    </div>
+
+    <!-- FOOTER WITH CREDITS -->
+    <footer class="app-footer">
+      Made with ❤️ by <span>Tauhid</span>
+    </footer>
+
   </div>
 
+  <script>
+    /* CALCULATOR LOGIC */
+    let currentInput = "0";
+
+    function updateCalcScreen() {
+      document.getElementById("calcDisplay").textContent = currentInput;
+    }
+
+    function pressCalc(char) {
+      if (currentInput === "0" && !isNaN(char)) {
+        currentInput = char;
+      } else {
+        currentInput += char;
+      }
+      updateCalcScreen();
+    }
+
+    function clearCalc() {
+      currentInput = "0";
+      updateCalcScreen();
+    }
+
+    function deleteLast() {
+      if (currentInput.length === 1 || currentInput === "Error") {
+        currentInput = "0";
+      } else {
+        currentInput = currentInput.slice(0, -1);
+      }
+      updateCalcScreen();
+    }
+
+    function solveCalc() {
+      try {
+        const safeExpr = currentInput.replace(/÷/g, '/').replace(/×/g, '*');
+        const result = Function('"use strict";return (' + safeExpr + ')')();
+        currentInput = String(Number(result.toFixed(6)));
+      } catch (e) {
+        currentInput = "Error";
+      }
+      updateCalcScreen();
+    }
+
+    /* STUDY TIMER LOGIC */
+    let timerInterval = null;
+    let totalSeconds = 0;
+
+    function formatTime(sec) {
+      const hrs = String(Math.floor(sec / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+      const secs = String(sec % 60).padStart(2, '0');
+      return `${hrs}:${mins}:${secs}`;
+    }
+
+    function startTimer() {
+      if (timerInterval !== null) return;
+      timerInterval = setInterval(() => {
+        totalSeconds++;
+        document.getElementById("timeDisplay").textContent = formatTime(totalSeconds);
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      totalSeconds = 0;
+      document.getElementById("timeDisplay").textContent = "00:00:00";
+    }
+  </script>
 </body>
-  </html>
-  
+</html>
