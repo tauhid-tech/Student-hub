@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Science Chapter 7 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Science Chapter 7</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #10b981; margin-bottom: 4px;">Control and Coordination</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Neuron Structure, Synapse, Phytohormones & Reflex Arc</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Brain Parts, Endocrine Glands, Tropisms & Hormones</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Feedback Mechanism, Neurotransmitters & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Science Ch 7 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "What is the structural and functional unit of the human nervous system?",
+          options: ["Neuron (Nerve cell)", "Nephron", "Axon", "Cyton"],
+          answer: "Neuron (Nerve cell)"
+        },
+        {
+          q: "What is the gap between two adjacent neurons across which nerve impulses pass called?",
+          options: ["Synapse", "Axon terminal", "Dendrite", "Node of Ranvier"],
+          answer: "Synapse"
+        },
+        {
+          q: "Which plant hormone promotes cell elongation and growth towards light (phototropism)?",
+          options: ["Auxin", "Abscisic acid", "Cytokinin", "Ethylene"],
+          answer: "Auxin"
+        },
+        {
+          q: "Which plant hormone is responsible for promoting rapid cell division, especially in fruits and seeds?",
+          options: ["Cytokinin", "Auxin", "Abscisic acid", "Gibberellin"],
+          answer: "Cytokinin"
+        },
+        {
+          q: "Which plant hormone acts as a growth inhibitor and causes wilting and shedding of leaves?",
+          options: ["Abscisic Acid (ABA)", "Gibberellin", "Auxin", "Cytokinin"],
+          answer: "Abscisic Acid (ABA)"
+        },
+        {
+          q: "Which hormone is secreted by the pancreas to regulate blood glucose sugar levels?",
+          options: ["Insulin", "Thyroxine", "Adrenaline", "Growth hormone"],
+          answer: "Insulin"
+        },
+        {
+          q: "Deficiency of iodine in the diet leads to the enlargement of which gland, causing Goitre?",
+          options: ["Thyroid gland", "Pituitary gland", "Adrenal gland", "Pancreas"],
+          answer: "Thyroid gland"
+        },
+        {
+          q: "Which part of the human brain maintains posture, balance, and equilibrium of the body?",
+          options: ["Cerebellum (Hindbrain)", "Cerebrum (Forebrain)", "Medulla oblongata", "Hypothalamus"],
+          answer: "Cerebellum (Hindbrain)"
+        },
+        {
+          q: "Which part of the brain controls involuntary actions such as blood pressure, salivation, and vomiting?",
+          options: ["Medulla (Hindbrain)", "Cerebrum", "Cerebellum", "Pons"],
+          answer: "Medulla (Hindbrain)"
+        },
+        {
+          q: "Which master endocrine gland is located at the base of the brain and controls other endocrine glands?",
+          options: ["Pituitary gland", "Thyroid gland", "Adrenal gland", "Thymus"],
+          answer: "Pituitary gland"
+        },
+        {
+          q: "The emergency 'fight or flight' hormone secreted directly into the blood during stress is:",
+          options: ["Adrenaline", "Thyroxine", "Insulin", "Estrogen"],
+          answer: "Adrenaline"
+        },
+        {
+          q: "What is the direction of transmission of a nerve impulse through a neuron?",
+          options: [
+            "Dendrite → Cell body (Cyton) → Axon → Axon terminal",
+            "Axon → Cell body → Dendrite",
+            "Cell body → Dendrite → Axon",
+            "Axon terminal → Axon → Dendrite"
+          ],
+          answer: "Dendrite → Cell body (Cyton) → Axon → Axon terminal"
+        },
+        {
+          q: "Movement of sunflower towards the direction of the sun is an example of:",
+          options: ["Phototropism", "Geotropism", "Hydrotropism", "Chemotropism"],
+          answer: "Phototropism"
+        },
+        {
+          q: "Growth of pollen tubes towards ovules during fertilization in plants is an example of:",
+          options: ["Chemotropism", "Hydrotropism", "Geotropism", "Thigmotropism"],
+          answer: "Chemotropism"
+        },
+        {
+          q: "Which receptor in human sense organs is responsible for detecting taste?",
+          options: ["Gustatory receptors", "Olfactory receptors", "Photoreceptors", "Phonoreceptors"],
+          answer: "Gustatory receptors"
+        }
+      ],
+      medium: [
+        {
+          q: "What is the correct sequence of components in a standard Reflex Arc?",
+          options: [
+            "Receptor → Sensory neuron → Spinal cord (Relay neuron) → Motor neuron → Effector (Muscle)",
+            "Effector → Sensory neuron → Brain → Motor neuron → Receptor",
+            "Receptor → Motor neuron → Spinal cord → Sensory neuron → Effector",
+            "Receptor → Spinal cord → Effector → Motor neuron"
+          ],
+          answer: "Receptor → Sensory neuron → Spinal cord (Relay neuron) → Motor neuron → Effector (Muscle)"
+        },
+        {
+          q: "Why are reflex actions controlled primarily by the spinal cord rather than the brain?",
+          options: [
+            "To provide an extremely quick and automatic protective response without the delay of conscious thinking",
+            "Because the brain has no sensory nerves",
+            "Because spinal nerves are five times faster than cranial nerves",
+            "Because muscles are connected only to the spinal cord"
+          ],
+          answer: "To provide an extremely quick and automatic protective response without the delay of conscious thinking"
+        },
+        {
+          q: "How does the 'Touch-Me-Not' plant (Mimosa pudica) fold its leaves rapidly upon touching (Thigmonasty)?",
+          options: [
+            "By changing the turgor pressure and water volume in the cells of the pulvinus at leaf bases",
+            "By rapid chemical burning of leaf tissues",
+            "By directional growth towards the ground",
+            "By fast cell division in upper epidermis"
+          ],
+          answer: "By changing the turgor pressure and water volume in the cells of the pulvinus at leaf bases"
+        },
+        {
+          q: "Which part of the human brain is the main thinking part and responsible for memory, reasoning, and voluntary actions?",
+          options: ["Cerebrum (Forebrain)", "Cerebellum", "Medulla oblongata", "Pons"],
+          answer: "Cerebrum (Forebrain)"
+        },
+        {
+          q: "What protects the delicate human brain and spinal cord from mechanical shocks and injuries?",
+          options: [
+            "The cranium (skull bones) and vertebral column filled with Cerebrospinal Fluid (CSF)",
+            "Thick adipose fat layer only",
+            "Cartilage rings",
+            "Lymph fluid and ribcage"
+          ],
+          answer: "The cranium (skull bones) and vertebral column filled with Cerebrospinal Fluid (CSF)"
+        },
+        {
+          q: "Match the following Endocrine Glands with the hormones they produce:\n(i) Thyroid gland -> (a) Growth Hormone\n(ii) Pancreas -> (b) Thyroxine\n(iii) Pituitary gland -> (c) Insulin\n(iv) Adrenal gland -> (d) Adrenaline",
+          options: [
+            "(i)-(b), (ii)-(c), (iii)-(a), (iv)-(d)",
+            "(i)-(a), (ii)-(b), (iii)-(c), (iv)-(d)",
+            "(i)-(c), (ii)-(a), (iii)-(d), (iv)-(b)",
+            "(i)-(b), (ii)-(a), (iii)-(d), (iv)-(c)"
+          ],
+          answer: "(i)-(b), (ii)-(c), (iii)-(a), (iv)-(d)"
+        },
+        {
+          q: "Which male and female sex hormones are responsible for secondary sexual characteristics during puberty?",
+          options: [
+            "Male: Testosterone; Female: Estrogen & Progesterone",
+            "Male: Estrogen; Female: Testosterone",
+            "Male: Thyroxine; Female: Insulin",
+            "Male: Adrenaline; Female: Growth Hormone"
+          ],
+          answer: "Male: Testosterone; Female: Estrogen & Progesterone"
+        },
+        {
+          q: "Why is the use of iodised salt advisable in daily diet?",
+          options: [
+            "Iodine is required by the thyroid gland to synthesize thyroxine, which regulates carbohydrate, protein, and fat metabolism",
+            "Iodine improves digestive enzyme secretion in stomach",
+            "Iodine prevents tooth decay and strengthens bones",
+            "Iodine directly produces insulin in the pancreas"
+          ],
+          answer: "Iodine is required by the thyroid gland to synthesize thyroxine, which regulates carbohydrate, protein, and fat metabolism"
+        },
+        {
+          q: "What physiological changes occur in the body when adrenaline is secreted in large amounts?",
+          options: [
+            "Heart beats faster, breathing rate increases, and blood flow is diverted from skin/digestive system to skeletal muscles",
+            "Digestive enzyme secretion doubles immediately",
+            "Breathing slows down and body temperature drops",
+            "Blood pressure drops to zero"
+          ],
+          answer: "Heart beats faster, breathing rate increases, and blood flow is diverted from skin/digestive system to skeletal muscles"
+        },
+        {
+          q: "Which plant hormone was discovered in connection with the 'foolish seedling' disease (Bakanae) in rice plants?",
+          options: ["Gibberellin", "Auxin", "Cytokinin", "Abscisic acid"],
+          answer: "Gibberellin"
+        },
+        {
+          q: "Dwarfism and Gigantism in humans result due to deficiency or excess of which hormone?",
+          options: ["Growth Hormone (GH) from the Pituitary gland", "Thyroxine from Thyroid", "Insulin from Pancreas", "Testosterone from Testes"],
+          answer: "Growth Hormone (GH) from the Pituitary gland"
+        },
+        {
+          q: "Downward growth of plant roots into the soil and upward growth of shoot into the air are examples of:",
+          options: [
+            "Positive Geotropism (roots) and Negative Geotropism (shoots)",
+            "Positive Hydrotropism only",
+            "Negative Phototropism only",
+            "Chemotropism and Thigmotropism"
+          ],
+          answer: "Positive Geotropism (roots) and Negative Geotropism (shoots)"
+        },
+        {
+          q: "How do tendrils of climbing plants (like pea plants) coil around a support?",
+          options: [
+            "Auxin diffuses away from the side in contact with support, causing the side away from support to grow faster and curve around it",
+            "Tendril cells produce glue-like chemicals on contact",
+            "The side touching the support grows ten times faster",
+            "Gravity pulls the tendril in a circular path"
+          ],
+          answer: "Auxin diffuses away from the side in contact with support, causing the side away from support to grow faster and curve around it"
+        },
+        {
+          q: "Which sense organ contains Olfactory receptors?",
+          options: ["Nose (detects smell)", "Tongue (detects taste)", "Ear (detects sound)", "Eye (detects vision)"],
+          answer: "Nose (detects smell)"
+        },
+        {
+          q: "What happens when an electrical nerve impulse reaches the axon terminal of a neuron at a synapse?",
+          options: [
+            "It triggers the release of neurotransmitter chemical substances that cross the synapse to generate a new electrical impulse in the next dendrite",
+            "It turns into heat energy and disappears",
+            "It bounces back to the cell body",
+            "It travels directly through copper ions"
+          ],
+          answer: "It triggers the release of neurotransmitter chemical substances that cross the synapse to generate a new electrical impulse in the next dendrite"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): Electrical impulses have limitations in coordination compared to chemical endocrine hormones.\nReason (R): Electrical impulses reach only cells connected by nervous tissue, cannot be generated continuously, while chemical messengers diffuse to all target body cells and sustain regulation.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "How does the 'Feedback Mechanism' in the human endocrine system regulate the timing and amount of insulin hormone released?",
+          options: [
+            "When blood glucose levels rise, beta cells of pancreas detect it and secrete more insulin; as glucose levels fall to normal, insulin secretion is turned down",
+            "The brain sends constant electrical sparks to the pancreas every second",
+            "Thyroxine commands the pancreas to stop insulin production permanently",
+            "Kidneys filter out all excess insulin during urination"
+          ],
+          answer: "When blood glucose levels rise, beta cells of pancreas detect it and secrete more insulin; as glucose levels fall to normal, insulin secretion is turned down"
+        },
+        {
+          q: "Assertion (A): Plant growth movements towards stimuli (tropic movements) are directional, slow, and growth-dependent.\nReason (R): Nastic movements (like dropping of leaves in Mimosa) are non-directional, rapid, and independent of growth.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Consider the following functions of the human brain parts:\n1. Cerebrum: Seat of intelligence, sensory perception, memory, and voluntary muscle movements.\n2. Cerebellum: Precision of voluntary actions and maintenance of equilibrium during walking/cycling.\n3. Medulla: Involuntary regulation of heartbeat, respiration, swallowing, and blood pressure.\nWhich of the above pairs are CORRECT?",
+          options: [
+            "1, 2, and 3 (All)",
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "Assertion (A): When growing shoot tips detect unidirectional light, auxin synthesized at the tip diffuses to the shaded side.\nReason (R): Higher auxin concentration on the shaded side stimulates cells there to elongate faster than on the lighted side, bending the stem towards light.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "What is the primary difference between a sensory neuron, a motor neuron, and a relay neuron?",
+          options: [
+            "Sensory carries impulses from receptors to spinal cord; Motor carries instructions from CNS to effectors (muscles); Relay links them within the spinal cord",
+            "Sensory neurons are found only in the heart; Motor neurons only in the eyes",
+            "Relay neurons secrete digestive juices directly into muscles",
+            "Motor neurons receive external light stimuli directly"
+          ],
+          answer: "Sensory carries impulses from receptors to spinal cord; Motor carries instructions from CNS to effectors (muscles); Relay links them within the spinal cord"
+        },
+        {
+          q: "Assertion (A): Diabetic patients are administered injections of insulin.\nReason (R): Insulin facilitates cellular uptake and glycogen conversion of blood glucose, bringing elevated hyperglycemia down to safe physiological limits.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Why can electrical impulses NOT pass directly between two neurons without chemical neurotransmitters at a synapse?",
+          options: [
+            "Because there is a microscopic physical gap (synaptic cleft) between the axon terminal of one neuron and dendrite of the next across which electricity cannot jump",
+            "Because axons are insulated by impermeable ceramic sheaths",
+            "Because electrical charges neutralize each other completely in cyton",
+            "Because dendrites possess positive voltage while axons possess negative voltage"
+          ],
+          answer: "Because there is a microscopic physical gap (synaptic cleft) between the axon terminal of one neuron and dendrite of the next across which electricity cannot jump"
+        },
+        {
+          q: "Match the following animal hormones with their target organs/effects:\n(i) Thyroxine -> (a) General body tissues (Basal metabolic rate)\n(ii) Adrenaline -> (b) Heart, diaphragm, and arterioles\n(iii) Growth Hormone -> (c) Bones and muscles (Growth)\n(iv) Testosterone -> (d) Testes and male secondary sex organs",
+          options: [
+            "(i)-(a), (ii)-(b), (iii)-(c), (iv)-(d)",
+            "(i)-(b), (ii)-(a), (iii)-(d), (iv)-(c)",
+            "(i)-(c), (ii)-(d), (iii)-(a), (iv)-(b)",
+            "(i)-(a), (ii)-(c), (iii)-(b), (iv)-(d)"
+          ],
+          answer: "(i)-(a), (ii)-(b), (iii)-(c), (iv)-(d)"
+        },
+        {
+          q: "Consider how information travels across a reflex arc during touching a hot pan:\n1. Heat is detected by thermoreceptors in skin.\n2. Sensory neuron transmits impulse to spinal cord.\n3. Relay neuron transfers impulse to motor neuron.\n4. Motor neuron triggers bicep arm muscle effector to contract and withdraw hand.\nWhat is the correct sequential order of events?",
+          options: [
+            "1 → 2 → 3 → 4",
+            "2 → 1 → 4 → 3",
+            "1 → 3 → 2 → 4",
+            "4 → 3 → 2 → 1"
+          ],
+          answer: "1 → 2 → 3 → 4"
+        },
+        {
+          q: "Assertion (A): Damage to the Medulla oblongata in the hindbrain can lead to instant death.\nReason (R): Medulla oblongata contains the vital autonomous centers regulating heartbeat, blood pressure, and rhythmic pulmonary respiration.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Which plant hormone is a gaseous compound that promotes fruit ripening and causes shedding of aging organs?",
+          options: ["Ethylene", "Auxin", "Cytokinin", "Gibberellin"],
+          answer: "Ethylene"
+        },
+        {
+          q: "How does a neuron convert a chemical signal received at its dendrite into an electrical impulse?",
+          options: [
+            "Chemical neurotransmitters bind to membrane receptors on the dendrite, triggering ionic permeability changes ($Na^+/K^+$ influx) that generate an action potential",
+            "The dendrite creates nuclear fission reactions",
+            "Dendrites heat up and create static electricity",
+            "Chemicals are converted into liquid blood in the cell body"
+          ],
+          answer: "Chemical neurotransmitters bind to membrane receptors on the dendrite, triggering ionic permeability changes ($Na^+/K^+$ influx) that generate an action potential"
+        },
+        {
+          q: "Assertion (A): Plants lack a nervous system and specialized muscle proteins, yet they exhibit precise coordinated responses.\nReason (R): Plants use phytohormones for chemical coordination and alter cellular water amounts to change cell shape and turgidity for movement.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "A person walking drunkenly swaggers and fails to touch his nose with his finger. Which part of the brain is temporarily incapacitated by high alcohol concentration?",
+          options: ["Cerebellum", "Cerebrum", "Medulla", "Spinal cord"],
+          answer: "Cerebellum"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
