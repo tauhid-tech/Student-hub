@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Science Chapter 9 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Science Chapter 9</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #10b981; margin-bottom: 4px;">Heredity and Evolution</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Mendel's Laws, Phenotype vs Genotype & Sex Determination</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Dihybrid Cross, Homologous Organs & Speciation</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Genetic Drift, Natural Selection & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Science Ch 9 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "Who is known as the 'Father of Genetics'?",
+          options: ["Gregor Johann Mendel", "Charles Darwin", "Jean-Baptiste Lamarck", "Hugo de Vries"],
+          answer: "Gregor Johann Mendel"
+        },
+        {
+          q: "Which plant was selected by Mendel for his classic hybridization experiments?",
+          options: ["Garden Pea (Pisum sativum)", "Sweet Pea (Lathyrus odoratus)", "Mustard plant", "Sunflower plant"],
+          answer: "Garden Pea (Pisum sativum)"
+        },
+        {
+          q: "What is the phenotypic ratio in the F2 generation of a typical Mendelian monohybrid cross?",
+          options: ["3 : 1 (Dominant : Recessive)", "1 : 2 : 1", "9 : 3 : 3 : 1", "2 : 1"],
+          answer: "3 : 1 (Dominant : Recessive)"
+        },
+        {
+          q: "What is the genotypic ratio in the F2 generation of a Mendelian monohybrid cross (TT : Tt : tt)?",
+          options: ["1 : 2 : 1", "3 : 1", "9 : 3 : 3 : 1", "1 : 1 : 1 : 1"],
+          answer: "1 : 2 : 1"
+        },
+        {
+          q: "How many pairs of contrasting characters in garden pea were studied by Mendel?",
+          options: ["7 pairs", "5 pairs", "9 pairs", "14 pairs"],
+          answer: "7 pairs"
+        },
+        {
+          q: "How many pairs of chromosomes are present in a normal human body cell?",
+          options: ["23 pairs (46 chromosomes)", "22 pairs (44 chromosomes)", "24 pairs (48 chromosomes)", "46 pairs (92 chromosomes)"],
+          answer: "23 pairs (46 chromosomes)"
+        },
+        {
+          q: "What are the sex chromosomes present in a human male and human female respectively?",
+          options: ["Male: XY; Female: XX", "Male: XX; Female: XY", "Male: YY; Female: XX", "Male: XO; Female: XX"],
+          answer: "Male: XY; Female: XX"
+        },
+        {
+          q: "Who determines the genetic sex of a newborn child in humans?",
+          options: [
+            "The father (via X or Y sperm)",
+            "The mother (always contributes X)",
+            "Environmental temperature",
+            "Nutritional health of mother"
+          ],
+          answer: "The father (via X or Y sperm)"
+        },
+        {
+          q: "What is the phenotypic ratio obtained in the F2 generation of a Mendelian dihybrid cross?",
+          options: ["9 : 3 : 3 : 1", "3 : 1", "1 : 2 : 1", "12 : 3 : 1"],
+          answer: "9 : 3 : 3 : 1"
+        },
+        {
+          q: "Organs which have similar basic structural plan and embryonic origin but perform different functions are called:",
+          options: ["Homologous organs", "Analogous organs", "Vestigial organs", "Fossils"],
+          answer: "Homologous organs"
+        },
+        {
+          q: "Organs which perform similar functions but have different basic structural design and origin are called:",
+          options: ["Analogous organs", "Homologous organs", "Rudimentary organs", "Atavistic organs"],
+          answer: "Analogous organs"
+        },
+        {
+          q: "The wings of a bat and the wings of a bird are classic examples of:",
+          options: ["Analogous organs", "Homologous organs", "Vestigial organs", "Ancestral organs"],
+          answer: "Analogous organs"
+        },
+        {
+          q: "The forelimbs of a human, flippers of a whale, and wings of a bat are examples of:",
+          options: ["Homologous organs", "Analogous organs", "Convergent evolution", "Artificial organs"],
+          answer: "Homologous organs"
+        },
+        {
+          q: "The preserved remains or impressions of prehistoric organisms found embedded inside sedimentary rocks are called:",
+          options: ["Fossils", "Analogues", "Chromosomes", "Gametes"],
+          answer: "Fossils"
+        },
+        {
+          q: "Who authored the world-renowned evolutionary treatise 'The Origin of Species' by means of Natural Selection?",
+          options: ["Charles Darwin", "Gregor Mendel", "J.B.S. Haldane", "Stanley Miller"],
+          answer: "Charles Darwin"
+        }
+      ],
+      medium: [
+        {
+          q: "A cross between a pure tall pea plant (TT) and a pure dwarf pea plant (tt) results in F1 progeny that are:",
+          options: ["All tall plants with genotype Tt", "All dwarf plants with genotype tt", "50% tall and 50% dwarf", "Medium height plants"],
+          answer: "All tall plants with genotype Tt"
+        },
+        {
+          q: "Mendel's dihybrid cross between round-yellow (RRYY) and wrinkled-green (rryy) seeds demonstrated which fundamental law?",
+          options: [
+            "Law of Independent Assortment",
+            "Law of Segregation",
+            "Law of Dominance only",
+            "Theory of Acquired Characters"
+          ],
+          answer: "Law of Independent Assortment"
+        },
+        {
+          q: "Why are acquired traits (like knowledge of cycling or loss of tail in mice) NOT inherited by progeny?",
+          options: [
+            "Because changes in non-reproductive somatic tissues cannot alter the DNA sequence of germ cells (gametes)",
+            "Because acquired traits are too heavy to carry",
+            "Because acquired traits disappear during sleep",
+            "Because somatic cells do not divide"
+          ],
+          answer: "Because changes in non-reproductive somatic tissues cannot alter the DNA sequence of germ cells (gametes)"
+        },
+        {
+          q: "Which fossil organism provides evidence that birds have evolved from reptiles?",
+          options: ["Archaeopteryx", "Ammonite", "Trilobite", "Rajasaurus"],
+          answer: "Archaeopteryx"
+        },
+        {
+          q: "What scientific method is widely used to determine the exact geological age of excavated fossils?",
+          options: ["Radiocarbon Dating (Carbon-14 dating)", "X-ray Crystallography", "DNA Fingerprinting", "Paper Chromatography"],
+          answer: "Radiocarbon Dating (Carbon-14 dating)"
+        },
+        {
+          q: "The evolution of wild cabbage (Brassica oleracea) into cabbage, broccoli, cauliflower, kohlrabi, and kale is an example of:",
+          options: ["Artificial Selection (by human breeders)", "Natural Selection", "Genetic Drift", "Geographical isolation"],
+          answer: "Artificial Selection (by human breeders)"
+        },
+        {
+          q: "In some reptiles like turtles and lizards, how is sex determination of developing embryos primarily regulated?",
+          options: [
+            "Environmental temperature during egg incubation",
+            "X and Y chromosomes in sperm",
+            "Atmospheric air pressure",
+            "Salinity of coastal sand"
+          ],
+          answer: "Environmental temperature during egg incubation"
+        },
+        {
+          q: "What is 'Genetic Drift' in population genetics?",
+          options: [
+            "Random changes in allele frequencies of a small population caused solely by chance events rather than natural selection",
+            "Migration of entire herds of deer",
+            "Deliberate breeding by agricultural scientists",
+            "Loss of DNA during mitosis"
+          ],
+          answer: "Random changes in allele frequencies of a small population caused solely by chance events rather than natural selection"
+        },
+        {
+          q: "What is meant by 'Speciation'?",
+          options: [
+            "The evolutionary process by which new distinct biological species arise from existing populations",
+            "Extinction of dinosaur species",
+            "Artificial cross pollination of flowers",
+            "Accumulation of fat in animal bodies"
+          ],
+          answer: "The evolutionary process by which new distinct biological species arise from existing populations"
+        },
+        {
+          q: "In a cross between two heterozygous tall pea plants (Tt × Tt), what percentage of the offspring will be dwarf (tt)?",
+          options: ["25%", "50%", "75%", "0%"],
+          answer: "25%"
+        },
+        {
+          q: "Which of the following factors can lead to the formation of a new species (Speciation)?",
+          options: [
+            "Geographical isolation, Genetic drift, and Natural selection",
+            "Change in diet of individuals within a family",
+            "Minor sunburn variations",
+            "Exercise and physical training"
+          ],
+          answer: "Geographical isolation, Genetic drift, and Natural selection"
+        },
+        {
+          q: "Match the following fossil types with their descriptions:\n(i) Trilobite -> (a) Fossil invertebrate arthropod\n(ii) Ammonite -> (b) Fossil invertebrate mollusc with coiled shell\n(iii) Knightia -> (c) Fossil fish",
+          options: [
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(c), (ii)-(b), (iii)-(a)",
+            "(i)-(a), (ii)-(c), (iii)-(b)"
+          ],
+          answer: "(i)-(a), (ii)-(b), (iii)-(c)"
+        },
+        {
+          q: "According to modern evolutionary genetics, the earliest traces of Homo sapiens (human species) originated in:",
+          options: ["Africa", "Asia", "Europe", "Australia"],
+          answer: "Africa"
+        },
+        {
+          q: "What biochemical experiment in 1953 proved that organic molecules (amino acids) could be formed from inorganic gases in primitive Earth conditions?",
+          options: [
+            "Miller-Urey Experiment",
+            "Meselson-Stahl Experiment",
+            "Griffith's Experiment",
+            "Hershey-Chase Experiment"
+          ],
+          answer: "Miller-Urey Experiment"
+        },
+        {
+          q: "A trait in an organism is influenced by:",
+          options: [
+            "Both paternal and maternal DNA equally",
+            "Paternal DNA only",
+            "Maternal DNA only",
+            "Neither paternal nor maternal DNA"
+          ],
+          answer: "Both paternal and maternal DNA equally"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): Human children have a 50% statistical chance of being male and a 50% chance of being female.\nReason (R): Women produce only eggs with X chromosome, while men produce two equal types of sperms (50% with X and 50% with Y chromosome).",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "In a dihybrid cross between round-yellow (RRYY) and wrinkled-green (rryy) seeds, how many recombinant non-parental phenotypes appear in the F2 generation out of 16?",
+          options: [
+            "6 out of 16 (3 Round-Green + 3 Wrinkled-Yellow)",
+            "9 out of 16",
+            "1 out of 16",
+            "10 out of 16"
+          ],
+          answer: "6 out of 16 (3 Round-Green + 3 Wrinkled-Yellow)"
+        },
+        {
+          q: "Assertion (A): Evolution cannot be equated with simple progress from lower to higher forms.\nReason (R): In evolution, more complex body designs have emerged, but older and simpler designs like bacteria continue to survive successfully in diverse extreme habitats.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "A red-eyed male fly is crossed with a white-eyed female fly. If all F1 daughters have red eyes and all F1 sons have white eyes, this trait is located on:",
+          options: ["The X-chromosome (Sex-linked inheritance)", "The Y-chromosome", "Autosomes only", "Mitochondrial DNA only"],
+          answer: "The X-chromosome (Sex-linked inheritance)"
+        },
+        {
+          q: "Assertion (A): Homologous organs provide compelling evidence for Divergent Evolution.\nReason (R): Different vertebrate species inherited the same ancestral skeletal limb pattern and adapted it to diverse ecological niches (running, swimming, flying).",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "What is the proportion of pure homozygous dominant (RRYY) and pure homozygous recessive (rryy) individuals in the F2 generation of a dihybrid cross?",
+          options: ["1/16 and 1/16 respectively", "9/16 and 1/16", "3/16 and 3/16", "4/16 and 4/16"],
+          answer: "1/16 and 1/16 respectively"
+        },
+        {
+          q: "Assertion (A): Variations created during sexual reproduction are greater and provide better survival advantages during environmental changes than asexual reproduction.\nReason (R): Sexual reproduction combines genetic material from two distinct parents and involves crossing over and independent assortment during gametogenesis.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Consider Darwin's beetle thought experiment:\n1. Green beetles on green bushes survive crow predation better than red beetles (Natural Selection).\n2. An elephant stepping on bushes kills mostly red beetles by pure accident, suddenly increasing blue beetles (Genetic Drift).\n3. Beetles starved due to plant disease weigh less, but their offspring weigh normal when food returns (Non-inherited acquired trait).\nWhich of these inferences are CORRECT?",
+          options: [
+            "1, 2, and 3 (All)",
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "If a blood group 'A' man marries a blood group 'O' woman and their daughter has blood group 'O', what can be deduced about the man's genotype?",
+          options: [
+            "The man is heterozygous ($I^A i$) because the daughter received an 'i' allele from both parents",
+            "The man is homozygous ($I^A I^A$)",
+            "Blood group A is recessive to O",
+            "Blood group O cannot be inherited"
+          ],
+          answer: "The man is heterozygous ($I^A i$) because the daughter received an 'i' allele from both parents"
+        },
+        {
+          q: "Assertion (A): Analogous organs are the result of Convergent Evolution.\nReason (R): Different unrelated animal groups living in the same habitat develop similar functional adaptations (like stream-lined wings for flight in insects and birds).",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "How does molecular phylogeny (tracing evolutionary relationships by comparing DNA sequences) determine evolutionary closeness?",
+          options: [
+            "Organisms with fewer differences in their DNA sequences share a more recent common ancestor",
+            "Organisms with identical weight have identical DNA",
+            "DNA sequence remains 100% constant across all kingdoms",
+            "Fossils cannot contain any carbon"
+          ],
+          answer: "Organisms with fewer differences in their DNA sequences share a more recent common ancestor"
+        },
+        {
+          q: "In a test cross between a heterozygous tall plant (Tt) and a homozygous dwarf plant (tt), what will be the phenotypic ratio?",
+          options: ["1 : 1 (50% Tall : 50% Dwarf)", "3 : 1", "100% Tall", "100% Dwarf"],
+          answer: "1 : 1 (50% Tall : 50% Dwarf)"
+        },
+        {
+          q: "Match the artificial selection modifications from wild cabbage with the selected trait:\n(i) Short distance between leaves -> (a) Cabbage\n(ii) Arrested flower development -> (b) Broccoli\n(iii) Sterile flowers -> (c) Cauliflower\n(iv) Swollen stem parts -> (d) Kohlrabi",
+          options: [
+            "(i)-(a), (ii)-(b), (iii)-(c), (iv)-(d)",
+            "(i)-(b), (ii)-(a), (iii)-(d), (iv)-(c)",
+            "(i)-(c), (ii)-(d), (iii)-(a), (iv)-(b)",
+            "(i)-(a), (ii)-(c), (iii)-(b), (iv)-(d)"
+          ],
+          answer: "(i)-(a), (ii)-(b), (iii)-(c), (iv)-(d)"
+        },
+        {
+          q: "Assertion (A): Geographical isolation of individuals in a strictly self-pollinating plant species will NOT directly lead to speciation.\nReason (R): Self-pollination does not require transfer of pollen between distant isolated populations to reproduce.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Why did feathers, which initially evolved in dinosaurs for insulation against cold, later become adapted for flight in birds?",
+          options: [
+            "This is an example of an evolutionary adaptation where an existing feature is modified for a new functional advantage",
+            "Dinosaurs deliberately designed wings to escape mammals",
+            "Feathers are made of bone calcium",
+            "Flying requires heavy cold insulation"
+          ],
+          answer: "This is an example of an evolutionary adaptation where an existing feature is modified for a new functional advantage"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
