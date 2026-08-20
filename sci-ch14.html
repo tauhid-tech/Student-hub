@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Science Chapter 14 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Science Chapter 14</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #10b981; margin-bottom: 4px;">Sources of Energy</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Renewable vs Non-renewable, Fossil Fuels & Biogas</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Solar Cells, Thermal vs Hydro Power & Wind Energy</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Nuclear Fission/Fusion, OTEC, Geothermal & Safety</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Science Ch 14 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "What is the ultimate original source of energy for almost all renewable resources on Earth?",
+          options: ["The Sun", "The Moon", "Earth's core", "The Oceans"],
+          answer: "The Sun"
+        },
+        {
+          q: "Which of the following is a non-renewable source of energy?",
+          options: ["Coal and Petroleum", "Solar energy", "Wind energy", "Biomass energy"],
+          answer: "Coal and Petroleum"
+        },
+        {
+          q: "What is the main constituent gas present in Biogas (up to 75%)?",
+          options: ["Methane (CH₄)", "Ethane", "Carbon dioxide", "Hydrogen sulphide"],
+          answer: "Methane (CH₄)"
+        },
+        {
+          q: "Which element is primarily used as a semiconductor in making solar cells?",
+          options: ["Silicon (Si)", "Carbon (C)", "Aluminium (Al)", "Copper (Cu)"],
+          answer: "Silicon (Si)"
+        },
+        {
+          q: "Which country is known across the world as the 'Country of Winds'?",
+          options: ["Denmark", "Germany", "Netherlands", "India"],
+          answer: "Denmark"
+        },
+        {
+          q: "What is the minimum wind speed required to maintain the necessary speed of a wind turbine generator?",
+          options: ["15 km/h", "5 km/h", "25 km/h", "50 km/h"],
+          answer: "15 km/h"
+        },
+        {
+          q: "A good fuel is one which has:",
+          options: [
+            "High calorific value and proper ignition temperature with low smoke",
+            "Low calorific value and high smoke",
+            "Extremely high cost",
+            "Very high ignition temperature that is difficult to burn"
+          ],
+          answer: "High calorific value and proper ignition temperature with low smoke"
+        },
+        {
+          q: "Which gas is primarily responsible for the Greenhouse effect and global warming during the burning of fossil fuels?",
+          options: ["Carbon dioxide (CO₂)", "Oxygen (O₂)", "Nitrogen (N₂)", "Argon (Ar)"],
+          answer: "Carbon dioxide (CO₂)"
+        },
+        {
+          q: "What metal is commonly used for interconnecting individual solar cells in a solar panel?",
+          options: ["Silver (Ag)", "Iron (Fe)", "Aluminium (Al)", "Lead (Pb)"],
+          answer: "Silver (Ag)"
+        },
+        {
+          q: "In a hydroelectric power plant, which energy of stored water is ultimately converted into electrical energy?",
+          options: [
+            "Potential energy → Kinetic energy → Electrical energy",
+            "Chemical energy → Heat energy",
+            "Nuclear energy → Mechanical energy",
+            "Sound energy → Electrical energy"
+          ],
+          answer: "Potential energy → Kinetic energy → Electrical energy"
+        },
+        {
+          q: "Which device directly converts solar light energy into electricity?",
+          options: ["Solar cell (Photovoltaic cell)", "Solar cooker", "Solar water heater", "Solar furnace"],
+          answer: "Solar cell (Photovoltaic cell)"
+        },
+        {
+          q: "Why is charcoal considered a better fuel than wood?",
+          options: [
+            "It has higher heat generation efficiency and burns without smoke and flames",
+            "It burns with massive toxic smoke",
+            "It produces zero ash",
+            "It is cheaper than dry grass"
+          ],
+          answer: "It has higher heat generation efficiency and burns without smoke and flames"
+        },
+        {
+          q: "Which mirror is most suitable for use in solar cookers to concentrate sunlight at a focus?",
+          options: ["Concave mirror", "Convex mirror", "Plane mirror", "Parabolic mirror only"],
+          answer: "Concave mirror"
+        },
+        {
+          q: "CNG stands for:",
+          options: ["Compressed Natural Gas", "Combined Nitrogen Gas", "Central Natural Gas", "Carbon Neutral Gas"],
+          answer: "Compressed Natural Gas"
+        },
+        {
+          q: "LPG (Liquefied Petroleum Gas) mainly consists of which hydrocarbon?",
+          options: ["Butane", "Methane", "Hexane", "Acetylene"],
+          answer: "Butane"
+        }
+      ],
+      medium: [
+        {
+          q: "What is the role of the plane glass sheet cover placed on top of a box-type solar cooker?",
+          options: [
+            "It traps heat inside by producing the greenhouse effect, preventing heat from escaping by radiation",
+            "It reflects light out into the sky",
+            "It magnifies food particles",
+            "It allows air to circulate freely"
+          ],
+          answer: "It traps heat inside by producing the greenhouse effect, preventing heat from escaping by radiation"
+        },
+        {
+          q: "Why are thermal power plants usually situated near coal or oil fields?",
+          options: [
+            "Because transmitting electricity through cables is much more economical and efficient than transporting bulky coal by rail",
+            "Because power lines cannot cross rivers",
+            "Because water is absent in cities",
+            "Because generators make loud vibrations"
+          ],
+          answer: "Because transmitting electricity through cables is much more economical and efficient than transporting bulky coal by rail"
+        },
+        {
+          q: "What is the main environmental problem associated with large hydroelectric dams?",
+          options: [
+            "Submergence of large agricultural lands and natural ecosystems, producing greenhouse methane from submerged rotting vegetation",
+            "Depletion of the ozone layer",
+            "Immediate nuclear radiation",
+            "Permanent cooling of clouds"
+          ],
+          answer: "Submergence of large agricultural lands and natural ecosystems, producing greenhouse methane from submerged rotting vegetation"
+        },
+        {
+          q: "What happens during anaerobic decomposition in a Biogas plant digester?",
+          options: [
+            "Microorganisms break down biomass slurry in the absence of oxygen to produce biogas and rich nutrient manure",
+            "Biomass is burned with heavy oxygen",
+            "Slurry is frozen to extract alcohol",
+            "Wastes are dissolved in sulfuric acid"
+          ],
+          answer: "Microorganisms break down biomass slurry in the absence of oxygen to produce biogas and rich nutrient manure"
+        },
+        {
+          q: "What is Ocean Thermal Energy Conversion (OTEC)?",
+          options: [
+            "Harnessing the temperature difference between warm ocean surface water and cold deep water (minimum 20°C diff) to operate turbines using low boiling liquid like ammonia",
+            "Extracting heat directly from ocean volcanoes",
+            "Generating electricity from high ocean waves",
+            "Collecting tidal water behind dams"
+          ],
+          answer: "Harnessing the temperature difference between warm ocean surface water and cold deep water (minimum 20°C diff) to operate turbines using low boiling liquid like ammonia"
+        },
+        {
+          q: "What is Geothermal Energy?",
+          options: [
+            "Heat energy trapped in hot geological spots deep inside Earth's crust forming high pressure steam",
+            "Energy generated by burning garden soil",
+            "Radiation absorbed by rocks from the Sun",
+            "Chemical energy in volcanic minerals"
+          ],
+          answer: "Heat energy trapped in hot geological spots deep inside Earth's crust forming high pressure steam"
+        },
+        {
+          q: "A typical single silicon solar cell of dimensions 2 cm × 2 cm produces a voltage and power of approximately:",
+          options: ["0.5 - 1.0 V and about 0.7 W of electricity", "12 V and 100 W", "220 V and 500 W", "5.0 V and 10 W"],
+          answer: "0.5 - 1.0 V and about 0.7 W of electricity"
+        },
+        {
+          q: "Which of the following energy sources is NOT derived indirectly or directly from the Sun's energy?",
+          options: ["Nuclear energy and Geothermal energy", "Biomass energy", "Wind energy", "Fossil fuel energy"],
+          answer: "Nuclear energy and Geothermal energy"
+        },
+        {
+          q: "What is a major limitation of a Wind Energy Farm?",
+          options: [
+            "It requires huge land area (about 2 hectares per 1 MW) and needs high initial capital setup and wind speed > 15 km/h",
+            "It emits massive greenhouse gases",
+            "It contaminates groundwater aquifers",
+            "It operates only during night hours"
+          ],
+          answer: "It requires huge land area (about 2 hectares per 1 MW) and needs high initial capital setup and wind speed > 15 km/h"
+        },
+        {
+          q: "Why is the interior of a solar cooker box painted matte black?",
+          options: [
+            "Black surfaces are the best absorbers of radiant heat energy",
+            "Black color reflects sunlight at 90°",
+            "It protects the wood from termites",
+            "Black paint generates electric current"
+          ],
+          answer: "Black surfaces are the best absorbers of radiant heat energy"
+        },
+        {
+          q: "What is the residue left behind in the biogas plant digester used for?",
+          options: [
+            "An excellent manure rich in nitrogen and phosphorus",
+            "Making building concrete blocks",
+            "Fuel for cars",
+            "Purifying drinking water"
+          ],
+          answer: "An excellent manure rich in nitrogen and phosphorus"
+        },
+        {
+          q: "Tidal energy is harnessed by constructing a dam across:",
+          options: ["A narrow opening of the sea", "A deep ocean trench", "A mountain river gorge", "An inland lake"],
+          answer: "A narrow opening of the sea"
+        },
+        {
+          q: "Which radioactive isotope is commonly used as a fuel in nuclear fission power reactors?",
+          options: ["Uranium-235 (U-235)", "Carbon-14", "Cobalt-60", "Hydrogen-1"],
+          answer: "Uranium-235 (U-235)"
+        },
+        {
+          q: "What is the primary advantage of nuclear energy over burning fossil fuels?",
+          options: [
+            "Tremendous amount of energy released per unit mass with zero greenhouse carbon emissions during operation",
+            "No radioactive waste generation",
+            "Cheap zero setup cost",
+            "Unlimited free fuel found in normal soil"
+          ],
+          answer: "Tremendous amount of energy released per unit mass with zero greenhouse carbon emissions during operation"
+        },
+        {
+          q: "Which two countries have successfully tapped significant commercial Geothermal power plants?",
+          options: ["New Zealand and United States of America (USA)", "Egypt and Sudan", "Brazil and Argentina", "Norway and Sweden"],
+          answer: "New Zealand and United States of America (USA)"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): Nuclear Fusion reactions produce much more energy per unit mass than Nuclear Fission.\nReason (R): In nuclear fusion, lighter nuclei (like Deuterium/Tritium) combine under extreme temperatures and pressures ($10^7 \\text{ K}$) to form a heavier nucleus with massive mass defect ($\Delta E = \Delta m c^2$).",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "What is the major safety and environmental hazard associated with the generation of Nuclear Electricity?",
+          options: [
+            "Safe disposal and storage of spent radioactive fuel which emits lethal ionizing radiations for thousands of years, and risk of accidental leakage",
+            "Depletion of atmospheric nitrogen",
+            "Massive smoke and sulfur dioxide emission",
+            "Formation of acid clouds"
+          ],
+          answer: "Safe disposal and storage of spent radioactive fuel which emits lethal ionizing radiations for thousands of years, and risk of accidental leakage"
+        },
+        {
+          q: "Assertion (A): Hydrogen is an extremely clean fuel with highest calorific value, yet it is not widely used in domestic households.\nReason (R): Hydrogen gas is highly explosive, difficult to compress safely, and expensive to transport and store.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Consider the following regarding Ocean Thermal Energy Conversion (OTEC):\n1. It requires a minimum temperature difference of 20°C between surface water and water at 2 km depth.\n2. Warm surface water boils a volatile liquid with low boiling point like liquid ammonia.\n3. The expanding vapours run the turbine of the electricity generator.\nWhich of the statements are TRUE?",
+          options: [
+            "1, 2, and 3 (All)",
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "In Einstein's mass-energy equation $\Delta E = \Delta m c^2$, if 1 atomic mass unit (1 u = $1.66 \\times 10^{-27} \\text{ kg}$) of mass is completely converted into energy, how much energy is released?",
+          options: ["931.5 MeV (approx. $1.49 \\times 10^{-10} \\text{ J}$)", "93.15 MeV", "3.0 × 10⁸ J", "1000 J"],
+          answer: "931.5 MeV (approx. $1.49 \\times 10^{-10} \\text{ J}$)"
+        },
+        {
+          q: "Assertion (A): Solar cookers cannot be used to cook food at night or on cloudy days.\nReason (R): Solar cookers depend completely on the direct absorption of radiant solar infrared rays.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Why is wave energy harnessing restricted to only a few geographical sites in the world?",
+          options: [
+            "Wave energy is commercially viable only where extraordinarily strong and continuous wind blows across the open ocean to create massive waves",
+            "Waves damage all metallic turbines due to chemical corrosion",
+            "Waves do not possess kinetic energy",
+            "Ocean water cannot be pumped"
+          ],
+          answer: "Wave energy is commercially viable only where extraordinarily strong and continuous wind blows across the open ocean to create massive waves"
+        },
+        {
+          q: "Match the energy sources with their primary physical or chemical principles:\n(i) Hydroelectric power -> (a) Gravity-driven kinetic flow of elevated water\n(ii) Solar photovoltaic -> (b) Semiconductor electron excitation by photons\n(iii) Nuclear fission -> (c) Slow neutron bombardment splitting heavy uranium nuclei",
+          options: [
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(c), (ii)-(b), (iii)-(a)",
+            "(i)-(a), (ii)-(c), (iii)-(b)"
+          ],
+          answer: "(i)-(a), (ii)-(b), (iii)-(c)"
+        },
+        {
+          q: "Assertion (A): Biogas is an ideal eco-friendly domestic fuel.\nReason (R): It burns without smoke, leaves no ash residue, has high calorific value, and prevents uncontrolled release of methane into the atmosphere.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "What role do control rods (made of Boron or Cadmium) play in a nuclear fission reactor?",
+          options: [
+            "They absorb excess neutrons to control or stop the nuclear chain reaction safely",
+            "They cool the circulating liquid water",
+            "They act as the fissile nuclear fuel",
+            "They shield the outer concrete wall from gamma rays"
+          ],
+          answer: "They absorb excess neutrons to control or stop the nuclear chain reaction safely"
+        },
+        {
+          q: "Assertion (A): No source of energy is completely pollution-free in its entire lifecycle.\nReason (R): While using solar panels is clean during operation, the mining of silicon, silver assembly, and chemical disposal create environmental impact.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "What is the primary reason why solar cell panels are still not widely adopted for domestic street lighting in rural areas?",
+          options: [
+            "High initial manufacturing cost of special grade semiconductor silicon and expensive silver interconnects",
+            "Solar cells only work in space satellites",
+            "Batteries explode under sun heat",
+            "Solar panels cannot generate DC current"
+          ],
+          answer: "High initial manufacturing cost of special grade semiconductor silicon and expensive silver interconnects"
+        },
+        {
+          q: "Which of the following is an example of an environmentally sustainable energy strategy?",
+          options: [
+            "Using energy efficient 5-star BEE appliances, public mass transit, and switching to decentralized solar/biogas",
+            "Subsidizing private diesel generators",
+            "Increasing single-use plastic packaging",
+            "Building thermal coal plants near dense cities"
+          ],
+          answer: "Using energy efficient 5-star BEE appliances, public mass transit, and switching to decentralized solar/biogas"
+        },
+        {
+          q: "Assertion (A): Heavy nuclei like Uranium-235 undergo fission when bombarded with slow-moving thermal neutrons.\nReason (R): Slow neutrons are easily captured by the nucleus, destabilizing it into barium, krypton, and 3 high-speed neutrons.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "The source of continuous stellar energy radiating from our Sun is:",
+          options: [
+            "Nuclear Fusion of hydrogen nuclei into helium nuclei at millions of degrees temperature",
+            "Nuclear Fission of heavy uranium cores",
+            "Chemical burning of compressed coal layers",
+            "Combustion of petroleum gases"
+          ],
+          answer: "Nuclear Fusion of hydrogen nuclei into helium nuclei at millions of degrees temperature"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
