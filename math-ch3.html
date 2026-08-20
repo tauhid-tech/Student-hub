@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maths Chapter 3 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Maths Chapter 3</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #a855f7; margin-bottom: 4px;">Pair of Linear Equations in Two Variables</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Consistency, Intersecting/Parallel Conditions & Graphs</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Substitution, Elimination & Value of k</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Reducible Equations, Word Problems & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Maths Ch 3 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "What is the general form of a pair of linear equations in two variables x and y?",
+          options: [
+            "a1x + b1y + c1 = 0 and a2x + b2y + c2 = 0",
+            "a1x² + b1y + c1 = 0 and a2x² + b2y + c2 = 0",
+            "ax + by = c",
+            "a1x + b1y² + c1 = 0 and a2x + b2y² + c2 = 0"
+          ],
+          answer: "a1x + b1y + c1 = 0 and a2x + b2y + c2 = 0"
+        },
+        {
+          q: "If a1/a2 ≠ b1/b2, then the pair of linear equations has:",
+          options: [
+            "A unique solution (Intersecting lines)",
+            "Infinitely many solutions (Coincident lines)",
+            "No solution (Parallel lines)",
+            "Two distinct solutions"
+          ],
+          answer: "A unique solution (Intersecting lines)"
+        },
+        {
+          q: "If a1/a2 = b1/b2 ≠ c1/c2, then the pair of linear equations represents:",
+          options: [
+            "Parallel lines (Inconsistent / No solution)",
+            "Intersecting lines (Unique solution)",
+            "Coincident lines (Dependent / Infinitely many solutions)",
+            "Perpendicular lines"
+          ],
+          answer: "Parallel lines (Inconsistent / No solution)"
+        },
+        {
+          q: "If a1/a2 = b1/b2 = c1/c2, the system of equations is:",
+          options: [
+            "Consistent with infinitely many solutions",
+            "Inconsistent with no solution",
+            "Consistent with a unique solution",
+            "Inconsistent with two solutions"
+          ],
+          answer: "Consistent with infinitely many solutions"
+        },
+        {
+          q: "Geometrically, what does the graph of every linear equation ax + by + c = 0 represent?",
+          options: ["A straight line", "A parabola", "A circle", "An ellipse"],
+          answer: "A straight line"
+        },
+        {
+          q: "The line represented by x = 4 is parallel to which axis?",
+          options: ["Y-axis", "X-axis", "Both axes", "Neither axis"],
+          answer: "Y-axis"
+        },
+        {
+          q: "The line represented by y = -3 is parallel to which axis?",
+          options: ["X-axis", "Y-axis", "Origin line", "Line y = x"],
+          answer: "X-axis"
+        },
+        {
+          q: "A pair of linear equations which has no solution is called:",
+          options: ["Inconsistent", "Consistent", "Dependent", "Coincident"],
+          answer: "Inconsistent"
+        },
+        {
+          q: "The coordinates of the origin are:",
+          options: ["(0, 0)", "(1, 1)", "(0, 1)", "(1, 0)"],
+          answer: "(0, 0)"
+        },
+        {
+          q: "If x = a and y = b is the solution of the equations x - y = 2 and x + y = 4, then the values of a and b are:",
+          options: ["a = 3, b = 1", "a = 1, b = 3", "a = 2, b = 2", "a = 4, b = 0"],
+          answer: "a = 3, b = 1"
+        },
+        {
+          q: "The solution of the pair of equations x + y = 10 and x - y = 2 is:",
+          options: ["x = 6, y = 4", "x = 5, y = 5", "x = 7, y = 3", "x = 8, y = 2"],
+          answer: "x = 6, y = 4"
+        },
+        {
+          q: "At how many points do two parallel lines intersect?",
+          options: ["0 points (Never intersect)", "1 point", "2 points", "Infinitely many points"],
+          answer: "0 points (Never intersect)"
+        },
+        {
+          q: "Which of the following is a solution to the equation 2x + 3y = 12?",
+          options: ["(3, 2)", "(2, 3)", "(0, 3)", "(3, 0)"],
+          answer: "(3, 2)"
+        },
+        {
+          q: "The lines represented by 2x + 3y = 9 and 4x + 6y = 18 are:",
+          options: ["Coincident", "Parallel", "Intersecting at one point", "Perpendicular"],
+          answer: "Coincident"
+        },
+        {
+          q: "The point of intersection of the lines x = 3 and y = -2 is:",
+          options: ["(3, -2)", "(-2, 3)", "(3, 0)", "(0, -2)"],
+          answer: "(3, -2)"
+        }
+      ],
+      medium: [
+        {
+          q: "For what value of k will the following system of linear equations have NO solution?\n3x + y = 1\n(2k - 1)x + (k - 1)y = 2k + 1",
+          options: ["k = 2", "k = 3", "k = -2", "k = 1"],
+          answer: "k = 2"
+        },
+        {
+          q: "For what value of k do the equations kx - 2y = 3 and 3x + y = 5 represent intersecting lines?",
+          options: ["k ≠ -6", "k = -6", "k = 6", "k ≠ 6"],
+          answer: "k ≠ -6"
+        },
+        {
+          q: "Find the values of k for which the system of equations has infinitely many solutions:\n2x + 3y = 7\n(k - 1)x + (k + 2)y = 3k",
+          options: ["k = 7", "k = 5", "k = 3", "k = -7"],
+          answer: "k = 7"
+        },
+        {
+          q: "The pair of equations x + 2y + 5 = 0 and -3x - 6y + 1 = 0 has:",
+          options: ["No solution", "A unique solution", "Exactly two solutions", "Infinitely many solutions"],
+          answer: "No solution"
+        },
+        {
+          q: "If 2x + 3y = 11 and 2x - 4y = -24, then the value of m in y = mx + 3 is:",
+          options: ["-1", "1", "2", "-2"],
+          answer: "-1"
+        },
+        {
+          q: "The sum of the digits of a two-digit number is 9. If 27 is added to it, the digits are reversed. The number is:",
+          options: ["36", "63", "27", "45"],
+          answer: "36"
+        },
+        {
+          q: "The father's age is 3 times the sum of the ages of his two children. After 5 years his age will be two times the sum of their ages. The age of the father is:",
+          options: ["45 years", "40 years", "50 years", "35 years"],
+          answer: "45 years"
+        },
+        {
+          q: "Solve for x and y:\n21x + 47y = 110\n47x + 21y = 162",
+          options: ["x = 3, y = 1", "x = 1, y = 3", "x = 2, y = 2", "x = 4, y = 1"],
+          answer: "x = 3, y = 1"
+        },
+        {
+          q: "The perimeter of a rectangular garden is 36 m. If its length is 4 m more than its width, find the dimensions (Length, Width):",
+          options: ["20 m, 16 m", "18 m, 14 m", "22 m, 14 m", "24 m, 12 m"],
+          answer: "20 m, 16 m"
+        },
+        {
+          q: "If the lines given by 3x + 2ky = 2 and 2x + 5y + 1 = 0 are parallel, then the value of k is:",
+          options: ["15/4", "-15/4", "4/15", "-4/15"],
+          answer: "15/4"
+        },
+        {
+          q: "Solve by elimination: 3x - 5y - 4 = 0 and 9x = 2y + 7. The value of y is:",
+          options: ["-5/13", "5/13", "-9/13", "9/13"],
+          answer: "-5/13"
+        },
+        {
+          q: "A fraction becomes 9/11 if 2 is added to both numerator and denominator. If 3 is added to both, it becomes 5/6. The fraction is:",
+          options: ["7/9", "5/9", "7/11", "3/7"],
+          answer: "7/9"
+        },
+        {
+          q: "If am ≠ bl, then the system of equations ax + by = c and lx + my = n has:",
+          options: ["A unique solution", "No solution", "Infinitely many solutions", "May or may not have a solution"],
+          answer: "A unique solution"
+        },
+        {
+          q: "5 pencils and 7 pens together cost ₹50, whereas 7 pencils and 5 pens cost ₹46. The cost of one pencil is:",
+          options: ["₹3", "₹5", "₹4", "₹2"],
+          answer: "₹3"
+        },
+        {
+          q: "The area of the triangle formed by the lines y = x, x = 6, and y = 0 is:",
+          options: ["18 sq. units", "36 sq. units", "12 sq. units", "9 sq. units"],
+          answer: "18 sq. units"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): The pair of equations 3x - 5y = 7 and 6x - 10y = 7 has no solution.\nReason (R): If a1/a2 = b1/b2 ≠ c1/c2, the lines are parallel and inconsistent.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Solve for x and y:\n2/√x + 3/√y = 2\n4/√x - 9/√y = -1",
+          options: ["x = 4, y = 9", "x = 2, y = 3", "x = 9, y = 4", "x = 1/4, y = 1/9"],
+          answer: "x = 4, y = 9"
+        },
+        {
+          q: "A boat goes 30 km upstream and 44 km downstream in 10 hours. In 13 hours, it can go 40 km upstream and 55 km downstream. What is the speed of the stream?",
+          options: ["3 km/h", "8 km/h", "5 km/h", "2 km/h"],
+          answer: "3 km/h"
+        },
+        {
+          q: "A boat goes 30 km upstream and 44 km downstream in 10 hours. In 13 hours, it goes 40 km upstream and 55 km downstream. What is the speed of the boat in still water?",
+          options: ["8 km/h", "11 km/h", "6 km/h", "10 km/h"],
+          answer: "8 km/h"
+        },
+        {
+          q: "2 women and 5 men can together finish an embroidery work in 4 days, while 3 women and 6 men can finish it in 3 days. Find the time taken by 1 woman alone to finish the work:",
+          options: ["18 days", "36 days", "24 days", "12 days"],
+          answer: "18 days"
+        },
+        {
+          q: "Solve the system of equations:\n152x - 378y = -74\n-378x + 152y = -604\nThe solution (x, y) is:",
+          options: ["(2, 1)", "(1, 2)", "(-2, 1)", "(2, -1)"],
+          answer: "(2, 1)"
+        },
+        {
+          q: "Assertion (A): The system of equations 2x + 3y = 5 and 4x + 6y = 15 has infinitely many solutions.\nReason (R): For infinitely many solutions, a1/a2 = b1/b2 = c1/c2.",
+          options: [
+            "(A) is false, but (R) is true",
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false"
+          ],
+          answer: "(A) is false, but (R) is true"
+        },
+        {
+          q: "Points A and B are 100 km apart on a highway. One car starts from A and another from B at the same time. If they travel in the same direction, they meet in 5 hours. If they travel towards each other, they meet in 1 hour. What are the speeds of the two cars?",
+          options: ["60 km/h and 40 km/h", "70 km/h and 30 km/h", "80 km/h and 20 km/h", "55 km/h and 45 km/h"],
+          answer: "60 km/h and 40 km/h"
+        },
+        {
+          q: "Solve for x and y:\nax + by = a - b\nbx - ay = a + b",
+          options: ["x = 1, y = -1", "x = -1, y = 1", "x = 1, y = 1", "x = a, y = b"],
+          answer: "x = 1, y = -1"
+        },
+        {
+          q: "The area of a rectangle gets reduced by 9 sq. units if its length is reduced by 5 units and breadth is increased by 3 units. If we increase length by 3 units and breadth by 2 units, area increases by 67 sq. units. The dimensions (Length, Breadth) are:",
+          options: ["17 units, 9 units", "15 units, 8 units", "19 units, 7 units", "21 units, 11 units"],
+          answer: "17 units, 9 units"
+        },
+        {
+          q: "Assertion (A): The line 3x + 4y = 12 cuts the coordinate axes at (4, 0) and (0, 3).\nReason (R): To find X-intercept put y = 0, and to find Y-intercept put x = 0.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "For which values of a and b does the pair of linear equations have infinitely many solutions?\n2x + 3y = 7\n(a - b)x + (a + b)y = 3a + b - 2",
+          options: ["a = 5, b = 1", "a = 1, b = 5", "a = -5, b = 1", "a = 3, b = 1"],
+          answer: "a = 5, b = 1"
+        },
+        {
+          q: "What is the area of the triangle bounded by the lines x + y = 6, y = 0, and x = 0?",
+          options: ["18 sq. units", "36 sq. units", "9 sq. units", "24 sq. units"],
+          answer: "18 sq. units"
+        },
+        {
+          q: "Solve for x and y:\n(a - b)x + (a + b)y = a² - 2ab - b²\n(a + b)(x + y) = a² + b²\nThe solution for x is:",
+          options: ["a + b", "a - b", "2ab", "a² + b²"],
+          answer: "a + b"
+        },
+        {
+          q: "Assertion (A): The pair of equations x + 2y = 3 and 2x + 4y = 6 has infinitely many solutions.\nReason (R): If a1/a2 = b1/b2 = c1/c2, the two lines coincide everywhere.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
