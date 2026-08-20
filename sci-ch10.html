@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Science Chapter 10 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Science Chapter 10</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #10b981; margin-bottom: 4px;">Light – Reflection and Refraction</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Laws of Reflection/Refraction, Mirror/Lens Types & Basics</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Mirror & Lens Formula, Magnification & Refractive Index</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Power of Lens, Ray Tracing & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Science Ch 10 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "What is the relation between the focal length (f) and the radius of curvature (R) of a spherical mirror?",
+          options: ["f = R / 2", "f = 2R", "f = R", "f = 1 / R"],
+          answer: "f = R / 2"
+        },
+        {
+          q: "Which type of mirror is commonly used as a rear-view (wing) mirror in vehicles?",
+          options: ["Convex mirror", "Concave mirror", "Plane mirror", "Parabolic mirror"],
+          answer: "Convex mirror"
+        },
+        {
+          q: "Which type of mirror is used by dentists to see larger images of teeth?",
+          options: ["Concave mirror", "Convex mirror", "Plane mirror", "Cylindrical mirror"],
+          answer: "Concave mirror"
+        },
+        {
+          q: "What is the SI unit of the Power of a lens?",
+          options: ["Dioptre (D)", "Metre (m)", "Centimetre (cm)", "Watt (W)"],
+          answer: "Dioptre (D)"
+        },
+        {
+          q: "The speed of light in vacuum is approximately equal to:",
+          options: ["3 × 10⁸ m/s", "3 × 10⁶ m/s", "3 × 10¹⁰ m/s", "3 × 10⁵ m/s"],
+          answer: "3 × 10⁸ m/s"
+        },
+        {
+          q: "What is the correct Mirror Formula relating object distance (u), image distance (v), and focal length (f)?",
+          options: ["1/v + 1/u = 1/f", "1/v - 1/u = 1/f", "1/f + 1/v = 1/u", "v + u = f"],
+          answer: "1/v + 1/u = 1/f"
+        },
+        {
+          q: "What is the correct Lens Formula relating u, v, and f?",
+          options: ["1/v - 1/u = 1/f", "1/v + 1/u = 1/f", "1/u - 1/v = 1/f", "1/f - 1/v = 1/u"],
+          answer: "1/v - 1/u = 1/f"
+        },
+        {
+          q: "According to the Law of Reflection, the angle of incidence (i) is always:",
+          options: ["Equal to the angle of reflection (r)", "Greater than the angle of reflection", "Less than the angle of reflection", "Double the angle of reflection"],
+          answer: "Equal to the angle of reflection (r)"
+        },
+        {
+          q: "A spherical mirror whose reflecting surface is curved inwards (facing towards the centre of the sphere) is called a:",
+          options: ["Concave mirror", "Convex mirror", "Plane mirror", "Biconvex mirror"],
+          answer: "Concave mirror"
+        },
+        {
+          q: "The focal length of a plane mirror is:",
+          options: ["Infinity", "Zero", "Positive 25 cm", "Negative 25 cm"],
+          answer: "Infinity"
+        },
+        {
+          q: "When a ray of light enters from an optically rarer medium into an optically denser medium, it bends:",
+          options: ["Towards the normal", "Away from the normal", "Parallel to the surface", "Straight without deviation"],
+          answer: "Towards the normal"
+        },
+        {
+          q: "What type of lens is thinner at the middle and thicker at the edges?",
+          options: ["Concave lens (Diverging lens)", "Convex lens (Converging lens)", "Plano-convex lens", "Cylindrical lens"],
+          answer: "Concave lens (Diverging lens)"
+        },
+        {
+          q: "What type of image is always formed by a concave lens for a real object?",
+          options: ["Virtual, erect, and diminished", "Real, inverted, and enlarged", "Real, inverted, and diminished", "Virtual, erect, and magnified"],
+          answer: "Virtual, erect, and diminished"
+        },
+        {
+          q: "The central point of the reflecting surface of a spherical mirror is called its:",
+          options: ["Pole (P)", "Centre of curvature (C)", "Principal focus (F)", "Aperture"],
+          answer: "Pole (P)"
+        },
+        {
+          q: "Snell's Law of Refraction is mathematically expressed as:",
+          options: ["sin i / sin r = constant (n)", "sin r / sin i = constant", "cos i / cos r = constant", "tan i / tan r = constant"],
+          answer: "sin i / sin r = constant (n)"
+        }
+      ],
+      medium: [
+        {
+          q: "Where should an object be placed in front of a concave mirror to obtain a real image of the same size as the object?",
+          options: ["At the Centre of Curvature (C)", "At the Focus (F)", "Between F and C", "Beyond C"],
+          answer: "At the Centre of Curvature (C)"
+        },
+        {
+          q: "Where should an object be placed in front of a convex lens to obtain a virtual, erect, and magnified image?",
+          options: [
+            "Between the Optical Centre (O) and Principal Focus (F1)",
+            "At Focus (F1)",
+            "At 2F1",
+            "Beyond 2F1"
+          ],
+          answer: "Between the Optical Centre (O) and Principal Focus (F1)"
+        },
+        {
+          q: "If the magnification (m) of a spherical mirror is -1, the nature and size of the image are:",
+          options: ["Real, inverted, and of same size", "Virtual, erect, and enlarged", "Real, inverted, and diminished", "Virtual, erect, and diminished"],
+          answer: "Real, inverted, and of same size"
+        },
+        {
+          q: "A convex lens of focal length 20 cm has a power of:",
+          options: ["+5.0 D", "-5.0 D", "+0.05 D", "+2.0 D"],
+          answer: "+5.0 D"
+        },
+        {
+          q: "A concave lens of focal length 50 cm has a power of:",
+          options: ["-2.0 D", "+2.0 D", "-0.5 D", "-5.0 D"],
+          answer: "-2.0 D"
+        },
+        {
+          q: "If the refractive index of glass with respect to air is 1.5 (3/2), what is the speed of light in glass?",
+          options: ["2.0 × 10⁸ m/s", "2.25 × 10⁸ m/s", "1.5 × 10⁸ m/s", "3.0 × 10⁸ m/s"],
+          answer: "2.0 × 10⁸ m/s"
+        },
+        {
+          q: "Why are convex mirrors preferred as rear-view mirrors in automobiles?",
+          options: [
+            "They always give an erect image and provide a much wider field of view because they curve outwards",
+            "They give an enlarged real image",
+            "They absorb glaring sun rays completely",
+            "They have zero focal length"
+          ],
+          answer: "They always give an erect image and provide a much wider field of view because they curve outwards"
+        },
+        {
+          q: "When a light ray passes through a rectangular glass slab, the emergent ray is:",
+          options: [
+            "Parallel to the incident ray but laterally displaced",
+            "Perpendicular to the incident ray",
+            "Deviated by an angle of 90°",
+            "Reflected back along the same path"
+          ],
+          answer: "Parallel to the incident ray but laterally displaced"
+        },
+        {
+          q: "What is the linear magnification (m) produced by a spherical mirror in terms of object distance (u) and image distance (v)?",
+          options: ["m = -v / u", "m = v / u", "m = -u / v", "m = u / v"],
+          answer: "m = -v / u"
+        },
+        {
+          q: "What is the linear magnification (m) produced by a spherical lens in terms of u and v?",
+          options: ["m = v / u", "m = -v / u", "m = u / v", "m = -u / v"],
+          answer: "m = v / u"
+        },
+        {
+          q: "If the refractive indices of medium A, B, and C are 1.33, 1.50, and 2.42 respectively, in which medium does light travel fastest?",
+          options: ["Medium A (n = 1.33)", "Medium B (n = 1.50)", "Medium C (n = 2.42)", "Same in all three"],
+          answer: "Medium A (n = 1.33)"
+        },
+        {
+          q: "Which substance has the highest optical density and refractive index (approx. 2.42) among standard materials?",
+          options: ["Diamond", "Crown glass", "Water", "Kerosene"],
+          answer: "Diamond"
+        },
+        {
+          q: "A ray of light traveling in air falls obliquely on the surface of water. The ray bends:",
+          options: ["Towards the normal because water is optically denser than air", "Away from the normal", "Does not bend", "Reflects by 180°"],
+          answer: "Towards the normal because water is optically denser than air"
+        },
+        {
+          q: "If two thin lenses of powers +3.5 D and -1.5 D are placed in contact, what is the net power of the combination?",
+          options: ["+2.0 D", "+5.0 D", "-2.0 D", "+2.5 D"],
+          answer: "+2.0 D"
+        },
+        {
+          q: "An object is placed at infinity in front of a concave mirror. Where is the image formed?",
+          options: ["At the principal focus (F)", "At the centre of curvature (C)", "Between F and C", "Behind the mirror"],
+          answer: "At the principal focus (F)"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): The focal length of a concave mirror is taken as negative, while that of a convex mirror is positive.\nReason (R): According to the New Cartesian Sign Convention, distances measured to the left of the pole (against incident light) are negative, and to the right are positive.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "A concave mirror produces three times magnified real image of an object placed at 10 cm in front of it. Where is the image located?",
+          options: ["-30 cm in front of the mirror", "+30 cm behind the mirror", "-15 cm", "+15 cm"],
+          answer: "-30 cm in front of the mirror"
+        },
+        {
+          q: "A convex lens forms a real and inverted image of a needle at a distance of 50 cm from it. If the image is of the same size as the needle, where is the needle placed and what is the power of the lens?",
+          options: [
+            "At 50 cm in front of lens, Power = +4.0 D",
+            "At 25 cm, Power = +2.0 D",
+            "At 100 cm, Power = +1.0 D",
+            "At 50 cm, Power = -4.0 D"
+          ],
+          answer: "At 50 cm in front of lens, Power = +4.0 D"
+        },
+        {
+          q: "An object 5 cm in length is held 25 cm away from a converging lens of focal length 10 cm. Find the position and nature of the image:",
+          options: [
+            "v = +16.67 cm, Real and inverted (diminished)",
+            "v = -16.67 cm, Virtual and erect",
+            "v = +25.0 cm, Real and inverted",
+            "v = +50.0 cm, Real and magnified"
+          ],
+          answer: "v = +16.67 cm, Real and inverted (diminished)"
+        },
+        {
+          q: "Assertion (A): A ray of light passing through the optical centre of a thin lens emerges without any deviation.\nReason (R): The central portion of a thin lens acts like a very thin plane glass slab with parallel faces.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "A concave lens has focal length of 15 cm. At what distance should the object from the lens be placed so that it forms an image at 10 cm from the lens?",
+          options: ["-30 cm", "-20 cm", "-15 cm", "-25 cm"],
+          answer: "-30 cm"
+        },
+        {
+          q: "Assertion (A): Optical density of a medium is not the same as its mass density.\nReason (R): Kerosene has a higher refractive index (1.44) than water (1.33) and is optically denser, although its mass density is lower than water (it floats on water).",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "If the absolute refractive index of medium 1 is n1 and medium 2 is n2, then the refractive index of medium 2 with respect to medium 1 (n21) is given by:",
+          options: ["n2 / n1 = v1 / v2", "n1 / n2 = v2 / v1", "n1 × n2", "n2 - n1"],
+          answer: "n2 / n1 = v1 / v2"
+        },
+        {
+          q: "A doctor prescribes a corrective lens of power -2.5 D. What is the focal length and type of this lens?",
+          options: [
+            "f = -40 cm, Concave (diverging) lens",
+            "f = +40 cm, Convex (converging) lens",
+            "f = -25 cm, Concave lens",
+            "f = +25 cm, Convex lens"
+          ],
+          answer: "f = -40 cm, Concave (diverging) lens"
+        },
+        {
+          q: "What happens to the focal length and nature of the image if half of a convex lens is covered with black paper?",
+          options: [
+            "The lens still forms a complete image of the object, but the brightness (intensity) of the image is reduced",
+            "Only half of the object's image will be formed",
+            "The focal length becomes zero",
+            "The image inverts and turns virtual"
+          ],
+          answer: "The lens still forms a complete image of the object, but the brightness (intensity) of the image is reduced"
+        },
+        {
+          q: "Assertion (A): A ray of light incident along the normal to the reflecting surface retraces its path (angle of reflection = 0°).\nReason (R): The angle of incidence for normal incidence is 0°, and according to the law of reflection, angle of reflection is also 0°.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Find the focal length of a convex mirror whose radius of curvature is 32 cm:",
+          options: ["+16 cm", "-16 cm", "+64 cm", "-64 cm"],
+          answer: "+16 cm"
+        },
+        {
+          q: "Under which of the following conditions can a concave mirror form a real image larger than the actual object?",
+          options: [
+            "When the object is placed between the Focus (F) and Centre of Curvature (C)",
+            "When the object is kept at a distance greater than the radius of curvature",
+            "When the object is placed at a distance less than the focal length",
+            "When the object is placed at infinity"
+          ],
+          answer: "When the object is placed between the Focus (F) and Centre of Curvature (C)"
+        },
+        {
+          q: "Assertion (A): The refractive index of any transparent medium with respect to vacuum is always greater than 1.\nReason (R): The speed of light is maximum in vacuum ($c = 3 \\times 10^8 \\text{ m/s}$) and decreases in all material media ($v < c$).",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "A student determines the focal length of a concave mirror by focusing the image of a distant tree on a screen. The distance between the screen and the mirror gives:",
+          options: ["Focal length of the mirror", "Radius of curvature", "Double the focal length", "Object distance"],
+          answer: "Focal length of the mirror"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
