@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Science Chapter 6 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">Science Chapter 6</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #10b981; margin-bottom: 4px;">Life Processes</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Nutrition, Digestive Enzymes & Basic Organs</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Respiration, Heart Blood Flow & Excretion</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Nephron Filtration, Xylem/Phloem & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">Science Ch 6 Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "What is the primary site of complete digestion of carbohydrates, proteins, and fats in the human body?",
+          options: ["Small intestine", "Stomach", "Large intestine", "Mouth cavity"],
+          answer: "Small intestine"
+        },
+        {
+          q: "Which green pigment present in chloroplasts is essential for absorbing light energy during photosynthesis?",
+          options: ["Chlorophyll", "Haemoglobin", "Xanthophyll", "Carotene"],
+          answer: "Chlorophyll"
+        },
+        {
+          q: "Which enzyme present in saliva breaks down complex starch into simple sugars?",
+          options: ["Salivary amylase (Ptyalin)", "Pepsin", "Trypsin", "Lipase"],
+          answer: "Salivary amylase (Ptyalin)"
+        },
+        {
+          q: "What are the structural and functional filtration units of the human kidney called?",
+          options: ["Nephrons", "Neurons", "Alveoli", "Villi"],
+          answer: "Nephrons"
+        },
+        {
+          q: "Which blood vessel carries oxygenated blood from the lungs back to the left atrium of the heart?",
+          options: ["Pulmonary vein", "Pulmonary artery", "Aorta", "Vena cava"],
+          answer: "Pulmonary vein"
+        },
+        {
+          q: "The tiny balloon-like structures in human lungs where gas exchange occurs are:",
+          options: ["Alveoli", "Bronchioles", "Trachea", "Nephrons"],
+          answer: "Alveoli"
+        },
+        {
+          q: "Which acid is secreted by the gastric glands in the human stomach to create an acidic medium for pepsin?",
+          options: ["Hydrochloric acid (HCl)", "Sulphuric acid (H₂SO₄)", "Nitric acid (HNO₃)", "Acetic acid"],
+          answer: "Hydrochloric acid (HCl)"
+        },
+        {
+          q: "Amoeba captures its food with the help of temporary finger-like projections called:",
+          options: ["Pseudopodia", "Cilia", "Tentacles", "Flagella"],
+          answer: "Pseudopodia"
+        },
+        {
+          q: "Which component of blood is responsible for clotting blood at the site of an injury?",
+          options: ["Blood Platelets (Thrombocytes)", "Red Blood Cells (RBCs)", "White Blood Cells (WBCs)", "Plasma"],
+          answer: "Blood Platelets (Thrombocytes)"
+        },
+        {
+          q: "What is the energy currency of the cell produced during cellular respiration?",
+          options: ["ATP (Adenosine Triphosphate)", "ADP", "DNA", "RNA"],
+          answer: "ATP (Adenosine Triphosphate)"
+        },
+        {
+          q: "Which plant vascular tissue is responsible for transporting water and dissolved minerals from roots to leaves?",
+          options: ["Xylem", "Phloem", "Parenchyma", "Collenchyma"],
+          answer: "Xylem"
+        },
+        {
+          q: "Which plant tissue transports synthesized food (soluble sucrose) from leaves to all parts of the plant?",
+          options: ["Phloem", "Xylem", "Sclerenchyma", "Epidermis"],
+          answer: "Phloem"
+        },
+        {
+          q: "The loss of water in the form of water vapour from the aerial parts of a plant is known as:",
+          options: ["Transpiration", "Translocation", "Respiration", "Guttation"],
+          answer: "Transpiration"
+        },
+        {
+          q: "What is the normal systolic and diastolic blood pressure of a healthy adult human?",
+          options: ["120 / 80 mm of Hg", "80 / 120 mm of Hg", "140 / 90 mm of Hg", "100 / 60 mm of Hg"],
+          answer: "120 / 80 mm of Hg"
+        },
+        {
+          q: "Which organ produces Bile juice stored in the gall bladder?",
+          options: ["Liver", "Pancreas", "Stomach", "Kidney"],
+          answer: "Liver"
+        }
+      ],
+      medium: [
+        {
+          q: "During vigorous muscular exercise, accumulation of which chemical causes muscle cramps due to anaerobic breakdown of pyruvate?",
+          options: ["Lactic acid", "Ethanol", "Carbon dioxide", "Uric acid"],
+          answer: "Lactic acid"
+        },
+        {
+          q: "Where does the first step of cellular respiration (breakdown of glucose into pyruvate) take place?",
+          options: ["Cytoplasm", "Mitochondria", "Nucleus", "Ribosomes"],
+          answer: "Cytoplasm"
+        },
+        {
+          q: "Where does the aerobic breakdown of pyruvate into CO₂, H₂O, and 36-38 ATP molecules take place?",
+          options: ["Mitochondria", "Cytoplasm", "Chloroplast", "Endoplasmic Reticulum"],
+          answer: "Mitochondria"
+        },
+        {
+          q: "Why do fishes have a much higher breathing rate than terrestrial animals?",
+          options: [
+            "Because the amount of dissolved oxygen in water is fairly low compared to oxygen in air",
+            "Because fishes have gills instead of lungs",
+            "Because water temperature is high",
+            "Because fishes swim continuously"
+          ],
+          answer: "Because the amount of dissolved oxygen in water is fairly low compared to oxygen in air"
+        },
+        {
+          q: "What is the function of the enzyme Trypsin present in pancreatic juice?",
+          options: [
+            "Digesting proteins into peptones and amino acids in an alkaline medium",
+            "Digesting emulsified fats into fatty acids",
+            "Breaking down starch into maltose",
+            "Neutralizing stomach hydrochloric acid"
+          ],
+          answer: "Digesting proteins into peptones and amino acids in an alkaline medium"
+        },
+        {
+          q: "What is the specific role of Bile Salts secreted by the liver in digestion?",
+          options: [
+            "Emulsifying large fat globules into tiny droplets for lipase action",
+            "Converting proteins into amino acids",
+            "Killing bacterial pathogens in saliva",
+            "Absorbing water from digested chyme"
+          ],
+          answer: "Emulsifying large fat globules into tiny droplets for lipase action"
+        },
+        {
+          q: "Which structures present on the inner lining of the small intestine increase surface area for rapid food absorption?",
+          options: ["Villi and microvilli", "Alveoli", "Cilia", "Flagella"],
+          answer: "Villi and microvilli"
+        },
+        {
+          q: "Why do ventricles of the human heart possess much thicker muscular walls than atria?",
+          options: [
+            "Because ventricles have to pump blood under high pressure to various distant body organs",
+            "Because ventricles store more oxygen",
+            "Because atria receive deoxygenated blood",
+            "Because valves are present only in ventricles"
+          ],
+          answer: "Because ventricles have to pump blood under high pressure to various distant body organs"
+        },
+        {
+          q: "Match the following excretory wastes with the organisms that excrete them:\n(i) Ammonia -> (a) Birds and Reptiles\n(ii) Urea -> (b) Aquatic Animals (Bony Fishes)\n(iii) Uric Acid -> (c) Humans and Mammals",
+          options: [
+            "(i)-(b), (ii)-(c), (iii)-(a)",
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(c), (ii)-(a), (iii)-(b)",
+            "(i)-(b), (ii)-(a), (iii)-(c)"
+          ],
+          answer: "(i)-(b), (ii)-(c), (iii)-(a)"
+        },
+        {
+          q: "What prevents the backflow of blood inside the human heart during ventricular contraction?",
+          options: ["Heart valves (Atrioventricular and Semilunar valves)", "Thick septum", "Pericardium", "Coronary arteries"],
+          answer: "Heart valves (Atrioventricular and Semilunar valves)"
+        },
+        {
+          q: "Which respiratory pigment in human blood has high affinity for oxygen to transport it throughout the body?",
+          options: ["Haemoglobin", "Chlorophyll", "Myoglobin", "Bilirubin"],
+          answer: "Haemoglobin"
+        },
+        {
+          q: "What are the opening and closing of stomatal pores on plant leaves regulated by?",
+          options: [
+            "Turgor changes in guard cells due to water flow",
+            "Photosynthetic movement of chloroplasts",
+            "Wind pressure on leaf veins",
+            "Temperature of root cells"
+          ],
+          answer: "Turgor changes in guard cells due to water flow"
+        },
+        {
+          q: "In yeast cells, anaerobic fermentation of pyruvate produces:",
+          options: ["Ethanol + CO₂ + Energy (2 ATP)", "Lactic acid + Energy", "CO₂ + H₂O + Energy", "Methanol + Energy"],
+          answer: "Ethanol + CO₂ + Energy (2 ATP)"
+        },
+        {
+          q: "What instrument is used by medical doctors to measure arterial blood pressure?",
+          options: ["Sphygmomanometer", "Stethoscope", "Barometer", "Electrocardiograph (ECG)"],
+          answer: "Sphygmomanometer"
+        },
+        {
+          q: "Which component of gastric juice protects the inner mucosal lining of the stomach from corrosion by HCl?",
+          options: ["Mucus", "Pepsin", "Gastric Lipase", "Bile"],
+          answer: "Mucus"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): Human circulatory system exhibits complete Double Circulation.\nReason (R): Blood passes through the heart twice during each complete cardiac cycle (Pulmonary and Systemic circuits), preventing mixing of oxygenated and deoxygenated blood.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Consider the events of Photosynthesis:\n1. Absorption of light energy by chlorophyll.\n2. Conversion of light energy to chemical energy and splitting of water into hydrogen and oxygen ($H_2O \\rightarrow 2H^+ + 2e^- + 1/2 O_2$).\n3. Reduction of carbon dioxide to carbohydrates.\nWhich statements are TRUE?",
+          options: [
+            "1, 2, and 3 (All)",
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "Assertion (A): Rings of cartilage are present in the human trachea and throat.\nReason (R): Cartilaginous rings ensure that the air passage does not collapse when there is less air in it.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "During urine formation in nephrons, what happens in the Bowman's capsule and Tubular part respectively?",
+          options: [
+            "Ultrafiltration of blood occurs in Bowman's capsule; Selective reabsorption of glucose, amino acids, salts & water occurs in renal tubule",
+            "Reabsorption in Bowman's capsule; Ultrafiltration in collecting duct",
+            "Complete protein excretion in Bowman's capsule",
+            "Bile pigment filtration in Henle's loop only"
+          ],
+          answer: "Ultrafiltration of blood occurs in Bowman's capsule; Selective reabsorption of glucose, amino acids, salts & water occurs in renal tubule"
+        },
+        {
+          q: "Why is energy (ATP) required for translocation in Phloem, whereas water transport in Xylem is driven mainly by physical forces?",
+          options: [
+            "Translocation in phloem is an active process loading sucrose using ATP to create osmotic pressure, whereas xylem water ascent is driven by transpiration pull and root pressure",
+            "Phloem vessels are dead while xylem vessels are living",
+            "Xylem pumps water using mechanical muscular energy",
+            "Translocation occurs only during the night"
+          ],
+          answer: "Translocation in phloem is an active process loading sucrose using ATP to create osmotic pressure, whereas xylem water ascent is driven by transpiration pull and root pressure"
+        },
+        {
+          q: "Assertion (A): Arteries have thick, elastic muscular walls without valves, whereas veins have thin walls with valves.\nReason (R): Blood flows through arteries under high fluctuating pressure directly from the heart, whereas veins carry low-pressure blood back and need valves to prevent backflow.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "In an artificial kidney (haemodialysis machine), how does the dialysing fluid differ from normal blood plasma?",
+          options: [
+            "It has the same osmotic pressure and solute concentration as normal plasma except that it is completely free from nitrogenous wastes (like urea)",
+            "It contains twice the concentration of urea",
+            "It has zero glucose and zero mineral salts",
+            "It contains concentrated hydrochloric acid"
+          ],
+          answer: "It has the same osmotic pressure and solute concentration as normal plasma except that it is completely free from nitrogenous wastes (like urea)"
+        },
+        {
+          q: "Why do desert plants (xerophytes) keep stomata closed during daytime and take up carbon dioxide at night?",
+          options: [
+            "To prevent severe transpiration water loss; they form an intermediate compound at night which is acted upon by absorbed solar energy during daytime",
+            "Because chlorophyll works only in the dark",
+            "Because desert soils have excess oxygen",
+            "Because night temperature breaks down carbon"
+          ],
+          answer: "To prevent severe transpiration water loss; they form an intermediate compound at night which is acted upon by absorbed solar energy during daytime"
+        },
+        {
+          q: "Match the digestive enzymes with their substrates and products:\n(i) Pepsin -> (a) Emulsified Fats to Fatty acids + Glycerol\n(ii) Pancreatic Lipase -> (b) Proteins to Peptones in Stomach\n(iii) Pancreatic Amylase -> (c) Starch to Maltose",
+          options: [
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(c), (ii)-(a), (iii)-(b)",
+            "(i)-(b), (ii)-(c), (iii)-(a)"
+          ],
+          answer: "(i)-(b), (ii)-(a), (iii)-(c)"
+        },
+        {
+          q: "Assertion (A): Lymph (tissue fluid) plays an essential role in human immunity and fat absorption.\nReason (R): Lymph carries digested and absorbed fats from intestines via lacteals and drains excess interstitial extracellular fluid back into major veins.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "What will happen if the platelet count in a person's blood drops critically low (e.g., in severe Dengue fever)?",
+          options: [
+            "Blood fails to clot at cuts and internal wounds, leading to dangerous uncontrolled haemorrhage",
+            "Oxygen transport will stop immediately",
+            "Urine production will double",
+            "Digestion of proteins will cease"
+          ],
+          answer: "Blood fails to clot at cuts and internal wounds, leading to dangerous uncontrolled haemorrhage"
+        },
+        {
+          q: "Consider the fate of glucose under different cellular conditions:\n1. In presence of $O_2$ in mitochondria $\\rightarrow 6CO_2 + 6H_2O + 38 ATP$.\n2. In absence of $O_2$ in yeast $\\rightarrow 2 Ethanol + 2CO_2 + 2 ATP$.\n3. In lack of $O_2$ in human muscle cells $\\rightarrow 2 Lactic Acid + 2 ATP$.\nWhich pathways are CORRECT?",
+          options: [
+            "1, 2, and 3 (All)",
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only"
+          ],
+          answer: "1, 2, and 3 (All)"
+        },
+        {
+          q: "Assertion (A): In plants, excretion is fundamentally different and simpler than in animals.\nReason (R): Plants get rid of excess water by transpiration, store waste products in cellular vacuoles, shedding leaves, or as resins and gums in old xylem.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Why is the small intestine much longer in herbivorous animals (like cows) than in carnivorous animals (like tigers)?",
+          options: [
+            "Cellulose in plants is difficult and slow to digest, requiring a longer intestinal tract with symbiotic bacteria",
+            "Herbivores eat more food per day",
+            "Meat contains more fibres than grass",
+            "Herbivores have lower body temperature"
+          ],
+          answer: "Cellulose in plants is difficult and slow to digest, requiring a longer intestinal tract with symbiotic bacteria"
+        },
+        {
+          q: "Assertion (A): Transpiration pull is the major driving force in the movement of water in xylem during daytime.\nReason (R): Evaporation of water molecules from stomatal leaf cells creates a continuous suction tension pulling water from root xylem through continuous water columns.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
