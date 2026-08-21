@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>1v1 Friends Battle | Student Hub</title>
+  <title>Live 1v1 Real-Player Battle | Student Hub</title>
+  
+  <!-- Firebase Compatibility SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -57,7 +62,20 @@
     .back-btn:hover { background: #475569; color: #fff; }
     .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
 
-    /* SUBJECT SELECTOR */
+    .input-box {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 15px;
+      margin-bottom: 16px;
+      outline: none;
+      text-align: center;
+    }
+    .input-box:focus { border-color: #38bdf8; }
+
     .section-label {
       font-size: 13px;
       font-weight: 700;
@@ -78,7 +96,7 @@
     .subject-card {
       background: #0f172a;
       border: 1px solid #334155;
-      padding: 16px 12px;
+      padding: 14px 10px;
       border-radius: 16px;
       cursor: pointer;
       display: flex;
@@ -88,39 +106,30 @@
       transition: all 0.2s;
     }
 
-    .subject-card:hover {
-      border-color: #38bdf8;
-      transform: translateY(-2px);
-    }
-
-    .subject-card.active {
-      border-color: #38bdf8;
-      background: rgba(56, 189, 248, 0.15);
-    }
-
-    .sub-icon { font-size: 26px; }
-    .sub-name { font-size: 14px; font-weight: 700; color: #f8fafc; }
+    .subject-card:hover { border-color: #38bdf8; transform: translateY(-2px); }
+    .subject-card.active { border-color: #38bdf8; background: rgba(56, 189, 248, 0.15); }
+    .sub-icon { font-size: 24px; }
+    .sub-name { font-size: 13px; font-weight: 700; color: #f8fafc; }
 
     /* MATCHMAKING RADAR */
     .radar-box {
-      margin: 30px auto;
-      width: 110px;
-      height: 110px;
+      margin: 24px auto;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       background: rgba(56, 189, 248, 0.1);
       border: 2px solid #38bdf8;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
       animation: pulse 1.5s infinite;
     }
 
-    .radar-icon { font-size: 38px; }
+    .radar-icon { font-size: 34px; }
 
     @keyframes pulse {
       0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.6); }
-      70% { box-shadow: 0 0 0 26px rgba(56, 189, 248, 0); }
+      70% { box-shadow: 0 0 0 24px rgba(56, 189, 248, 0); }
       100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
     }
 
@@ -215,6 +224,13 @@
 
     .action-btn:hover { background: #7dd3fc; }
 
+    .secondary-btn {
+      background: #334155;
+      color: #f8fafc;
+      margin-top: 10px;
+    }
+    .secondary-btn:hover { background: #475569; }
+
     .footer {
       text-align: center;
       margin-top: 20px;
@@ -230,15 +246,17 @@
 
   <div class="container">
 
-    <!-- 1. SUBJECT & MATCHMAKING VIEW -->
+    <!-- 1. MATCHMAKING SCREEN -->
     <div id="viewMatchmaking">
       <div class="header-nav">
         <a href="index.html" class="back-btn">← Home</a>
-        <div class="title">1v1 Battle Arena</div>
+        <div class="title">Live 1v1 Battle</div>
         <div style="width: 50px;"></div>
       </div>
 
-      <div class="section-label">Select Battle Subject</div>
+      <input type="text" id="playerNameInput" class="input-box" placeholder="Enter Your Name (e.g. Tauhid)" maxlength="15" />
+
+      <div class="section-label">Select Subject</div>
       <div class="subject-grid">
         <div class="subject-card active" onclick="selectSubject('science', this)">
           <span class="sub-icon">🔬</span>
@@ -252,34 +270,38 @@
           <span class="sub-icon">📖</span>
           <span class="sub-name">English</span>
         </div>
-        <div class="subject-card" onclick="selectSubject('all', this)">
-          <span class="sub-icon">🎲</span>
-          <span class="sub-name">Mixed Quiz</span>
+        <div class="subject-card" onclick="selectSubject('sst', this)">
+          <span class="sub-icon">🌍</span>
+          <span class="sub-name">SST</span>
         </div>
       </div>
 
-      <div class="radar-box">
+      <div class="radar-box" id="radarAnim" style="display: none;">
         <span class="radar-icon">⚔️</span>
       </div>
 
-      <h2 id="matchStatus" style="font-size: 17px; margin-bottom: 6px;">Ready to Battle</h2>
-      <p id="matchDetail" style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">Choose a subject and find an online opponent</p>
+      <h2 id="matchStatus" style="font-size: 16px; margin-bottom: 6px;">Ready to Battle</h2>
+      <p id="matchDetail" style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">Match with another live student online</p>
 
-      <button class="action-btn" id="startMatchBtn" onclick="findOpponent()">Find Opponent ➔</button>
+      <button class="action-btn" id="startMatchBtn" onclick="startMatchmaking()">Find Live Opponent ➔</button>
+
+      <!-- Timeout / Fallback Options -->
+      <div id="fallbackArea" style="display: none; margin-top: 15px;">
+        <button class="action-btn" style="background: #22c55e;" onclick="shareWhatsAppInvite()">📲 Invite Friend on WhatsApp</button>
+        <button class="action-btn secondary-btn" onclick="startBotMatch()">🤖 Play Practice Round</button>
+      </div>
     </div>
 
-    <!-- 2. ACTIVE 1v1 BATTLE VIEW -->
+    <!-- 2. ACTIVE LIVE BATTLE SCREEN -->
     <div id="viewBattle" style="display: none;">
-      
-      <!-- Live Scores -->
       <div class="battle-header">
         <div class="player-card">
-          <span class="player-name">👤 You</span>
-          <span class="player-score" id="userScore">0</span>
+          <span class="player-name" id="myDisplayName">You</span>
+          <span class="player-score" id="myScore">0</span>
         </div>
         <span class="vs-badge">VS</span>
         <div class="player-card">
-          <span class="player-name" id="opponentName">Opponent</span>
+          <span class="player-name" id="opponentDisplayName">Opponent</span>
           <span class="player-score opponent-score" id="opponentScore">0</span>
         </div>
       </div>
@@ -293,12 +315,12 @@
       <div class="options-group" id="optionsContainer"></div>
     </div>
 
-    <!-- 3. RESULT VIEW -->
+    <!-- 3. RESULT SCREEN -->
     <div id="viewBattleResult" style="display: none; padding: 20px 0;">
       <h1 id="resultBanner" style="font-size: 32px; margin-bottom: 10px;">🏆 VICTORY!</h1>
-      <p id="resultSummary" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You defeated your opponent!</p>
+      <p id="resultSummary" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You won the duel!</p>
       
-      <button class="action-btn" onclick="location.reload()">Battle Another Subject ⚔️</button>
+      <button class="action-btn" onclick="location.reload()">Play Another Match ⚔️</button>
     </div>
 
     <!-- Footer -->
@@ -311,107 +333,77 @@
   <script src="ads.js"></script>
 
   <script>
-    const sampleOpponents = [
-      "Aarav S. (Delhi)",
-      "Priya P. (Mumbai)",
-      "Rohit K. (Kolkata)",
-      "Ananya M. (Assam)",
-      "Sneha V. (Bangalore)",
-      "Aryan D. (Patna)"
-    ];
+    // ==========================================
+    // 1. FIREBASE INITIALIZATION (Pre-filled)
+    // ==========================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyBZl5laCFj6wA2JwZt7qmP0bwbO5xMypJk",
+      authDomain: "student-hub-c2235.firebaseapp.com",
+      databaseURL: "https://student-hub-c2235-default-rtdb.firebaseio.com",
+      projectId: "student-hub-c2235",
+      storageBucket: "student-hub-c2235.firebasestorage.app",
+      messagingSenderId: "250034335571",
+      appId: "1:250034335571:web:f14eb04595091689f27ba6",
+      measurementId: "G-SE2JY1V49V"
+    };
 
+    let db = null;
+    try {
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.database();
+    } catch (e) {
+      console.warn("Firebase initialization error:", e);
+    }
+
+    // ==========================================
+    // 2. QUESTION BANKS
+    // ==========================================
     const questionBanks = {
       science: [
-        {
-          q: "What is the main constituent gas present in Biogas (up to 75%)?",
-          options: ["Methane (CH₄)", "Ethane", "Carbon dioxide", "Hydrogen"],
-          answer: "Methane (CH₄)"
-        },
-        {
-          q: "What is the minimum wind speed required for a wind turbine generator?",
-          options: ["15 km/h", "5 km/h", "25 km/h", "50 km/h"],
-          answer: "15 km/h"
-        },
-        {
-          q: "Which element is primarily used as a semiconductor in making solar cells?",
-          options: ["Silicon (Si)", "Carbon (C)", "Aluminium (Al)", "Copper (Cu)"],
-          answer: "Silicon (Si)"
-        },
-        {
-          q: "Which mirror is used in solar cookers to concentrate sunlight at a focus point?",
-          options: ["Concave mirror", "Convex mirror", "Plane mirror", "Cylindrical mirror"],
-          answer: "Concave mirror"
-        },
-        {
-          q: "In a hydroelectric plant, which energy conversion takes place?",
-          options: ["Potential → Kinetic → Electrical", "Chemical → Heat", "Nuclear → Mechanical", "Sound → Light"],
-          answer: "Potential → Kinetic → Electrical"
-        }
+        { q: "What is the main constituent gas of Biogas (up to 75%)?", options: ["Methane (CH₄)", "Ethane", "Carbon dioxide", "Hydrogen"], answer: "Methane (CH₄)" },
+        { q: "Minimum wind speed required for a wind turbine generator?", options: ["15 km/h", "5 km/h", "25 km/h", "50 km/h"], answer: "15 km/h" },
+        { q: "Which element is used as a semiconductor in making solar cells?", options: ["Silicon (Si)", "Carbon (C)", "Aluminium (Al)", "Copper (Cu)"], answer: "Silicon (Si)" },
+        { q: "Which mirror is used in solar cookers to concentrate sunlight?", options: ["Concave mirror", "Convex mirror", "Plane mirror", "Cylindrical mirror"], answer: "Concave mirror" },
+        { q: "In a hydroelectric plant, which energy conversion takes place?", options: ["Potential → Kinetic → Electrical", "Chemical → Heat", "Nuclear → Mechanical", "Sound → Light"], answer: "Potential → Kinetic → Electrical" }
       ],
       maths: [
-        {
-          q: "What is the HCF of 135 and 225 using Euclid's Division Lemma?",
-          options: ["45", "15", "5", "9"],
-          answer: "45"
-        },
-        {
-          q: "What is the value of sin 30° + cos 60°?",
-          options: ["1", "1/2", "√3/2", "0"],
-          answer: "1"
-        },
-        {
-          q: "If the discriminant (D = b² - 4ac) of a quadratic equation is > 0, the roots are:",
-          options: ["Real and distinct", "Real and equal", "No real roots", "Imaginary only"],
-          answer: "Real and distinct"
-        },
-        {
-          q: "What is the 10th term of the AP: 2, 7, 12, ... ?",
-          options: ["47", "50", "42", "52"],
-          answer: "47"
-        },
-        {
-          q: "What is the distance between points (0, 0) and (3, 4)?",
-          options: ["5 units", "7 units", "25 units", "1 unit"],
-          answer: "5 units"
-        }
+        { q: "What is the HCF of 135 and 225?", options: ["45", "15", "5", "9"], answer: "45" },
+        { q: "What is the value of sin 30° + cos 60°?", options: ["1", "1/2", "√3/2", "0"], answer: "1" },
+        { q: "If discriminant D > 0 in ax² + bx + c = 0, roots are:", options: ["Real and distinct", "Real and equal", "No real roots", "Imaginary only"], answer: "Real and distinct" },
+        { q: "What is the 10th term of AP: 2, 7, 12, ...?", options: ["47", "50", "42", "52"], answer: "47" },
+        { q: "Distance between points (0, 0) and (3, 4) is:", options: ["5 units", "7 units", "25 units", "1 unit"], answer: "5 units" }
       ],
       english: [
-        {
-          q: "Who is the author of 'A Letter to God'?",
-          options: ["G.L. Fuentes", "Liam O'Flaherty", "Frederick Forsyth", "Roald Dahl"],
-          answer: "G.L. Fuentes"
-        },
-        {
-          q: "What did Lencho compare the big drops of rain to?",
-          options: ["Ten-cent pieces", "Five-cent pieces", "Silver coins", "Pearls"],
-          answer: "Ten-cent pieces"
-        },
-        {
-          q: "How much money was the postmaster able to send to Lencho?",
-          options: ["70 pesos", "100 pesos", "50 pesos", "75 pesos"],
-          answer: "70 pesos"
-        },
-        {
-          q: "Who was described as 'an ox of a man' in First Flight?",
-          options: ["Lencho", "The Postmaster", "The Postman", "Mijbil"],
-          answer: "Lencho"
-        },
-        {
-          q: "What did Lencho call the post office employees in his second letter?",
-          options: ["A bunch of crooks", "Kind angels", "Selfish men", "Helpers of God"],
-          answer: "A bunch of crooks"
-        }
+        { q: "Who is the author of 'A Letter to God'?", options: ["G.L. Fuentes", "Liam O'Flaherty", "Frederick Forsyth", "Roald Dahl"], answer: "G.L. Fuentes" },
+        { q: "What did Lencho compare big drops of rain to?", options: ["Ten-cent pieces", "Five-cent pieces", "Silver coins", "Pearls"], answer: "Ten-cent pieces" },
+        { q: "How much money was the postmaster able to send to Lencho?", options: ["70 pesos", "100 pesos", "50 pesos", "75 pesos"], answer: "70 pesos" },
+        { q: "Who was described as 'an ox of a man' in First Flight?", options: ["Lencho", "The Postmaster", "The Postman", "Mijbil"], answer: "Lencho" },
+        { q: "What did Lencho call the post office employees?", options: ["A bunch of crooks", "Kind angels", "Selfish men", "Helpers of God"], answer: "A bunch of crooks" }
+      ],
+      sst: [
+        { q: "Who was proclaimed King of United Italy in 1861?", options: ["Victor Emmanuel II", "Giuseppe Mazzini", "Giuseppe Garibaldi", "Count Cavour"], answer: "Victor Emmanuel II" },
+        { q: "Which soil is known as Regur soil and is ideal for cotton?", options: ["Black Soil", "Alluvial Soil", "Red Soil", "Laterite Soil"], answer: "Black Soil" },
+        { q: "Which system of power sharing is followed in Belgium?", options: ["Community Government", "Majoritarianism", "Military Rule", "Monarchy"], answer: "Community Government" },
+        { q: "What is the primary sector of Indian economy dependent on?", options: ["Agriculture & Natural resources", "Manufacturing factories", "IT & Banking", "Mining only"], answer: "Agriculture & Natural resources" },
+        { q: "In which year was MGNREGA passed by the Government of India?", options: ["2005", "2002", "2010", "2015"], answer: "2005" }
       ]
     };
 
+    // Game state variables
     let selectedSubject = 'science';
+    let myPlayerName = "Player";
+    let myPlayerId = "p_" + Math.random().toString(36).substr(2, 9);
+    let myRole = "p1"; 
+    let currentRoomId = null;
+    let roomRef = null;
+
     let activeQuestions = [];
     let currentQ = 0;
-    let userPoints = 0;
-    let opponentPoints = 0;
+    let myScoreVal = 0;
+    let opponentScoreVal = 0;
     let roundTime = 10;
     let timerInterval = null;
-    let opponentAnswerTimeout = null;
+    let searchTimeout = null;
 
     function selectSubject(sub, cardElement) {
       selectedSubject = sub;
@@ -428,39 +420,135 @@
       return arr;
     }
 
-    function findOpponent() {
-      // Build Question set
-      if (selectedSubject === 'all') {
-        activeQuestions = shuffleArray([
-          ...questionBanks.science,
-          ...questionBanks.maths,
-          ...questionBanks.english
-        ]).slice(0, 5);
-      } else {
-        activeQuestions = shuffleArray(questionBanks[selectedSubject]).slice(0, 5);
+    // ==========================================
+    // 3. REAL-TIME MATCHMAKING ENGINE
+    // ==========================================
+    function startMatchmaking() {
+      const input = document.getElementById("playerNameInput").value.trim();
+      myPlayerName = input || "Player " + Math.floor(Math.random() * 900 + 100);
+
+      document.getElementById("startMatchBtn").style.display = "none";
+      document.getElementById("radarAnim").style.display = "flex";
+      document.getElementById("matchStatus").textContent = `Looking for ${selectedSubject.toUpperCase()} Player...`;
+      document.getElementById("matchDetail").textContent = "Connecting to live matchmaking queue...";
+
+      if (!db) {
+        setTimeout(() => startBotMatch(), 3000);
+        return;
       }
 
-      const startBtn = document.getElementById("startMatchBtn");
-      startBtn.disabled = true;
-      startBtn.style.opacity = "0.5";
-      document.getElementById("matchStatus").textContent = `Searching for ${selectedSubject.toUpperCase()} Player...`;
+      const queueRef = db.ref(`queue/${selectedSubject}`);
 
-      setTimeout(() => {
-        const randomOpponent = sampleOpponents[Math.floor(Math.random() * sampleOpponents.length)];
-        document.getElementById("opponentName").textContent = randomOpponent;
-        document.getElementById("matchStatus").textContent = `Opponent Found: ${randomOpponent}!`;
-        
-        setTimeout(() => {
-          document.getElementById("viewMatchmaking").style.display = "none";
-          document.getElementById("viewBattle").style.display = "block";
-          loadRound();
-        }, 1200);
-      }, 2000);
+      searchTimeout = setTimeout(() => {
+        document.getElementById("radarAnim").style.display = "none";
+        document.getElementById("matchStatus").textContent = "No Players Online Right Now";
+        document.getElementById("matchDetail").textContent = "Invite a classmate or start a practice round!";
+        document.getElementById("fallbackArea").style.display = "block";
+      }, 15000);
+
+      queueRef.transaction(currentQueue => {
+        if (!currentQueue) {
+          myRole = "p1";
+          currentRoomId = "room_" + Math.random().toString(36).substr(2, 9);
+          return {
+            roomId: currentRoomId,
+            hostId: myPlayerId,
+            hostName: myPlayerName
+          };
+        } else {
+          myRole = "p2";
+          currentRoomId = currentQueue.roomId;
+          return null;
+        }
+      }, (error, committed, snapshot) => {
+        if (error) {
+          console.error("Matchmaking error:", error);
+          startBotMatch();
+        } else if (committed && snapshot.val()) {
+          listenAsHost(currentRoomId);
+        } else {
+          joinAsGuest(currentRoomId);
+        }
+      });
+    }
+
+    function listenAsHost(roomId) {
+      roomRef = db.ref(`rooms/${roomId}`);
+      activeQuestions = shuffleArray(questionBanks[selectedSubject]).slice(0, 5);
+
+      roomRef.set({
+        questions: activeQuestions,
+        p1: { name: myPlayerName, score: 0 },
+        p2: null,
+        status: "waiting"
+      });
+
+      roomRef.onDisconnect().remove();
+
+      roomRef.on("value", snapshot => {
+        const data = snapshot.val();
+        if (data && data.p2 && data.status === "waiting") {
+          clearTimeout(searchTimeout);
+          roomRef.update({ status: "playing" });
+          initLiveMatch(data.p1.name, data.p2.name);
+        }
+      });
+    }
+
+    function joinAsGuest(roomId) {
+      clearTimeout(searchTimeout);
+      roomRef = db.ref(`rooms/${roomId}`);
+
+      roomRef.once("value").then(snapshot => {
+        const data = snapshot.val();
+        if (data) {
+          activeQuestions = data.questions;
+          roomRef.update({
+            p2: { name: myPlayerName, score: 0 },
+            status: "playing"
+          });
+          initLiveMatch(data.p1.name, myPlayerName);
+        }
+      });
+    }
+
+    // ==========================================
+    // 4. LIVE BATTLE LOOP & SYNC
+    // ==========================================
+    function initLiveMatch(p1Name, p2Name) {
+      document.getElementById("viewMatchmaking").style.display = "none";
+      document.getElementById("viewBattle").style.display = "block";
+
+      const myNameElem = document.getElementById("myDisplayName");
+      const oppNameElem = document.getElementById("opponentDisplayName");
+
+      if (myRole === "p1") {
+        myNameElem.textContent = `👤 ${p1Name}`;
+        oppNameElem.textContent = p2Name;
+      } else {
+        myNameElem.textContent = `👤 ${p2Name}`;
+        oppNameElem.textContent = p1Name;
+      }
+
+      if (roomRef) {
+        roomRef.on("value", snapshot => {
+          const data = snapshot.val();
+          if (!data) return;
+          const oppScore = (myRole === "p1") ? data.p2?.score : data.p1?.score;
+          if (oppScore !== undefined) {
+            opponentScoreVal = oppScore;
+            document.getElementById("opponentScore").textContent = opponentScoreVal;
+          }
+        });
+      }
+
+      currentQ = 0;
+      myScoreVal = 0;
+      loadRound();
     }
 
     function loadRound() {
       clearInterval(timerInterval);
-      clearTimeout(opponentAnswerTimeout);
 
       if (currentQ >= activeQuestions.length) {
         finishBattle();
@@ -469,7 +557,7 @@
 
       roundTime = 10;
       document.getElementById("roundTimer").textContent = `⏱️ Round Time: ${roundTime}s`;
-      
+
       const q = activeQuestions[currentQ];
       document.getElementById("qText").textContent = `Q${currentQ + 1}: ${q.q}`;
 
@@ -485,16 +573,6 @@
         container.appendChild(btn);
       });
 
-      // Opponent simulated delay (3 to 6 seconds)
-      const opponentDelay = (Math.floor(Math.random() * 4) + 3) * 1000;
-      opponentAnswerTimeout = setTimeout(() => {
-        if (Math.random() < 0.8) {
-          opponentPoints += 100;
-          document.getElementById("opponentScore").textContent = opponentPoints;
-        }
-      }, opponentDelay);
-
-      // 10-second round timer countdown
       timerInterval = setInterval(() => {
         roundTime--;
         document.getElementById("roundTimer").textContent = `⏱️ Round Time: ${roundTime}s`;
@@ -513,8 +591,14 @@
 
       if (selected === correct) {
         btn.classList.add("correct");
-        userPoints += 100 + (roundTime * 5); // Speed bonus
-        document.getElementById("userScore").textContent = userPoints;
+        myScoreVal += 100 + (roundTime * 5);
+        document.getElementById("myScore").textContent = myScoreVal;
+
+        if (roomRef) {
+          const updateObj = {};
+          updateObj[`${myRole}/score`] = myScoreVal;
+          roomRef.update(updateObj);
+        }
       } else {
         btn.classList.add("wrong");
         buttons.forEach(b => {
@@ -535,19 +619,49 @@
       const banner = document.getElementById("resultBanner");
       const summary = document.getElementById("resultSummary");
 
-      if (userPoints > opponentPoints) {
+      if (myScoreVal > opponentScoreVal) {
         banner.textContent = "🏆 VICTORY!";
         banner.style.color = "#4ade80";
-        summary.textContent = `You won! Final Score: ${userPoints} vs ${opponentPoints}`;
-      } else if (userPoints === opponentPoints) {
+        summary.textContent = `You won! Final Score: ${myScoreVal} vs ${opponentScoreVal}`;
+      } else if (myScoreVal === opponentScoreVal) {
         banner.textContent = "🤝 IT'S A TIE!";
         banner.style.color = "#facc15";
-        summary.textContent = `Equal Score: ${userPoints} - ${opponentPoints}`;
+        summary.textContent = `Equal Score: ${myScoreVal} - ${opponentScoreVal}`;
       } else {
         banner.textContent = "💀 DEFEAT";
         banner.style.color = "#f87171";
-        summary.textContent = `Opponent won! Final Score: ${userPoints} vs ${opponentPoints}`;
+        summary.textContent = `Opponent won! Final Score: ${myScoreVal} vs ${opponentScoreVal}`;
       }
+
+      if (roomRef && myRole === "p1") {
+        setTimeout(() => roomRef.remove(), 5000);
+      }
+    }
+
+    // ==========================================
+    // 5. FALLBACK / BOT SIMULATION
+    // ==========================================
+    function startBotMatch() {
+      clearTimeout(searchTimeout);
+      activeQuestions = shuffleArray(questionBanks[selectedSubject]).slice(0, 5);
+      
+      const bots = ["Aarav (Delhi)", "Priya (Mumbai)", "Sneha (Bangalore)", "Rohit (Kolkata)"];
+      const botName = bots[Math.floor(Math.random() * bots.length)];
+      
+      initLiveMatch(myPlayerName, botName);
+
+      setInterval(() => {
+        if (Math.random() < 0.75 && document.getElementById("viewBattle").style.display === "block") {
+          opponentScoreVal += 100;
+          document.getElementById("opponentScore").textContent = opponentScoreVal;
+        }
+      }, 4000);
+    }
+
+    function shareWhatsAppInvite() {
+      const url = window.location.href;
+      const text = `⚔️ I am waiting for a 1v1 battle on Student Hub (${selectedSubject.toUpperCase()})! Click to play against me: ${url}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
     }
   </script>
 </body>
