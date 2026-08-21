@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Prose Chapter 1 Quiz | Student Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 16px;
+    }
+
+    .container {
+      background: #1e293b;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover { background: #475569; color: #fff; }
+    .title { font-size: 17px; font-weight: 700; color: #f8fafc; }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .grid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .select-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    .select-card h4 { font-size: 15px; color: #f8fafc; margin-bottom: 4px; }
+    .select-card p { font-size: 12px; color: #94a3b8; }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .diff-easy { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .diff-medium { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid #eab308; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .question-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.2) !important;
+      border-color: #22c55e !important;
+      color: #4ade80 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #f87171 !important;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: #7dd3fc; }
+
+    .score-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .score-circle {
+      font-size: 48px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+
+    .ad-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin: 18px 0 8px 0;
+      min-height: 50px;
+      overflow: hidden;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .footer span {
+      color: #38bdf8;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. DIFFICULTY SELECTOR VIEW -->
+    <div id="viewSelection">
+      <div class="header-nav">
+        <a href="practice.html" class="back-btn">← Chapters</a>
+        <div class="title">English Prose Ch 1</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; border: 1px solid #334155; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; color: #38bdf8; margin-bottom: 4px;">A Letter to God</h3>
+        <p style="font-size: 12px; color: #94a3b8;">Choose a level to start practicing 15 randomized board-standard questions.</p>
+      </div>
+
+      <div class="section-label">Select Difficulty Level</div>
+      <div class="grid-list">
+        <div class="select-card" onclick="startQuiz('easy')">
+          <div>
+            <h4>🟢 Easy Level</h4>
+            <p>15 Questions • Plot, Characters, Setting & Sequence</p>
+          </div>
+          <span class="diff-badge diff-easy">Easy</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('medium')">
+          <div>
+            <h4>🟡 Medium Level</h4>
+            <p>15 Questions • Irony, Postmaster's Act & Lencho's Reactions</p>
+          </div>
+          <span class="diff-badge diff-medium">Medium</span>
+        </div>
+
+        <div class="select-card" onclick="startQuiz('hard')">
+          <div>
+            <h4>🔴 Hard Level</h4>
+            <p>15 Questions • Metaphor, Thematic Depth & Assertion-Reason</p>
+          </div>
+          <span class="diff-badge diff-hard">Hard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ACTIVE QUIZ VIEW -->
+    <div id="viewQuiz" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">✕ Quit</button>
+        <div class="title" id="quizTitle">A Letter to God Quiz</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="quiz-meta">
+        <span id="questionCounter">Question 1/15</span>
+        <span id="levelBadge" class="diff-badge diff-easy">Easy</span>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text" id="qText">Loading question...</div>
+      </div>
+
+      <div class="options-group" id="optionsContainer"></div>
+
+      <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question ➔</button>
+    </div>
+
+    <!-- 3. SCORE RESULT VIEW -->
+    <div id="viewResult" style="display: none;">
+      <div class="header-nav">
+        <button class="back-btn" onclick="exitQuiz()">← Select Level</button>
+        <div class="title">Test Result</div>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="score-container">
+        <div class="score-circle" id="scorePercent">80%</div>
+        <h3 id="scoreText" style="margin-bottom: 8px;">Great Job!</h3>
+        <p id="scoreDetail" style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">You scored 12 out of 15.</p>
+        <button class="action-btn" onclick="restartCurrentQuiz()">Retake Quiz (Shuffled)</button>
+      </div>
+    </div>
+
+    <!-- Centered Ad Banner -->
+    <div class="ad-container">
+      <script>
+        atOptions = {
+          'key' : 'e47b7549d4a248b4adbd6d8af46d85aa',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://www.highperformanceformat.com/e47b7549d4a248b4adbd6d8af46d85aa/invoke.js"></script>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      Made with ❤️ by <span>Tauhid</span>
+    </div>
+
+  </div>
+
+  <script>
+    const questionsDatabase = {
+      easy: [
+        {
+          q: "Who is the author of the story 'A Letter to God'?",
+          options: ["G.L. Fuentes", "Liam O'Flaherty", "Frederick Forsyth", "Roald Dahl"],
+          answer: "G.L. Fuentes"
+        },
+        {
+          q: "Where was Lencho's house located?",
+          options: [
+            "On the crest of a low hill",
+            "In the middle of a dense forest",
+            "At the foot of a tall mountain",
+            "Near a busy city market"
+          ],
+          answer: "On the crest of a low hill"
+        },
+        {
+          q: "What was Lencho's field of ripe corn waiting for?",
+          options: [
+            "A downpour or at least a shower of rain",
+            "Chemical fertilizers",
+            "A tractor for harvesting",
+            "Pesticide spray"
+          ],
+          answer: "A downpour or at least a shower of rain"
+        },
+        {
+          q: "What did Lencho compare the big drops of rain to?",
+          options: [
+            "Ten-cent pieces",
+            "Five-cent pieces",
+            "Silver coins",
+            "Pearls"
+          ],
+          answer: "Ten-cent pieces"
+        },
+        {
+          q: "What did Lencho compare the small droplets of rain to?",
+          options: ["Fives (five-cent pieces)", "Tens", "Pennies", "Dimes"],
+          answer: "Fives (five-cent pieces)"
+        },
+        {
+          q: "What destroyed Lencho's entire field of ripe corn?",
+          options: [
+            "A devastating hailstorm",
+            "A severe drought",
+            "A locust attack",
+            "A river flood"
+          ],
+          answer: "A devastating hailstorm"
+        },
+        {
+          q: "For how long did the hailstorm rain over the house, garden, and field?",
+          options: ["For an hour", "For two hours", "For thirty minutes", "For an entire day"],
+          answer: "For an hour"
+        },
+        {
+          q: "How did the field look after the hailstorm stopped?",
+          options: [
+            "White, as if covered with salt",
+            "Green and flourishing",
+            "Muddy and flooded with yellow water",
+            "Dry and cracked"
+          ],
+          answer: "White, as if covered with salt"
+        },
+        {
+          q: "How much money did Lencho ask God for in his first letter?",
+          options: ["100 pesos", "70 pesos", "50 pesos", "500 pesos"],
+          answer: "100 pesos"
+        },
+        {
+          q: "Why did Lencho need 100 pesos from God?",
+          options: [
+            "To sow his field again and to live until the next crop comes",
+            "To buy a new house on the hill",
+            "To send his children to an English school",
+            "To buy agricultural machinery"
+          ],
+          answer: "To sow his field again and to live until the next crop comes"
+        },
+        {
+          q: "What address did Lencho write on the envelope?",
+          options: ["To God", "To the Post Office", "To the Mayor of the Town", "To the Minister"],
+          answer: "To God"
+        },
+        {
+          q: "What kind of a person was the Postmaster described as in the chapter?",
+          options: [
+            "A fat, amiable fellow",
+            "A strict, rude officer",
+            "A young, impatient boy",
+            "A proud and arrogant man"
+          ],
+          answer: "A fat, amiable fellow"
+        },
+        {
+          q: "How much money was the postmaster able to collect and send to Lencho?",
+          options: ["70 pesos", "100 pesos", "50 pesos", "75 pesos"],
+          answer: "70 pesos"
+        },
+        {
+          q: "What single word did the postmaster write as a signature on the letter sent to Lencho?",
+          options: ["God", "Postmaster", "Friend", "Anonymous"],
+          answer: "God"
+        },
+        {
+          q: "What did Lencho call the post office employees in his second letter?",
+          options: [
+            "A bunch of crooks",
+            "Kind angels",
+            "Selfish men",
+            "Helpers of God"
+          ],
+          answer: "A bunch of crooks"
+        }
+      ],
+      medium: [
+        {
+          q: "Why was Lencho not surprised upon seeing the money in the envelope?",
+          options: [
+            "He had unshakeable and absolute confidence in God's willingness to help",
+            "He knew the postmaster personally",
+            "He had seen the postman put the money inside",
+            "He thought the government had sent disaster relief"
+          ],
+          answer: "He had unshakeable and absolute confidence in God's willingness to help"
+        },
+        {
+          q: "What made Lencho angry when he counted the money inside the envelope?",
+          options: [
+            "There were only 70 pesos instead of the 100 pesos he asked for",
+            "The currency notes were counterfeit",
+            "The envelope was torn and soiled",
+            "God did not send seeds along with the money"
+          ],
+          answer: "There were only 70 pesos instead of the 100 pesos he asked for"
+        },
+        {
+          q: "Why did the postmaster decide to answer Lencho's letter to God?",
+          options: [
+            "He wanted to preserve Lencho's unshakeable faith in God",
+            "He had surplus money to give away",
+            "He wanted to become famous in the local newspaper",
+            "He was afraid of God's curse"
+          ],
+          answer: "He wanted to preserve Lencho's unshakeable faith in God"
+        },
+        {
+          q: "What did Lencho compare the devastating power of the hailstorm to?",
+          options: [
+            "A plague of locusts (which would have left more than this)",
+            "A fierce wildfire in the forest",
+            "A herd of wild elephants",
+            "A winter frost"
+          ],
+          answer: "A plague of locusts (which would have left more than this)"
+        },
+        {
+          q: "How did the postmaster gather the 70 pesos to send to Lencho?",
+          options: [
+            "He gave part of his salary and asked his colleagues and friends to contribute as an act of charity",
+            "He took a loan from the local bank",
+            "He withdrew money from government emergency funds",
+            "He sold postal stamps at double price"
+          ],
+          answer: "He gave part of his salary and asked his colleagues and friends to contribute as an act of charity"
+        },
+        {
+          q: "What is the supreme irony at the ending of the story 'A Letter to God'?",
+          options: [
+            "The post office workers who charitably helped Lencho were suspected and called 'a bunch of crooks' by him",
+            "Lencho received double the amount he asked for",
+            "The hailstorm brought prosperity to the village",
+            "The postmaster kept all the money for himself"
+          ],
+          answer: "The post office workers who charitably helped Lencho were suspected and called 'a bunch of crooks' by him"
+        },
+        {
+          q: "What metaphor is used by Lencho when huge mountains of clouds were seen approaching in the north-east?",
+          options: [
+            "New coins falling from the sky",
+            "Giant birds of prey",
+            "White sheets of marble",
+            "Angels descending"
+          ],
+          answer: "New coins falling from the sky"
+        },
+        {
+          q: "What does the expression 'Lencho was an ox of a man' signify?",
+          options: [
+            "He was extraordinarily strong and worked tirelessly like an animal in the fields",
+            "He was stubborn and refused to listen to anyone",
+            "He had horns on his head",
+            "He could only understand farming"
+          ],
+          answer: "He was extraordinarily strong and worked tirelessly like an animal in the fields"
+        },
+        {
+          q: "Even though Lencho was an uneducated farmer working like an ox, what skill did he possess?",
+          options: [
+            "He knew how to write",
+            "He was an expert in accounting",
+            "He could forecast cyclones accurately",
+            "He was a skilled carpenter"
+          ],
+          answer: "He knew how to write"
+        },
+        {
+          q: "What instruction did Lencho give God regarding the remaining 30 pesos in his second letter?",
+          options: [
+            "Send it to him directly, not through the mail, because the post office employees are a bunch of crooks",
+            "Give it to the poor neighbours",
+            "Send it in gold coins instead of paper currency",
+            "Hand it over to his wife"
+          ],
+          answer: "Send it to him directly, not through the mail, because the post office employees are a bunch of crooks"
+        },
+        {
+          q: "What does the postmaster's reaction upon reading Lencho's letter show about his character?",
+          options: [
+            "He was deeply empathetic, kind-hearted, and generous",
+            "He was foolish and superstitious",
+            "He wanted to play a practical prank on a poor farmer",
+            "He was seeking a promotion"
+          ],
+          answer: "He was deeply empathetic, kind-hearted, and generous"
+        },
+        {
+          q: "What did Lencho's sons do while he watched the sky in anticipation of rain?",
+          options: [
+            "The older boys were working in the field while the smaller ones played near the house",
+            "All the children were swimming in the stream",
+            "They were gathering wild berries in the hills",
+            "They were reading books in the veranda"
+          ],
+          answer: "The older boys were working in the field while the smaller ones played near the house"
+        },
+        {
+          q: "What fell from the sky that the boys ran out to collect, referring to them as 'frozen pearls'?",
+          options: ["Hailstones", "Snowflakes", "Raindrops", "White blossoms"],
+          answer: "Hailstones"
+        },
+        {
+          q: "Which quality of Lencho is highlighted when he says, 'No one dies of hunger'?",
+          options: [
+            "His optimistic spirit and unwavering trust in divine providence",
+            "His foolish pride",
+            "His knowledge of government granaries",
+            "His anger towards nature"
+          ],
+          answer: "His optimistic spirit and unwavering trust in divine providence"
+        },
+        {
+          q: "What type of currency unit is 'peso' in the context of the story?",
+          options: [
+            "Currency of several Latin American countries",
+            "Currency of Great Britain",
+            "Ancient Greek coins",
+            "An African barter unit"
+          ],
+          answer: "Currency of several Latin American countries"
+        }
+      ],
+      hard: [
+        {
+          q: "Assertion (A): Lencho wrote a second letter demanding the remaining thirty pesos directly from God.\nReason (R): Lencho believed that God could never have made a mistake in counting, nor could He have denied what Lencho had requested.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "(A) is false, but (R) is true"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "What is the primary literary device used in comparing raindrops to 'new coins' and hailstones to 'new silver coins' and 'frozen pearls'?",
+          options: ["Metaphor", "Personification", "Hyperbole", "Oxymoron"],
+          answer: "Metaphor"
+        },
+        {
+          q: "Assertion (A): The postmaster experienced contentment when Lencho opened the envelope.\nReason (R): The postmaster felt the joy of performing a selfless deed of true charity without expecting any gratitude or recognition.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "What profound theme about human nature does G.L. Fuentes highlight through Lencho's character?",
+          options: [
+            "Man's blind faith in God often coexists with a total distrust and suspicion towards fellow human beings",
+            "Nature is always hostile towards poor laborers",
+            "Postal systems are inherently corrupt in rural regions",
+            "Hard work in agriculture is ultimately meaningless"
+          ],
+          answer: "Man's blind faith in God often coexists with a total distrust and suspicion towards fellow human beings"
+        },
+        {
+          q: "Why did the postmaster sign the letter simply as 'God'?",
+          options: [
+            "To prevent shaking Lencho's naive faith and ensure the illusion of divine intervention remained intact",
+            "Because he considered himself equal to God",
+            "To conceal his identity from legal authorities",
+            "Because the post office rules forbade signing names"
+          ],
+          answer: "To prevent shaking Lencho's naive faith and ensure the illusion of divine intervention remained intact"
+        },
+        {
+          q: "Assertion (A): Lencho showed extreme wrinkles on his brow while writing his second letter.\nReason (R): The wrinkling was caused by the mental effort and concentration required to express his thoughts in writing.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Match the following actions/phrases from the story with their symbolic meanings:\n(i) 'An ox of a man' -> (a) Hardworking and physically resilient\n(ii) 'Draped in a curtain of rain' -> (b) Heavy downpour covering the land\n(iii) 'A bunch of crooks' -> (c) Dramatic situational irony of mistrust",
+          options: [
+            "(i)-(a), (ii)-(b), (iii)-(c)",
+            "(i)-(b), (ii)-(a), (iii)-(c)",
+            "(i)-(c), (ii)-(a), (iii)-(b)",
+            "(i)-(a), (ii)-(c), (iii)-(b)"
+          ],
+          answer: "(i)-(a), (ii)-(b), (iii)-(c)"
+        },
+        {
+          q: "Which word from the chapter means 'having a pleasant, friendly, and good-natured manner'?",
+          options: ["Amiable", "Solitary", "Conscience", "Contentment"],
+          answer: "Amiable"
+        },
+        {
+          q: "What does the phrase 'a solitary house in the entire valley' establish at the beginning of the story?",
+          options: [
+            "The physical isolation and vulnerability of Lencho's family to natural calamities",
+            "Lencho's immense wealth and large estate",
+            "The beauty of a tourist resort",
+            "That the valley was abandoned due to war"
+          ],
+          answer: "The physical isolation and vulnerability of Lencho's family to natural calamities"
+        },
+        {
+          q: "Assertion (A): The postman broke into hearty laughter when he first saw Lencho's letter.\nReason (R): In his entire career as a postman, he had never known or seen a letter addressed to 'God'.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "How does the story depict the dual faces of Nature?",
+          options: [
+            "As a generous sustainer providing nourishing rain for crops, and simultaneously as a ruthless destroyer via violent hailstorms",
+            "As always calm and friendly to mankind",
+            "As an unchanging barren desert",
+            "As completely controlled by human technology"
+          ],
+          answer: "As a generous sustainer providing nourishing rain for crops, and simultaneously as a ruthless destroyer via violent hailstorms"
+        },
+        {
+          q: "What moral dilemma did the postmaster face upon opening Lencho's letter?",
+          options: [
+            "Answering the letter required more than goodwill, ink, and paper; it demanded financial resources (money)",
+            "He did not know Lencho's home address",
+            "He was worried about being arrested by the postal police",
+            "The handwriting was completely illegible"
+          ],
+          answer: "Answering the letter required more than goodwill, ink, and paper; it demanded financial resources (money)"
+        },
+        {
+          q: "Assertion (A): Lencho's faith can be described as unshakeable yet unquestioning and naive.\nReason (R): While his faith gave him hope during total despair, it lacked the rational understanding of how the world and human institutions function.",
+          options: [
+            "Both (A) and (R) are true, and (R) is the correct explanation of (A)",
+            "Both (A) and (R) are true, but (R) is NOT the correct explanation of (A)",
+            "(A) is true, but (R) is false",
+            "Both (A) and (R) are false"
+          ],
+          answer: "Both (A) and (R) are true, and (R) is the correct explanation of (A)"
+        },
+        {
+          q: "Which word in the text corresponds to 'an inner sense of right and wrong that guides one's actions'?",
+          options: ["Conscience", "Appetite", "Resolution", "Obligation"],
+          answer: "Conscience"
+        },
+        {
+          q: "If the postmaster had revealed his true identity to Lencho instead of signing 'God', how would it have fundamentally changed the story's climax?",
+          options: [
+            "It would have shattered the theme of divine illusion and prevented the dramatic irony regarding the 'bunch of crooks'",
+            "Lencho would have asked for double the money",
+            "The postmaster would have been arrested",
+            "The crops would have regrown immediately"
+          ],
+          answer: "It would have shattered the theme of divine illusion and prevented the dramatic irony regarding the 'bunch of crooks'"
+        }
+      ]
+    };
+
+    let currentLevel = 'easy';
+    let activeQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    const viewSelection = document.getElementById('viewSelection');
+    const viewQuiz = document.getElementById('viewQuiz');
+    const viewResult = document.getElementById('viewResult');
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz(level) {
+      currentLevel = level;
+      activeQuestions = shuffleArray(questionsDatabase[level]);
+      currentQIndex = 0;
+      score = 0;
+
+      viewSelection.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewQuiz.style.display = 'block';
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = level.toUpperCase();
+      levelBadge.className = `diff-badge diff-${level}`;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      document.getElementById('questionCounter').textContent = `Question ${currentQIndex + 1}/${activeQuestions.length}`;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('nextBtn').style.display = 'none';
+
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedBtn, chosenOption, correctOption) {
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (chosenOption === correctOption) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctOption) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < activeQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'block';
+
+      const total = activeQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      document.getElementById('scorePercent').textContent = `${percentage}%`;
+      document.getElementById('scoreDetail').textContent = `You scored ${score} out of ${total} questions.`;
+
+      const scoreText = document.getElementById('scoreText');
+      if (percentage >= 80) scoreText.textContent = "🌟 Outstanding Performance!";
+      else if (percentage >= 50) scoreText.textContent = "👍 Good Effort!";
+      else scoreText.textContent = "📖 Keep Practicing!";
+    }
+
+    function restartCurrentQuiz() {
+      startQuiz(currentLevel);
+    }
+
+    function exitQuiz() {
+      viewQuiz.style.display = 'none';
+      viewResult.style.display = 'none';
+      viewSelection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
