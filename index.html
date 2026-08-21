@@ -17,9 +17,10 @@
       color: #f8fafc;
       min-height: 100vh;
       display: flex;
+      flex-direction: column; /* Stacks everything vertically from top to bottom */
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 20px 16px;
     }
 
     .container {
@@ -110,9 +111,19 @@
       font-weight: 800;
     }
 
+    .ad-container {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 50px;
+      width: 100%;
+      overflow: hidden;
+    }
+
     .footer {
       text-align: center;
-      margin-top: 28px;
+      margin-top: 20px;
       font-size: 13px;
       color: #64748b;
       font-weight: 500;
@@ -175,6 +186,20 @@
 
     </div>
 
+    <!-- Centered Ad Banner -->
+    <div class="ad-container">
+      <script>
+        atOptions = {
+          'key' : 'e47b7549d4a248b4adbd6d8af46d85aa',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://www.highperformanceformat.com/e47b7549d4a248b4adbd6d8af46d85aa/invoke.js"></script>
+    </div>
+
     <!-- Footer -->
     <div class="footer">
       Made with ❤️ by <span>Tauhid</span>
@@ -182,17 +207,5 @@
 
   </div>
 
-<script>
-  atOptions = {
-    'key' : 'e47b7549d4a248b4adbd6d8af46d85aa',
-    'format' : 'iframe',
-    'height' : 50,
-    'width' : 320,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/e47b7549d4a248b4adbd6d8af46d85aa/invoke.js"></script>
-
-  
 </body>
 </html>
