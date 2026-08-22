@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     box-sizing: border-box;
   `;
 
-  // 2. Add top bar with small 'Advertisement' label and Close (✕) button
+  // 2. Add top bar with label and Close (✕) button
   const topBar = document.createElement("div");
   topBar.style.cssText = `
     width: 100%;
@@ -63,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
     justify-content: center;
   `;
 
-  // Dismiss banner on tap
   closeBtn.onclick = () => {
     banner.remove();
     document.body.style.paddingBottom = "0px";
@@ -72,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
   topBar.appendChild(adLabel);
   topBar.appendChild(closeBtn);
 
-  // 3. Ad Content Slot (Standard mobile banner: 320x50 or 300x50)
+  // 3. Ad Content Frame (320x50 Banner)
   const adContent = document.createElement("div");
   adContent.id = "ad-slot-frame";
   adContent.style.cssText = `
@@ -81,28 +80,27 @@ document.addEventListener("DOMContentLoaded", () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #1e293b;
-    border-radius: 8px;
-    border: 1px dashed #475569;
-    color: #94a3b8;
-    font-size: 12px;
-    text-align: center;
   `;
 
-  // -------------------------------------------------------------------------
-  // PLACE YOUR AD PROVIDER SCRIPT / CODE HERE:
-  // -------------------------------------------------------------------------
-  adContent.innerHTML = `
-    <span style="padding: 10px; font-size: 11px; color: #64748b;">
-      Ad Space (320x50 Banner)
-    </span>
-  `;
-  // -------------------------------------------------------------------------
+  // 4. Inject your Adsterra 320x50 Banner Configuration
+  window.atOptions = {
+    'key' : 'e47b7549d4a248b4adbd6d8af46d85aa',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+
+  const adScript = document.createElement("script");
+  adScript.type = "text/javascript";
+  adScript.src = "https://www.highrevenueformat.com/e47b7549d4a248b4adbd6d8af46d85aa/invoke.js";
+  
+  adContent.appendChild(adScript);
 
   banner.appendChild(topBar);
   banner.appendChild(adContent);
   document.body.appendChild(banner);
 
-  // 4. Ensure bottom content and buttons aren't covered
+  // 5. Ensure bottom content and buttons aren't covered
   document.body.style.paddingBottom = "90px";
 });
