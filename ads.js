@@ -1,72 +1,108 @@
-/* ==========================================================
-   CENTRAL AD INJECTION SCRIPT - Student Hub (By Tauhid)
-   Loads Adsterra automatically on:
-   1. Easy / Medium / Hard Selection View
-   2. Score Result View
-   ========================================================== */
+// ==========================================
+// CENTRALIZED BOTTOM STICKY BANNER AD LOADER
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+  // Prevent duplicate insertion
+  if (document.getElementById("sticky-ad-wrapper")) return;
 
-(function () {
-  const AD_KEY = 'e47b7549d4a248b4adbd6d8af46d85aa';
-  const AD_INVOKE_URL = `https://www.highperformanceformat.com/${AD_KEY}/invoke.js`;
+  // 1. Create outer fixed banner container
+  const banner = document.createElement("div");
+  banner.id = "sticky-ad-wrapper";
+  banner.style.cssText = `
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #0f172a;
+    border-top: 1px solid #334155;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.4);
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px 10px 10px;
+    box-sizing: border-box;
+  `;
 
-  function createAdBannerElement() {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'central-ad-slot';
-    wrapper.style.cssText = 'display:flex; justify-content:center; align-items:center; width:100%; margin:16px 0; min-height:50px; overflow:hidden;';
+  // 2. Add top bar with small 'Advertisement' label and Close (✕) button
+  const topBar = document.createElement("div");
+  topBar.style.cssText = `
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  `;
 
-    const iframe = document.createElement('iframe');
-    iframe.srcdoc = `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <style>body{margin:0;padding:0;display:flex;justify-content:center;align-items:center;background:transparent;overflow:hidden;}</style>
-      </head>
-      <body>
-        <script>
-          var atOptions = {
-            'key' : '${AD_KEY}',
-            'format' : 'iframe',
-            'height' : 50,
-            'width' : 320,
-            'params' : {}
-          };
-        <\/script>
-        <script src="${AD_INVOKE_URL}"><\/script>
-      </body>
-      </html>
-    `;
-    iframe.width = "320";
-    iframe.height = "50";
-    iframe.style.border = "none";
-    iframe.style.overflow = "hidden";
-    iframe.scrolling = "no";
+  const adLabel = document.createElement("span");
+  adLabel.textContent = "ADVERTISEMENT";
+  adLabel.style.cssText = `
+    font-size: 10px;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.5px;
+  `;
 
-    wrapper.appendChild(iframe);
-    return wrapper;
-  }
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "✕";
+  closeBtn.title = "Close ad";
+  closeBtn.style.cssText = `
+    background: #334155;
+    border: none;
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
 
-  function injectAds() {
-    // 1. Inject into Level Selection Area (below grid list)
-    const selectionGrid = document.querySelector('#viewSelection .grid-list');
-    if (selectionGrid && !document.getElementById('ad-selection-slot')) {
-      const adSlot1 = createAdBannerElement();
-      adSlot1.id = 'ad-selection-slot';
-      selectionGrid.insertAdjacentElement('afterend', adSlot1);
-    }
+  // Dismiss banner on tap
+  closeBtn.onclick = () => {
+    banner.remove();
+    document.body.style.paddingBottom = "0px";
+  };
 
-    // 2. Inject into Score Result View (below score details)
-    const scoreDetail = document.getElementById('scoreDetail');
-    if (scoreDetail && !document.getElementById('ad-result-slot')) {
-      const adSlot2 = createAdBannerElement();
-      adSlot2.id = 'ad-result-slot';
-      scoreDetail.insertAdjacentElement('afterend', adSlot2);
-    }
-  }
+  topBar.appendChild(adLabel);
+  topBar.appendChild(closeBtn);
 
-  // Run automatically when the DOM is loaded
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', injectAds);
-  } else {
-    injectAds();
-  }
-})();
+  // 3. Ad Content Slot (Standard mobile banner: 320x50 or 300x50)
+  const adContent = document.createElement("div");
+  adContent.id = "ad-slot-frame";
+  adContent.style.cssText = `
+    width: 320px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1e293b;
+    border-radius: 8px;
+    border: 1px dashed #475569;
+    color: #94a3b8;
+    font-size: 12px;
+    text-align: center;
+  `;
+
+  // -------------------------------------------------------------------------
+  // PLACE YOUR AD PROVIDER SCRIPT / CODE HERE:
+  // -------------------------------------------------------------------------
+  adContent.innerHTML = `
+    <span style="padding: 10px; font-size: 11px; color: #64748b;">
+      Ad Space (320x50 Banner)
+    </span>
+  `;
+  // -------------------------------------------------------------------------
+
+  banner.appendChild(topBar);
+  banner.appendChild(adContent);
+  document.body.appendChild(banner);
+
+  // 4. Ensure bottom content and buttons aren't covered
+  document.body.style.paddingBottom = "90px";
+});
