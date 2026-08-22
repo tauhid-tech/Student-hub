@@ -554,14 +554,35 @@
       }
       return arr;
     }
+    // Auto-load saved name & handle invite links on page load
+let savedName = localStorage.getItem("seba_student_name");
+if (savedName) {
+  myPlayerName = savedName;
+  const nameInput = document.getElementById("playerNameInput");
+  if (nameInput) nameInput.value = savedName;
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const inviteRoom = urlParams.get("roomId");
+  if (inviteRoom) {
+    joinAsGuest(inviteRoom);
+  }
+});
+    
 
     // ==========================================
     // 3. REAL-TIME MATCHMAKING ENGINE
     // ==========================================
     function startMatchmaking() {
       const input = document.getElementById("playerNameInput").value.trim();
-      myPlayerName = input || "Candidate " + Math.floor(Math.random() * 900 + 100);
-
+        if (!input) {
+    alert("Please enter your name first!");
+    return;
+  }
+  myPlayerName = input;
+  localStorage.setItem("seba_student_name", myPlayerName);
+      
       document.getElementById("startMatchBtn").style.display = "none";
       document.getElementById("radarAnim").style.display = "flex";
       document.getElementById("matchStatus").textContent = `Looking for ${selectedSubject.toUpperCase()} Opponent...`;
@@ -599,13 +620,67 @@
         if (error) {
           console.error("Matchmaking error:", error);
           startBotMatch();
-        } else if (committed && snapshot.val()) {
-          listenAsHost(currentRoomId);
-        } else {
-          joinAsGuest(currentRoomId);
+            } else if (committed && snapshot.val()) {
+      listenAsHost(currentRoomId);
+
+      // Broadcast challenge to students in practice mode after 3 seconds of waiting
+      setTimeout(() => {
+        if (roomRef) {
+          db.ref('presence').once('value').then(snap => {
+            const users = snap.val() || {};
+            Object.keys(users).forEach(uid => {
+              db.ref(`challenges/${uid}`).set({
+                challengerName: myPlayerName,
+                roomId: currentRoomId,
+                status: "pending"
+              });
+            });
+          });
         }
-      });
+      }, 3000);
+
+    } else {
+      joinAsGuest(currentRoomId);
     }
+  });
+}
+
+function listenAsHost(roomId) {
+  roomRef = db.ref(`rooms/${roomId}`);
+  activeQuestions = shuffleArray(questionBanks[selectedSubject]).slice(0, 5);
+  roomRef.set({
+    questions: activeQuestions,
+    p1: { name: myPlayerName, score: 0 },
+    p2: null,
+    status: "waiting"
+  });
+  roomRef.onDisconnect().remove();
+  roomRef.on("value", snapshot => {
+    const data = snapshot.val();
+    if (data && data.p2 && data.status === "waiting") {
+      clearTimeout(searchTimeout);
+      roomRef.update({ status: "playing" });
+      initLiveMatch(data.p1.name, data.p2.name);
+    }
+  });
+}
+
+function joinAsGuest(roomId) {
+  clearTimeout(searchTimeout);
+  roomRef = db.ref(`rooms/${roomId}`);
+  roomRef.once("value").then(snapshot => {
+    const data = snapshot.val();
+    if (data) {
+      activeQuestions = data.questions;
+      roomRef.update({
+        p2: { name: myPlayerName, score: 0 },
+        status: "playing"
+      });
+      initLiveMatch(data.p1.name, myPlayerName);
+    }
+  });
+}
+    
 
     function listenAsHost(roomId) {
       roomRef = db.ref(`rooms/${roomId}`);
