@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-Visual Lab - Master C Programming Step-by-Step | Tauhid Tech</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #151d30;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --green: #4ade80;
+      --yellow: #facc15;
+      --red: #f87171;
+      --purple: #c084fc;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: #243454;
+      --code-bg: #070a12;
+      --highlight: rgba(56, 189, 248, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: rgba(21, 29, 48, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.2s;
+      margin-left: 1.5rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 1.5rem auto;
+      padding: 0 1.5rem;
+      width: 100%;
+      flex: 1;
+    }
+
+    .hero-banner {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .hero-banner h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-banner p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .tab-bar {
+      display: flex;
+      gap: 0.75rem;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 2rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.75rem 1.25rem;
+      cursor: pointer;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn.active {
+      color: var(--accent);
+      background: var(--card-bg);
+      border-bottom: 3px solid var(--accent);
+    }
+
+    .tab-btn:hover:not(.active) {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .section-content {
+      display: none;
+    }
+
+    .section-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 850px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .lab-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      margin-bottom: 1.5rem;
+    }
+
+    .lab-card h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+    }
+
+    .code-box {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      color: #e2e8f0;
+    }
+
+    .code-line {
+      display: block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    .code-line.active {
+      background: var(--highlight);
+      border-left: 3px solid var(--accent);
+      color: #fff;
+    }
+
+    .c-keyword { color: #f472b6; font-weight: 600; }
+    .c-func { color: #60a5fa; }
+    .c-var { color: #facc15; }
+    .c-string { color: #4ade80; }
+
+    .memory-panel {
+      background: rgba(7, 10, 18, 0.7);
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .var-badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .var-badge {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .var-name {
+      font-weight: bold;
+      color: var(--yellow);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+    }
+
+    .var-val {
+      font-family: 'Fira Code', monospace;
+      background: var(--code-bg);
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: var(--green);
+      font-weight: bold;
+      font-size: 0.85rem;
+    }
+
+    .terminal-screen {
+      background: #000;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: 'Fira Code', monospace;
+      color: var(--green);
+      min-height: 110px;
+      white-space: pre-wrap;
+      font-size: 0.88rem;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .lab-btn {
+      background: var(--accent);
+      color: #0b0f19;
+      border: none;
+      padding: 0.6rem 1.1rem;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .lab-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    .lab-btn.secondary {
+      background: #334155;
+      color: #fff;
+    }
+
+    .lab-btn.secondary:hover {
+      background: #475569;
+    }
+
+    .pattern-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .control-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .control-item label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    select, input[type="range"] {
+      width: 100%;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 0.5rem;
+      border-radius: 6px;
+      outline: none;
+    }
+
+    .bug-card {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .bug-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .bug-opt {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: 0.2s;
+    }
+
+    .bug-opt:hover {
+      border-color: var(--accent);
+      background: rgba(56, 189, 248, 0.05);
+    }
+
+    .bug-opt.correct {
+      background: rgba(74, 222, 128, 0.15) !important;
+      border-color: var(--green) !important;
+      color: var(--green);
+    }
+
+    .bug-opt.wrong {
+      background: rgba(248, 113, 113, 0.15) !important;
+      border-color: var(--red) !important;
+      color: var(--red);
+    }
+
+    .analogy-banner {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(129, 140, 248, 0.05));
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1.25rem;
+      border-radius: 0 10px 10px 0;
+      margin-bottom: 1.5rem;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .array-slot {
+      background: var(--code-bg);
+      border: 2px solid var(--border);
+      padding: 0.6rem 0.9rem;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      min-width: 65px;
+      transition: all 0.2s;
+    }
+    .array-slot:hover, .array-slot.active {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .stack-box {
+      background: #1e293b;
+      border: 1px solid var(--accent);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      text-align: center;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-10px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand">
+      <i class="fa-solid fa-code"></i>
+      <span>Tauhid Tech <span style="color:#fff; font-size:0.9rem; font-weight:400;">| C-Visual Lab</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="practice.html"><i class="fa-solid fa-book"></i> Practice</a>
+      <a href="battle.html"><i class="fa-solid fa-swords"></i> 1v1 Battle</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="hero-banner">
+      <h1>C Programming Visual Laboratory</h1>
+      <p>Interactive step-by-step simulations based on SEBA Class 10 Computer Science textbook questions.</p>
+    </div>
+
+    <!-- Chapter Navigation Tabs -->
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('ch4')">
+        <i class="fa-solid fa-rotate"></i> Ch 4: Loops
+      </button>
+      <button class="tab-btn" onclick="switchTab('ch5')">
+        <i class="fa-solid fa-table-cells"></i> Ch 5: Nested Patterns
+      </button>
+      <button class="tab-btn" onclick="switchTab('ch6')">
+        <i class="fa-solid fa-layer-group"></i> Ch 6: Arrays
+      </button>
+      <button class="tab-btn" onclick="switchTab('ch7')">
+        <i class="fa-solid fa-diagram-project"></i> Ch 7: Functions
+      </button>
+      <button class="tab-btn" onclick="switchTab('ch8')">
+        <i class="fa-solid fa-location-arrow"></i> Ch 8: Pointers
+      </button>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- CHAPTER 4: INTRODUCTION TO LOOPS               -->
+    <!-- ============================================== -->
+    <div id="ch4" class="section-content active">
+      <div class="analogy-banner">
+        <strong>💡 Real-World Metaphor (Page 115):</strong> Writing 1,000 separate <code>printf()</code> statements takes hours. A <strong>Loop</strong> lets you write one instruction and repeat it 1,000 times automatically.
+      </div>
+
+      <div class="grid-2">
+        <div class="lab-card">
+          <h2><i class="fa-solid fa-shoe-prints"></i> Live Loop Stepper (For Loop)</h2>
+          <div class="code-box">
+            <span class="code-line" id="l1"><span class="c-keyword">#include</span> &lt;stdio.h&gt;</span>
+            <span class="code-line" id="l2"><span class="c-keyword">int</span> <span class="c-func">main</span>() {</span>
+            <span class="code-line" id="l3">    <span class="c-keyword">int</span> <span class="c-var">i</span>;</span>
+            <span class="code-line" id="l4">    <span class="c-keyword">for</span> (<span class="c-var">i</span> = 1; <span class="c-var">i</span> &lt;= 4; <span class="c-var">i</span>++) {</span>
+            <span class="code-line" id="l5">        <span class="c-func">printf</span>(<span class="c-string">"Pass: %d\n"</span>, <span class="c-var">i</span>);</span>
+            <span class="code-line" id="l6">    }</span>
+            <span class="code-line" id="l7">    <span class="c-func">printf</span>(<span class="c-string">"Loop Ended!"</span>);</span>
+            <span class="code-line" id="l8">    <span class="c-keyword">return</span> 0;</span>
+            <span class="code-line" id="l9">}</span>
+          </div>
+
+          <div class="memory-panel">
+            <div style="font-size:0.85rem; color:var(--text-muted);">RAM Memory:</div>
+            <div class="var-badge-group">
+              <div class="var-badge">
+                <span class="var-name">Variable i:</span>
+                <span class="var-val" id="step-var-i">Unassigned</span>
+              </div>
+              <div class="var-badge">
+                <span class="var-name">Condition (i &lt;= 4):</span>
+                <span class="var-val" id="step-cond">?</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button class="lab-btn" onclick="stepLoopForward()"><i class="fa-solid fa-forward-step"></i> Next Step ⏭️</button>
+            <button class="lab-btn secondary" onclick="resetLoopStepper()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+          </div>
+        </div>
+
+        <div class="lab-card">
+          <h2><i class="fa-solid fa-terminal"></i> Console Screen Output</h2>
+          <div class="terminal-screen" id="loop-terminal">> Press 'Next Step' to trace line-by-line...</div>
+
+          <h2 style="margin-top:1.5rem;"><i class="fa-solid fa-scale-balanced"></i> while vs do-while (Pg 136)</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.75rem;">
+            Test what happens when the starting condition is already <strong>FALSE</strong> (i = 0):
+          </p>
+          <div class="btn-group">
+            <button class="lab-btn" onclick="simulateWhileTest(false)"><i class="fa-solid fa-play"></i> while(i &gt; 0)</button>
+            <button class="lab-btn" style="background:#818cf8;" onclick="simulateWhileTest(true)"><i class="fa-solid fa-play"></i> do-while(i &gt; 0)</button>
+          </div>
+          <div id="while-result-box" style="margin-top:0.75rem; font-size:0.88rem; color:var(--yellow);"></div>
+        </div>
+      </div>
+
+      <!-- Question 3 Pg 136 -->
+      <div class="lab-card">
+        <h2><i class="fa-solid fa-bug"></i> Spot the Bug (Pg 136 Q3): What happens if condition is `1`?</h2>
+        <div class="bug-card">
+          <code><span class="c-keyword">while</span> (1) { <span class="c-func">printf</span>(<span class="c-string">"We must raise our voice against corruption\n"</span>); }</code>
+        </div>
+        <div class="bug-options">
+          <button class="bug-opt" onclick="checkBugAns(this, false)">A. Gives Compilation Error.</button>
+          <button class="bug-opt" onclick="checkBugAns(this, true)">B. Infinite Loop — Non-zero integers always evaluate to TRUE in C.</button>
+          <button class="bug-opt" onclick="checkBugAns(this, false)">C. Prints exactly 1 time and stops.</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- CHAPTER 5: NESTED LOOPS                        -->
+    <!-- ============================================== -->
+    <div id="ch5" class="section-content">
+      <div class="analogy-banner">
+        <strong>💡 Real-World Metaphor (Page 137):</strong> Outer Loop = <strong>Hour Hand (Rows)</strong>. Inner Loop = <strong>Minute Hand (Columns)</strong>. The inner loop must complete all its rounds before the outer loop moves to the next step.
+      </div>
+
+      <div class="grid-2">
+        <div class="lab-card">
+          <h2><i class="fa-solid fa-shapes"></i> Pattern Architect (Pg 151 Exercises)</h2>
+          <div class="pattern-controls">
+            <div class="control-item">
+              <label>Select Exercise Pattern:</label>
+              <select id="pattern-select" onchange="generatePattern()">
+                <option value="1a">Pg 151 Q1.a (1 2 3 Grid)</option>
+                <option value="1c">Pg 136 Q.C (Pyramid 1, 1 1...)</option>
+                <option value="1d">Pg 136 Q.D (Countdown 5, 5 4...)</option>
+                <option value="star">Star Triangle (*, * *...)</option>
+              </select>
+            </div>
+            <div class="control-item">
+              <label>Number of Rows (i = 1 to N): <span id="row-val" style="color:var(--accent);">5</span></label>
+              <input type="range" id="row-slider" min="2" max="6" value="5" oninput="updateRows(this.value)">
+            </div>
+          </div>
+          <div class="code-box" id="pattern-code-display"></div>
+        </div>
+
+        <div class="lab-card">
+          <h2><i class="fa-solid fa-display"></i> Generated Screen Output</h2>
+          <div class="terminal-screen" id="pattern-terminal" style="font-size:1.1rem; line-height:1.4;"></div>
+          <div class="memory-panel" style="margin-top:1rem;">
+            <div style="font-size:0.85rem; color:var(--text-muted);" id="pattern-explanation">
+              Outer loop runs for <strong>Row (i)</strong>, Inner loop prints each <strong>Column (j)</strong>, followed by a <code>\n</code> line break.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- CHAPTER 6: ARRAYS IN C                         -->
+    <!-- ============================================== -->
+    <div id="ch6" class="section-content">
+      <div class="analogy-banner">
+        <strong>💡 Real-World Metaphor (Page 153 Motivation):</strong> A single variable <code>int var</code> overwrites the previous value every time you enter a new one. An <strong>Array</strong> creates multiple labeled memory lockers starting at index <strong>0</strong>.
+      </div>
+
+      <div class="lab-card">
+        <h2><i class="fa-solid fa-box-archive"></i> Interactive Array Locker Room (Pg 184 Q3, Q7, Q11)</h2>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">
+          Given array: <code>int arr[8] = {1, 2, 4, 3, 5, 6, 7, 8};</code>. Tap any index locker:
+        </p>
+        <div style="display:flex; gap:0.6rem; overflow-x:auto; padding-bottom:1rem;" id="array-slots-ch6"></div>
+
+        <div class="grid-2" style="margin-top:1rem;">
+          <div class="code-box">
+            <div style="color:var(--yellow); margin-bottom:0.4rem;">// SEBA Operations on this Array:</div>
+            <button class="lab-btn" style="margin-bottom:0.5rem; width:100%; justify-content:center;" onclick="runArrayEvenSum()">
+              <i class="fa-solid fa-calculator"></i> Pg 184 Q7: Sum of Even Numbers
+            </button>
+            <button class="lab-btn secondary" style="width:100%; justify-content:center;" onclick="runArrayEvenReplace()">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Pg 185 Q11: Replace Even Positions with 0
+            </button>
+          </div>
+          <div class="terminal-screen" id="array-terminal-ch6">> Tap a locker or run an operation...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- CHAPTER 7: FUNCTIONS IN C                      -->
+    <!-- ============================================== -->
+    <div id="ch7" class="section-content">
+      <div class="analogy-banner">
+        <strong>💡 Real-World Metaphor (Page 187):</strong> A Function is like a microwave: you give it raw food (Arguments/Parameters), it processes it inside, and returns a hot meal (Return Value).
+      </div>
+
+      <div class="grid-2">
+        <!-- Recursion Stack Tower (Pg 202 Q14) -->
+        <div class="lab-card">
+          <h2><i class="fa-solid fa-layer-group"></i> Recursive Call Stack Tower (Pg 202 Q14)</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">
+            Sum of first N natural numbers: <code>sum(3) = 3 + sum(2)...</code>
+          </p>
+          <div style="display:flex; flex-direction:column-reverse; gap:0.4rem; min-height:140px; background:#070a12; padding:1rem; border-radius:8px; border:1px solid var(--border);" id="stack-tower">
+            <div style="text-align:center; color:var(--text-muted); font-size:0.85rem;">[Stack Empty]</div>
+          </div>
+          <div class="btn-group">
+            <button class="lab-btn" onclick="stepRecursion()"><i class="fa-solid fa-play"></i> Step Recursive Call</button>
+            <button class="lab-btn secondary" onclick="resetRecursion()"><i class="fa-solid fa-rotate-left"></i> Reset Stack</button>
+          </div>
+        </div>
+
+        <!-- Pg 201 Q10 Bug Check -->
+        <div class="lab-card">
+          <h2><i class="fa-solid fa-bug"></i> Spot the Syntax Error (Pg 201 Q10)</h2>
+          <div class="bug-card">
+            <code>
+              <span class="c-keyword">int</span> <span class="c-func">fun</span>(<span class="c-keyword">int</span> x) {<br>
+              &nbsp;&nbsp;<span class="c-keyword">if</span> (x % 2 == 0) <span class="c-keyword">return</span> 1;<br>
+              &nbsp;&nbsp;<span class="c-keyword">else</span> <span class="c-keyword">return</span> 0;<br>
+              }<br>
+              <span class="c-keyword">int</span> <span class="c-func">main</span>() {<br>
+              &nbsp;&nbsp;<span class="c-keyword">int</span> x = fun(); <span class="c-comment">// &lt;-- LOOK HERE</span><br>
+              }
+            </code>
+          </div>
+          <div class="bug-options">
+            <button class="bug-opt" onclick="checkBugAns(this, true)">A. Error: `fun()` expects 1 integer parameter (e.g. `fun(number)`), but 0 arguments were passed.</button>
+            <button class="bug-opt" onclick="checkBugAns(this, false)">B. Error: `main()` cannot call `fun()`.</button>
+            <button class="bug-opt" onclick="checkBugAns(this, false)">C. Error: `%` operator is not allowed inside a function.</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- CHAPTER 8: POINTERS IN C                       -->
+    <!-- ============================================== -->
+    <div id="ch8" class="section-content">
+      <div class="analogy-banner">
+        <strong>💡 Real-World Metaphor (Page 213):</strong> A variable name is your home. A <strong>Pointer</strong> is simply the GPS coordinate/Address (<code>&x</code>) pointing directly to that memory locker!
+      </div>
+
+      <div class="lab-card">
+        <h2><i class="fa-solid fa-calculator"></i> Pointer Arithmetic Visualizer (Pg 224 Q4.a, b, c)</h2>
+        <div class="grid-2" style="margin-top:1rem;">
+          <div style="background:var(--code-bg); padding:1rem; border-radius:8px; border:1px solid var(--border);">
+            <div style="font-size:0.8rem; color:var(--text-muted);">Variable in RAM</div>
+            <div style="font-size:1.1rem; font-weight:bold; color:var(--yellow); margin:0.3rem 0;">int x = 9;</div>
+            <div style="font-size:0.85rem;">Address in RAM (&x): <span style="color:var(--accent);">0x7ffd20</span></div>
+            <div style="font-size:0.85rem;">Current Value: <span style="color:var(--green); font-size:1.2rem; font-weight:bold;" id="ptr-x-val">9</span></div>
+          </div>
+          <div style="background:var(--code-bg); padding:1rem; border-radius:8px; border:1px solid var(--border);">
+            <div style="font-size:0.8rem; color:var(--text-muted);">Pointer Variable</div>
+            <div style="font-size:1.1rem; font-weight:bold; color:var(--accent); margin:0.3rem 0;">int *ptr = &x;</div>
+            <div style="font-size:0.85rem;">Holds Target: <span style="color:var(--accent);">0x7ffd20</span></div>
+            <div style="font-size:0.85rem;">Value at (*ptr): <span style="color:var(--green); font-size:1.2rem; font-weight:bold;" id="ptr-deref-val">9</span></div>
+          </div>
+        </div>
+
+        <div class="btn-group" style="margin-top:1.2rem;">
+          <button class="lab-btn" onclick="runPointerOp('post')"><i class="fa-solid fa-play"></i> Pg 224 Q4.a: (*ptr)++ (Post-Increment)</button>
+          <button class="lab-btn" style="background:var(--purple); color:#fff;" onclick="runPointerOp('pre')"><i class="fa-solid fa-play"></i> Pg 224 Q4.c: ++(*ptr) (Pre-Increment)</button>
+          <button class="lab-btn secondary" onclick="resetPointerSim()"><i class="fa-solid fa-rotate-left"></i> Reset x = 9</button>
+        </div>
+
+        <div class="terminal-screen" id="pointer-terminal" style="margin-top:1rem;">> Tap an operation above to trace how pointers alter memory.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // Ch 4: Loop Stepper
+    const loopSteps = [
+      { line: 'l3', i: 'Unassigned', cond: '?', text: 'Allocated 4 bytes in RAM for int variable i.' },
+      { line: 'l4', i: 1, cond: '1 <= 4 (TRUE)', text: 'Initialized i = 1. Condition check 1 <= 4 is TRUE. Entering loop.' },
+      { line: 'l5', i: 1, cond: 'TRUE', text: 'Printed: Pass: 1' },
+      { line: 'l4', i: 2, cond: '2 <= 4 (TRUE)', text: 'i incremented to 2. Condition check 2 <= 4 is TRUE.' },
+      { line: 'l5', i: 2, cond: 'TRUE', text: 'Printed: Pass: 2' },
+      { line: 'l4', i: 3, cond: '3 <= 4 (TRUE)', text: 'i incremented to 3. Condition check 3 <= 4 is TRUE.' },
+      { line: 'l5', i: 3, cond: 'TRUE', text: 'Printed: Pass: 3' },
+      { line: 'l4', i: 4, cond: '4 <= 4 (TRUE)', text: 'i incremented to 4. Condition check 4 <= 4 is TRUE.' },
+      { line: 'l5', i: 4, cond: 'TRUE', text: 'Printed: Pass: 4' },
+      { line: 'l4', i: 5, cond: '5 <= 4 (FALSE)', text: 'i incremented to 5. Condition check 5 <= 4 is FALSE. Loop terminated!' },
+      { line: 'l7', i: 5, cond: 'TERMINATED', text: 'Printed: Loop Ended!' }
+    ];
+
+    let currentStepIdx = -1;
+    function stepLoopForward() {
+      if (currentStepIdx < loopSteps.length - 1) {
+        currentStepIdx++;
+        const s = loopSteps[currentStepIdx];
+        document.querySelectorAll('.code-line').forEach(l => l.classList.remove('active'));
+        const activeLine = document.getElementById(s.line);
+        if (activeLine) activeLine.classList.add('active');
+        document.getElementById('step-var-i').innerText = s.i;
+        document.getElementById('step-cond').innerText = s.cond;
+        const terminal = document.getElementById('loop-terminal');
+        terminal.innerText += `\n> Step ${currentStepIdx + 1}: ${s.text}`;
+        terminal.scrollTop = terminal.scrollHeight;
+      }
+    }
+
+    function resetLoopStepper() {
+      currentStepIdx = -1;
+      document.querySelectorAll('.code-line').forEach(l => l.classList.remove('active'));
+      document.getElementById('step-var-i').innerText = 'Unassigned';
+      document.getElementById('step-cond').innerText = '?';
+      document.getElementById('loop-terminal').innerText = '> Stepper reset. Click Next Step ⏭️';
+    }
+
+    function simulateWhileTest(isDoWhile) {
+      const box = document.getElementById('while-result-box');
+      if (!isDoWhile) {
+        box.innerHTML = `<strong>while (i &gt; 0):</strong> Checked condition <code>0 &gt; 0</code> (FALSE) at the entrance. Loop body ran <strong>0 times</strong>.`;
+      } else {
+        box.innerHTML = `<strong>do-while (i &gt; 0):</strong> Body executed <strong>1 time</strong> (printed '0'), and then checked condition at the exit!`;
+      }
+    }
+
+    function checkBugAns(btn, isCorrect) {
+      const parent = btn.parentElement;
+      parent.querySelectorAll('.bug-opt').forEach(b => b.classList.remove('correct', 'wrong'));
+      if (isCorrect) btn.classList.add('correct');
+      else btn.classList.add('wrong');
+    }
+
+    // Ch 5: Pattern Architect
+    function updateRows(val) {
+      document.getElementById('row-val').innerText = val;
+      generatePattern();
+    }
+
+    function generatePattern() {
+      const type = document.getElementById('pattern-select').value;
+      const rows = parseInt(document.getElementById('row-slider').value);
+      const terminal = document.getElementById('pattern-terminal');
+      const codeDisplay = document.getElementById('pattern-code-display');
+      let out = "", code = "";
+
+      if (type === '1a') {
+        code = `<span class="c-keyword">for</span>(i = 1; i &lt;= ${rows}; i++) {\n    <span class="c-keyword">for</span>(j = 1; j &lt;= 3; j++) {\n        <span class="c-func">printf</span>(<span class="c-string">"%d "</span>, j);\n    }\n    <span class="c-func">printf</span>(<span class="c-string">"\\n"</span>);\n}`;
+        for (let i = 1; i <= rows; i++) {
+          for (let j = 1; j <= 3; j++) out += j + " ";
+          out += "\n";
+        }
+      } else if (type === '1c') {
+        code = `<span class="c-keyword">for</span>(i = 1; i &lt;= ${rows}; i++) {\n    <span class="c-keyword">for</span>(j = 1; j &lt;= i; j++) {\n        <span class="c-func">printf</span>(<span class="c-string">"1 "</span>);\n    }\n    <span class="c-func">printf</span>(<span class="c-string">"\\n"</span>);\n}`;
+        for (let i = 1; i <= rows; i++) {
+          for (let j = 1; j <= i; j++) out += "1 ";
+          out += "\n";
+        }
+      } else if (type === '1d') {
+        code = `<span class="c-keyword">for</span>(i = 5; i &gt;= ${6 - rows}; i--) {\n    <span class="c-keyword">for</span>(j = 5; j &gt;= i; j--) {\n        <span class="c-func">printf</span>(<span class="c-string">"%d "</span>, j);\n    }\n    <span class="c-func">printf</span>(<span class="c-string">"\\n"</span>);\n}`;
+        for (let i = 5; i >= (6 - rows); i--) {
+          for (let j = 5; j >= i; j--) out += j + " ";
+          out += "\n";
+        }
+      } else {
+        code = `<span class="c-keyword">for</span>(i = 1; i &lt;= ${rows}; i++) {\n    <span class="c-keyword">for</span>(j = 1; j &lt;= i; j++) {\n        <span class="c-func">printf</span>(<span class="c-string">"* "</span>);\n    }\n    <span class="c-func">printf</span>(<span class="c-string">"\\n"</span>);\n}`;
+        for (let i = 1; i <= rows; i++) {
+          for (let j = 1; j <= i; j++) out += "* ";
+          out += "\n";
+        }
+      }
+      codeDisplay.innerHTML = code;
+      terminal.innerText = out;
+    }
+
+    // Ch 6: Arrays
+    const ch6Array = [1, 2, 4, 3, 5, 6, 7, 8];
+    function renderCh6Array() {
+      const c = document.getElementById('array-slots-ch6');
+      c.innerHTML = "";
+      ch6Array.forEach((val, idx) => {
+        const d = document.createElement('div');
+        d.className = 'array-slot';
+        d.innerHTML = `<div style="font-size:0.75rem; color:var(--yellow);">[${idx}]</div><div style="font-size:1.1rem; font-weight:bold; color:var(--green);">${val}</div>`;
+        d.onclick = () => {
+          document.querySelectorAll('.array-slot').forEach(s => s.classList.remove('active'));
+          d.classList.add('active');
+          document.getElementById('array-terminal-ch6').innerText = `> Element: arr[${idx}] = ${val}\n> Memory Address: 0x${(3000 + idx*4).toString(16)}\n> Is Even?: ${val % 2 === 0 ? 'YES' : 'NO'}`;
+        };
+        c.appendChild(d);
+      });
+    }
+
+    function runArrayEvenSum() {
+      let sum = 0;
+      let evens = [];
+      ch6Array.forEach(n => {
+        if (n % 2 === 0) {
+          sum += n;
+          evens.push(n);
+        }
+      });
+      document.getElementById('array-terminal-ch6').innerText = `> Running Pg 184 Q7 Strategy:\n> Filtered Even Numbers: [${evens.join(', ')}]\n> Total Sum: ${evens.join(' + ')} = ${sum}`;
+    }
+
+    function runArrayEvenReplace() {
+      let replaced = ch6Array.map((val, idx) => (idx % 2 === 0 ? 0 : val));
+      document.getElementById('array-terminal-ch6').innerText = `> Running Pg 185 Q11 Strategy:\n> Replaced all even indices [0, 2, 4, 6] with 0:\n> New Array: [${replaced.join(', ')}]`;
+    }
+
+    // Ch 7: Recursion Stack Tower
+    let recStep = 0;
+    const recCalls = [
+      "sum(3) -> waiting for sum(2)",
+      "sum(2) -> waiting for sum(1)",
+      "sum(1) -> returns 1 (Base Case reached!)",
+      "Collapsing Stack: sum(2) = 2 + 1 = 3",
+      "Final Result: sum(3) = 3 + 3 = 6"
+    ];
+
+    function stepRecursion() {
+      const tower = document.getElementById('stack-tower');
+      if (recStep === 0) tower.innerHTML = "";
+      if (recStep < 3) {
+        const box = document.createElement('div');
+        box.className = 'stack-box';
+        box.innerText = recCalls[recStep];
+        tower.appendChild(box);
+        recStep++;
+      } else if (recStep < recCalls.length) {
+        const box = document.createElement('div');
+        box.className = 'stack-box';
+        box.style.borderColor = 'var(--green)';
+        box.style.color = 'var(--green)';
+        box.innerText = recCalls[recStep];
+        tower.appendChild(box);
+        recStep++;
+      }
+    }
+
+    function resetRecursion() {
+      recStep = 0;
+      document.getElementById('stack-tower').innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:0.85rem;">[Stack Empty]</div>`;
+    }
+
+    // Ch 8: Pointers Visualizer
+    let currentX = 9;
+    function runPointerOp(type) {
+      const terminal = document.getElementById('pointer-terminal');
+      if (type === 'post') {
+        const printed = currentX;
+        currentX++;
+        document.getElementById('ptr-x-val').innerText = currentX;
+        document.getElementById('ptr-deref-val').innerText = currentX;
+        terminal.innerText = `> Executing (*ptr)++ (Post-Increment Pg 224 Q4.a):\n> 1. Evaluates/Prints old value: ${printed}\n> 2. Variable x is incremented in RAM to: ${currentX}`;
+      } else {
+        currentX++;
+        document.getElementById('ptr-x-val').innerText = currentX;
+        document.getElementById('ptr-deref-val').innerText = currentX;
+        terminal.innerText = `> Executing ++(*ptr) (Pre-Increment Pg 224 Q4.c):\n> 1. Variable x is incremented FIRST in RAM to: ${currentX}\n> 2. Evaluates/Prints new value: ${currentX}`;
+      }
+    }
+
+    function resetPointerSim() {
+      currentX = 9;
+      document.getElementById('ptr-x-val').innerText = '9';
+      document.getElementById('ptr-deref-val').innerText = '9';
+      document.getElementById('pointer-terminal').innerText = '> Reset variable x back to 9.';
+    }
+
+    window.onload = () => {
+      generatePattern();
+      renderCh6Array();
+    };
+  </script>
+</body>
+</html>
