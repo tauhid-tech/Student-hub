@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEBA Class 10 Question Paper Bank (2022-2025) | Student Hub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #151d30;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --green: #4ade80;
+      --yellow: #facc15;
+      --red: #f87171;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: #243454;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+    header {
+      background: rgba(21, 29, 48, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 800; font-size: 1.15rem; color: var(--accent); text-decoration: none; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem; margin-left: 1rem; transition: 0.2s; }
+    .nav-links a:hover { color: var(--accent); }
+
+    .container { max-width: 1200px; margin: 1.5rem auto; padding: 0 1rem; width: 100%; flex: 1; }
+    .hero-banner { text-align: center; margin-bottom: 1.5rem; }
+    .hero-banner h1 { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.4rem; }
+    .hero-banner p { color: var(--text-muted); font-size: 0.95rem; }
+
+    .filter-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-group { display: flex; flex-direction: column; gap: 0.3rem; }
+    .filter-group label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+
+    select, input {
+      background: #070a12;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.6rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+      width: 100%;
+    }
+    select:focus, input:focus { border-color: var(--accent); }
+
+    .paper-stats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .papers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .paper-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+    .paper-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+    .exam-tag { background: rgba(56, 189, 248, 0.15); color: var(--accent); border: 1px solid rgba(56, 189, 248, 0.3); padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; }
+    .year-tag { background: rgba(250, 204, 21, 0.15); color: var(--yellow); border: 1px solid rgba(250, 204, 21, 0.3); padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; }
+    
+    .paper-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
+    .paper-meta { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; display: flex; gap: 0.75rem; }
+
+    .btn-download {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      border: none;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      transition: 0.2s;
+    }
+    .btn-download:hover { opacity: 0.9; }
+
+    /* Modal Overlay */
+    .ad-modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
+      display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1rem;
+    }
+    .ad-modal {
+      background: #111827; border: 1px solid var(--border); border-radius: 16px;
+      width: 100%; max-width: 440px; padding: 1.5rem; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+    .ad-slot-box {
+      background: #030712; border: 1px dashed #374151; border-radius: 8px; min-height: 200px;
+      display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 1rem 0; padding: 1rem;
+    }
+    .timer-circle { font-size: 2rem; font-weight: 800; color: var(--yellow); margin-bottom: 0.25rem; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand">
+      <i class="fa-solid fa-file-pdf"></i>
+      <span>Tauhid Tech <span style="font-weight:400; font-size:0.85rem; color:#fff;">| Papers</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="practice.html"><i class="fa-solid fa-book"></i> Practice</a>
+      <a href="c-lab.html"><i class="fa-solid fa-code"></i> CodeX</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="hero-banner">
+      <h1>SEBA Class 10 Question Papers (2022–2025)</h1>
+      <p>Download original question papers for Half-Yearly, Pre-Final (Pre-Board), and HSLC Annual Exams.</p>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-card">
+      <div class="filter-group">
+        <label>Exam Type</label>
+        <select id="filter-exam" onchange="filterPapers()">
+          <option value="all">All Exams</option>
+          <option value="Annual / HSLC Final">Annual / HSLC Final</option>
+          <option value="Pre-Final / Pre-Board">Pre-Final / Pre-Board</option>
+          <option value="Half-Yearly">Half-Yearly</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Year</label>
+        <select id="filter-year" onchange="filterPapers()">
+          <option value="all">All Years</option>
+          <option value="2025">2025</option>
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Subject</label>
+        <select id="filter-subject" onchange="filterPapers()">
+          <option value="all">All Subjects</option>
+          <option value="General Science">General Science</option>
+          <option value="General Mathematics">General Mathematics</option>
+          <option value="Social Science">Social Science</option>
+          <option value="English">English</option>
+          <option value="Computer Science">Computer Science</option>
+          <option value="MIL Assamese / Bengali">MIL Assamese / Bengali</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="paper-stats-bar">
+      <span id="results-count">Showing all papers</span>
+    </div>
+
+    <div class="papers-grid" id="papers-container"></div>
+  </div>
+
+  <!-- 5-Second Ad Modal -->
+  <div class="ad-modal-overlay" id="ad-modal">
+    <div class="ad-modal">
+      <h3 style="font-size:1.15rem; color:#fff;" id="ad-paper-title">Preparing Your Question Paper</h3>
+      <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">Your PDF will unlock in:</p>
+
+      <div class="timer-circle" id="countdown-timer">5</div>
+
+      <div class="ad-slot-box" id="ad-banner-area">
+        <i class="fa-solid fa-rectangle-ad" style="font-size:2.5rem; color:#4b5563; margin-bottom:0.5rem;"></i>
+        <span style="font-size:0.85rem; font-weight:600; color:#9ca3af;">Sponsored Advertisement</span>
+        <span style="font-size:0.75rem; color:#6b7280; margin-top:0.25rem;">Ad slot displays while link generates</span>
+      </div>
+
+      <button class="btn-download" id="modal-action-btn" disabled style="background:#374151; cursor:not-allowed;" onclick="openPdfFile()">
+        <i class="fa-solid fa-lock"></i> Please wait 5s...
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // FULL DATASET (2022 - 2025)
+    const questionPapers = [
+      // 2025
+      { id: "p25_1", subject: "General Science", exam: "Pre-Final / Pre-Board", year: "2025", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p25_2", subject: "General Mathematics", exam: "Pre-Final / Pre-Board", year: "2025", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p25_3", subject: "Social Science", exam: "Pre-Final / Pre-Board", year: "2025", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p25_4", subject: "English", exam: "Pre-Final / Pre-Board", year: "2025", medium: "English", pdfUrl: "https://drive.google.com" },
+      
+      // 2024
+      { id: "p24_1", subject: "General Science", exam: "Annual / HSLC Final", year: "2024", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p24_2", subject: "General Mathematics", exam: "Annual / HSLC Final", year: "2024", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p24_3", subject: "Social Science", exam: "Annual / HSLC Final", year: "2024", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p24_4", subject: "English", exam: "Annual / HSLC Final", year: "2024", medium: "English", pdfUrl: "https://drive.google.com" },
+      { id: "p24_5", subject: "Computer Science", exam: "Annual / HSLC Final", year: "2024", medium: "English", pdfUrl: "https://drive.google.com" },
+      { id: "p24_6", subject: "General Science", exam: "Pre-Final / Pre-Board", year: "2024", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p24_7", subject: "General Mathematics", exam: "Pre-Final / Pre-Board", year: "2024", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p24_8", subject: "General Science", exam: "Half-Yearly", year: "2024", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p24_9", subject: "General Mathematics", exam: "Half-Yearly", year: "2024", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+
+      // 2023
+      { id: "p23_1", subject: "General Science", exam: "Annual / HSLC Final", year: "2023", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p23_2", subject: "General Mathematics", exam: "Annual / HSLC Final", year: "2023", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p23_3", subject: "Social Science", exam: "Annual / HSLC Final", year: "2023", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p23_4", subject: "English", exam: "Annual / HSLC Final", year: "2023", medium: "English", pdfUrl: "https://drive.google.com" },
+      { id: "p23_5", subject: "General Science", exam: "Half-Yearly", year: "2023", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p23_6", subject: "General Mathematics", exam: "Half-Yearly", year: "2023", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p23_7", subject: "General Science", exam: "Pre-Final / Pre-Board", year: "2023", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+
+      // 2022
+      { id: "p22_1", subject: "General Science", exam: "Annual / HSLC Final", year: "2022", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p22_2", subject: "General Mathematics", exam: "Annual / HSLC Final", year: "2022", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p22_3", subject: "Social Science", exam: "Annual / HSLC Final", year: "2022", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p22_4", subject: "English", exam: "Annual / HSLC Final", year: "2022", medium: "English", pdfUrl: "https://drive.google.com" },
+      { id: "p22_5", subject: "General Science", exam: "Half-Yearly", year: "2022", medium: "English / Assamese", pdfUrl: "https://drive.google.com" },
+      { id: "p22_6", subject: "General Mathematics", exam: "Half-Yearly", year: "2022", medium: "English / Assamese", pdfUrl: "https://drive.google.com" }
+    ];
+
+    let targetPdfUrl = "";
+    let adInterval = null;
+
+    function renderPapers(list) {
+      const container = document.getElementById("papers-container");
+      container.innerHTML = "";
+      document.getElementById("results-count").innerText = `Showing ${list.length} question paper${list.length === 1 ? '' : 's'}`;
+
+      if (list.length === 0) {
+        container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding: 2.5rem; color:var(--text-muted);"><i class="fa-solid fa-folder-open" style="font-size:2rem; margin-bottom:0.5rem; display:block;"></i>No question papers found matching your selection.</div>`;
+        return;
+      }
+
+      list.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "paper-card";
+        card.innerHTML = `
+          <div>
+            <div class="card-top">
+              <span class="exam-tag">${item.exam}</span>
+              <span class="year-tag">${item.year}</span>
+            </div>
+            <div class="paper-title">${item.subject}</div>
+            <div class="paper-meta">
+              <span><i class="fa-solid fa-language"></i> ${item.medium}</span>
+              <span><i class="fa-regular fa-file-pdf"></i> Official PDF</span>
+            </div>
+          </div>
+          <button class="btn-download" onclick="startDownloadProcess('${item.subject} - ${item.exam} (${item.year})', '${item.pdfUrl}')">
+            <i class="fa-solid fa-download"></i> Get Question Paper
+          </button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filterPapers() {
+      const examVal = document.getElementById("filter-exam").value;
+      const yearVal = document.getElementById("filter-year").value;
+      const subVal = document.getElementById("filter-subject").value;
+
+      const filtered = questionPapers.filter(p => {
+        const matchesExam = (examVal === "all" || p.exam === examVal);
+        const matchesYear = (yearVal === "all" || p.year === yearVal);
+        const matchesSub = (subVal === "all" || p.subject === subVal);
+        return matchesExam && matchesYear && matchesSub;
+      });
+
+      renderPapers(filtered);
+    }
+
+    function startDownloadProcess(title, url) {
+      targetPdfUrl = url;
+      document.getElementById("ad-paper-title").innerText = title;
+      const modal = document.getElementById("ad-modal");
+      const timerDisplay = document.getElementById("countdown-timer");
+      const actionBtn = document.getElementById("modal-action-btn");
+
+      let secondsLeft = 5;
+      timerDisplay.innerText = secondsLeft;
+      timerDisplay.style.color = "var(--yellow)";
+      actionBtn.disabled = true;
+      actionBtn.style.background = "#374151";
+      actionBtn.style.cursor = "not-allowed";
+      actionBtn.innerHTML = `<i class="fa-solid fa-lock"></i> Please wait ${secondsLeft}s...`;
+
+      modal.style.display = "flex";
+
+      if (adInterval) clearInterval(adInterval);
+
+      adInterval = setInterval(() => {
+        secondsLeft--;
+        if (secondsLeft > 0) {
+          timerDisplay.innerText = secondsLeft;
+          actionBtn.innerHTML = `<i class="fa-solid fa-lock"></i> Please wait ${secondsLeft}s...`;
+        } else {
+          clearInterval(adInterval);
+          timerDisplay.innerText = "✓";
+          timerDisplay.style.color = "var(--green)";
+          actionBtn.disabled = false;
+          actionBtn.style.background = "linear-gradient(135deg, #10b981, #059669)";
+          actionBtn.style.cursor = "pointer";
+          actionBtn.innerHTML = `<i class="fa-solid fa-circle-arrow-down"></i> Download PDF Now`;
+        }
+      }, 1000);
+    }
+
+    function openPdfFile() {
+      document.getElementById("ad-modal").style.display = "none";
+      if (targetPdfUrl) {
+        window.open(targetPdfUrl, "_blank");
+      }
+    }
+
+    window.onload = () => {
+      renderPapers(questionPapers);
+    };
+  </script>
+</body>
+</html>
