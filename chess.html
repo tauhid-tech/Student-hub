@@ -468,18 +468,21 @@
     $(window).resize(board.resize);
 
     window.onload = () => {
-      initProfile();
-      updateStatus();
+  initProfile();
+  updateStatus();
 
-      const urlParams = new URLSearchParams(window.location.search);
-      const roomParam = urlParams.get('room');
-      if (roomParam) {
-        document.getElementById('join-room-code').value = roomParam;
-        setTimeout(() => {
-          joinOnlineRoom(roomParam);
-        }, 500);
-      }
-    };
+  const urlParams = new URLSearchParams(window.location.search);
+  const roomParam = urlParams.get('room');
+  if (roomParam) {
+    document.getElementById('join-room-code').value = roomParam;
+    // Ensure network stack is fully awake before connecting
+    setTimeout(() => {
+      joinOnlineRoom(roomParam);
+    }, 1200);
+  }
+};
+      
+      
   </script>
 </body>
 </html>
