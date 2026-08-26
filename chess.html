@@ -3,12 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chess Arena - Brain Break | Student Hub</title>
+  <title>Chess Arena - Multiplayer & ELO Rank | Tauhid Tech</title>
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Fira+Code:wght@600&display=swap" rel="stylesheet">
-  
-  <!-- Chessboard CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
 
   <style>
@@ -16,10 +14,9 @@
       --bg: #0b0f19;
       --card-bg: #151d30;
       --accent: #38bdf8;
-      --accent-glow: rgba(56, 189, 248, 0.25);
       --green: #4ade80;
       --yellow: #facc15;
-      --red: #f87171;
+      --purple: #818cf8;
       --text: #f1f5f9;
       --text-muted: #94a3b8;
       --border: #243454;
@@ -42,96 +39,102 @@
     }
 
     .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 800; font-size: 1.15rem; color: var(--accent); text-decoration: none; }
-    .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem; margin-left: 1rem; transition: 0.2s; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem; margin-left: 1rem; }
     .nav-links a:hover { color: var(--accent); }
 
-    .container { max-width: 900px; margin: 1.5rem auto; padding: 0 1rem; width: 100%; flex: 1; }
-    .hero-banner { text-align: center; margin-bottom: 1.5rem; }
-    .hero-banner h1 { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.4rem; }
-    .hero-banner p { color: var(--text-muted); font-size: 0.92rem; }
+    .container { max-width: 950px; margin: 1.5rem auto; padding: 0 1rem; width: 100%; flex: 1; }
 
-    .game-layout {
-      display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 1.5rem;
-      align-items: start;
-    }
-
-    @media (max-width: 768px) {
-      .game-layout { grid-template-columns: 1fr; }
-    }
-
-    .board-card {
+    /* Player Profile Bar */
+    .profile-bar {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1rem;
+      border-radius: 12px;
+      padding: 0.9rem 1.25rem;
       display: flex;
-      justify-content: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
 
-    #myBoard {
-      width: 100%;
-      max-width: 440px;
-      touch-action: none;
-    }
+    .profile-info { display: flex; align-items: center; gap: 0.75rem; }
+    .avatar-icon { font-size: 1.5rem; background: rgba(56, 189, 248, 0.15); color: var(--accent); width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .profile-name { font-weight: 700; font-size: 1rem; }
+    .elo-tag { background: rgba(250, 204, 21, 0.15); color: var(--yellow); padding: 3px 8px; border-radius: 6px; font-weight: 800; font-size: 0.82rem; margin-left: 0.4rem; }
 
-    .panel-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .status-badge {
+    .btn-edit-profile {
       background: #070a12;
       border: 1px solid var(--border);
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--yellow);
-      text-align: center;
-    }
-
-    .move-history {
-      background: #070a12;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.75rem;
-      height: 150px;
-      overflow-y: auto;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.85rem;
       color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .btn-group { display: flex; flex-direction: column; gap: 0.5rem; }
-
-    .btn {
-      background: var(--accent);
-      color: #0b0f19;
-      border: none;
-      padding: 0.65rem 1rem;
+      padding: 0.4rem 0.8rem;
       border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-edit-profile:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Mode Selector */
+    .mode-selector { display: flex; gap: 0.75rem; justify-content: center; margin-bottom: 1.25rem; }
+    .mode-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.6rem 1.2rem;
+      border-radius: 10px;
       font-weight: 700;
       font-size: 0.9rem;
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 0.5rem;
-      transition: all 0.2s;
+      transition: 0.2s;
     }
+    .mode-btn.active { background: rgba(56, 189, 248, 0.15); border-color: var(--accent); color: var(--accent); }
 
-    .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .game-layout { display: grid; grid-template-columns: 1fr 320px; gap: 1.5rem; align-items: start; }
+    @media (max-width: 768px) { .game-layout { grid-template-columns: 1fr; } }
+
+    .board-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    #myBoard { width: 100%; max-width: 440px; touch-action: none; }
+
+    .panel-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+    .status-badge { background: #070a12; border: 1px solid var(--border); padding: 0.75rem; border-radius: 8px; font-size: 0.92rem; font-weight: 700; color: var(--yellow); text-align: center; }
+
+    .player-indicator { display: flex; justify-content: space-between; background: #070a12; border: 1px solid var(--border); padding: 0.75rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; }
+    .player-tag { opacity: 0.5; transition: 0.2s; display: flex; align-items: center; gap: 0.35rem; }
+    .player-tag.active { opacity: 1; color: var(--accent); }
+
+    .move-history { background: #070a12; border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; height: 130px; overflow-y: auto; font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+    .btn-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .btn { background: var(--accent); color: #0b0f19; border: none; padding: 0.65rem 1rem; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
     .btn.secondary { background: #334155; color: #fff; }
-    .btn.secondary:hover { background: #475569; }
+
+    /* Modal for Name & ELO */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
+      display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1rem;
+    }
+    .modal-box {
+      background: #111827; border: 1px solid var(--border); border-radius: 16px;
+      width: 100%; max-width: 380px; padding: 1.5rem; text-align: center;
+    }
+    .modal-box input {
+      width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border);
+      background: #070a12; color: #fff; font-size: 0.95rem; margin: 0.8rem 0; outline: none;
+    }
+    .modal-box input:focus { border-color: var(--accent); }
   </style>
 </head>
 <body>
@@ -139,19 +142,37 @@
   <header>
     <a href="index.html" class="brand">
       <i class="fa-solid fa-chess-knight"></i>
-      <span>Student Hub <span style="font-weight:400; font-size:0.85rem; color:#fff;">| Chess</span></span>
+      <span>Tauhid Tech <span style="font-weight:400; font-size:0.85rem; color:#fff;">| Chess</span></span>
     </a>
     <div class="nav-links">
       <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
       <a href="practice.html"><i class="fa-solid fa-book"></i> Practice</a>
-      <a href="c-lab.html"><i class="fa-solid fa-code"></i> CodeX</a>
+      <a href="papers.html"><i class="fa-solid fa-file-pdf"></i> Papers</a>
     </div>
   </header>
 
   <div class="container">
-    <div class="hero-banner">
-      <h1>Class 10 Brain Break: Chess Arena</h1>
-      <p>Sharpen your logic and concentration. Play as White against the Bot.</p>
+    
+    <!-- User Profile & ELO Header -->
+    <div class="profile-bar">
+      <div class="profile-info">
+        <div class="avatar-icon"><i class="fa-solid fa-user-astronaut"></i></div>
+        <div>
+          <span class="profile-name" id="display-user-name">Player</span>
+          <span class="elo-tag" id="display-user-elo">1200 ELO</span>
+        </div>
+      </div>
+      <button class="btn-edit-profile" onclick="openProfileModal()"><i class="fa-solid fa-pen-to-square"></i> Edit Name</button>
+    </div>
+
+    <!-- Mode Selector -->
+    <div class="mode-selector">
+      <button class="mode-btn active" id="btn-mode-ai" onclick="switchMode('ai')">
+        <i class="fa-solid fa-robot"></i> Bot Match (1200 ELO)
+      </button>
+      <button class="mode-btn" id="btn-mode-pvp" onclick="switchMode('pvp')">
+        <i class="fa-solid fa-user-group"></i> 1v1 Local Match
+      </button>
     </div>
 
     <div class="game-layout">
@@ -160,24 +181,42 @@
         <div id="myBoard"></div>
       </div>
 
-      <!-- Controls & Status -->
+      <!-- Controls -->
       <div class="panel-card">
-        <div class="status-badge" id="status-display">Your turn (White)</div>
+        <div class="status-badge" id="status-display">White's Turn</div>
+
+        <div class="player-indicator">
+          <div class="player-tag active" id="white-tag">
+            <i class="fa-solid fa-circle" style="color:#fff;"></i> <span id="p1-label">You</span> (<span id="p1-elo">1200</span>)
+          </div>
+          <div class="player-tag" id="black-tag">
+            <i class="fa-solid fa-circle" style="color:#64748b;"></i> <span id="p2-label">Bot</span> (<span id="p2-elo">1200</span>)
+          </div>
+        </div>
 
         <div>
-          <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); margin-bottom:0.3rem;">MOVE LOG:</div>
-          <div class="move-history" id="pgn-log">> Game started...</div>
+          <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted); margin-bottom:0.3rem;">MOVE LOG:</div>
+          <div class="move-history" id="pgn-log">> Game initialized...</div>
         </div>
 
         <div class="btn-group">
-          <button class="btn" onclick="resetGame()"><i class="fa-solid fa-rotate-left"></i> New Game</button>
+          <button class="btn" onclick="resetGame()"><i class="fa-solid fa-rotate-left"></i> Restart Game</button>
           <button class="btn secondary" onclick="board.flip()"><i class="fa-solid fa-arrows-rotate"></i> Flip Board</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Dependencies: jQuery, Chess.js, Chessboard.js -->
+  <!-- Profile Edit Modal -->
+  <div class="modal-overlay" id="profile-modal">
+    <div class="modal-box">
+      <h3 style="color:#fff; font-size:1.1rem; margin-bottom:0.25rem;">Enter Player Profile</h3>
+      <p style="color:var(--text-muted); font-size:0.8rem;">Set your name to record your ELO rating</p>
+      <input type="text" id="input-username" placeholder="Your Name (e.g. Tauhid)" maxlength="15">
+      <button class="btn" style="width:100%;" onclick="saveProfile()"><i class="fa-solid fa-check"></i> Save & Play</button>
+    </div>
+  </div>
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
@@ -185,20 +224,80 @@
   <script>
     let board = null;
     let game = new Chess();
-    const statusEl = document.getElementById('status-display');
-    const pgnEl = document.getElementById('pgn-log');
+    let currentMode = 'ai';
+    let gameOverHandled = false;
+
+    // Load or initialize Player Data
+    let playerName = localStorage.getItem('chess_username') || "Player";
+    let playerElo = parseInt(localStorage.getItem('chess_elo')) || 1200;
+    let botElo = 1200;
+
+    function initProfile() {
+      document.getElementById('display-user-name').innerText = playerName;
+      document.getElementById('display-user-elo').innerText = `${playerElo} ELO`;
+      document.getElementById('p1-label').innerText = playerName;
+      document.getElementById('p1-elo').innerText = playerElo;
+      document.getElementById('p2-label').innerText = currentMode === 'ai' ? "Bot" : "Guest";
+      document.getElementById('p2-elo').innerText = currentMode === 'ai' ? botElo : 1200;
+    }
+
+    function openProfileModal() {
+      document.getElementById('input-username').value = playerName;
+      document.getElementById('profile-modal').style.display = 'flex';
+    }
+
+    function saveProfile() {
+      const val = document.getElementById('input-username').value.trim();
+      if (val) {
+        playerName = val;
+        localStorage.setItem('chess_username', playerName);
+        initProfile();
+      }
+      document.getElementById('profile-modal').style.display = 'none';
+    }
+
+    function switchMode(mode) {
+      currentMode = mode;
+      document.getElementById('btn-mode-ai').classList.toggle('active', mode === 'ai');
+      document.getElementById('btn-mode-pvp').classList.toggle('active', mode === 'pvp');
+      initProfile();
+      resetGame();
+    }
+
+    // Standard ELO Calculation (K = 32)
+    function updateElo(userWon) {
+      if (gameOverHandled) return;
+      gameOverHandled = true;
+
+      const K = 32;
+      const expectedScore = 1 / (1 + Math.pow(10, (botElo - playerElo) / 400));
+      const actualScore = userWon === 'win' ? 1 : (userWon === 'draw' ? 0.5 : 0);
+
+      const change = Math.round(K * (actualScore - expectedScore));
+      playerElo = Math.max(100, playerElo + change);
+
+      localStorage.setItem('chess_elo', playerElo);
+      initProfile();
+
+      const sign = change >= 0 ? `+${change}` : `${change}`;
+      alert(`Game Finished! Rating updated: ${sign} ELO (New Rating: ${playerElo})`);
+    }
 
     function onDragStart(source, piece, position, orientation) {
       if (game.game_over()) return false;
-      // Prevent picking up black pieces for player
-      if (piece.search(/^b/) !== -1) return false;
+      if (currentMode === 'ai' && piece.search(/^b/) !== -1) return false;
+      if (currentMode === 'pvp') {
+        if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+            (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+          return false;
+        }
+      }
     }
 
     function makeAIMove() {
       const possibleMoves = game.moves();
       if (possibleMoves.length === 0) return;
 
-      // Smart AI move selection: favors captures/checks if available
       let captureMoves = possibleMoves.filter(m => m.includes('x') || m.includes('+'));
       let selectedMove = captureMoves.length > 0 
         ? captureMoves[Math.floor(Math.random() * captureMoves.length)]
@@ -210,47 +309,48 @@
     }
 
     function onDrop(source, target) {
-      // Check legal move
-      const move = game.move({
-        from: source,
-        to: target,
-        promotion: 'q' // Auto-promote to Queen for simplicity
-      });
-
+      const move = game.move({ from: source, to: target, promotion: 'q' });
       if (move === null) return 'snapback';
 
       updateStatus();
-      // AI responds after 300ms
-      window.setTimeout(makeAIMove, 300);
+      if (currentMode === 'ai' && !game.game_over()) {
+        window.setTimeout(makeAIMove, 300);
+      }
     }
 
-    function onSnapEnd() {
-      board.position(game.fen());
-    }
+    function onSnapEnd() { board.position(game.fen()); }
 
     function updateStatus() {
-      let status = '';
-      let moveColor = game.turn() === 'b' ? 'Black (AI)' : 'White (You)';
+      const turn = game.turn();
+      const isWhite = (turn === 'w');
+
+      document.getElementById('white-tag').classList.toggle('active', isWhite);
+      document.getElementById('black-tag').classList.toggle('active', !isWhite);
+
+      let status = isWhite ? `${playerName}'s Turn (White)` : (currentMode === 'ai' ? "Bot is thinking..." : "Black's Turn");
 
       if (game.in_checkmate()) {
-        status = 'Game Over: ' + moveColor + ' is in checkmate!';
-      } else if (game.in_draw()) {
-        status = 'Game Over: Drawn position!';
-      } else {
-        status = moveColor + ' to move';
-        if (game.in_check()) {
-          status += ' (CHECK!)';
+        const winner = isWhite ? 'Black' : 'White';
+        status = `🏆 Checkmate! ${winner} Wins!`;
+        if (currentMode === 'ai') {
+          updateElo(winner === 'White' ? 'win' : 'loss');
         }
+      } else if (game.in_draw()) {
+        status = '🤝 Draw Game!';
+        if (currentMode === 'ai') updateElo('draw');
+      } else if (game.in_check()) {
+        status += ' (CHECK!)';
       }
 
-      statusEl.innerText = status;
-      pgnEl.innerText = game.pgn() || '> Game started...';
-      pgnEl.scrollTop = pgnEl.scrollHeight;
+      document.getElementById('status-display').innerText = status;
+      document.getElementById('pgn-log').innerText = game.pgn() || '> Game initialized...';
+      document.getElementById('pgn-log').scrollTop = document.getElementById('pgn-log').scrollHeight;
     }
 
     function resetGame() {
       game.reset();
       board.start();
+      gameOverHandled = false;
       updateStatus();
     }
 
@@ -265,7 +365,14 @@
 
     board = Chessboard('myBoard', config);
     $(window).resize(board.resize);
-    updateStatus();
+
+    window.onload = () => {
+      initProfile();
+      updateStatus();
+      if (!localStorage.getItem('chess_username')) {
+        openProfileModal();
+      }
+    };
   </script>
 </body>
 </html>
