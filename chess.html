@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chess Arena - Multiplayer & ELO Rank | Tauhid Tech</title>
+  <title>Chess Arena - Real-Time 1v1 & AI | Tauhid Tech</title>
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Fira+Code:wght@600&display=swap" rel="stylesheet">
@@ -44,54 +44,55 @@
 
     .container { max-width: 950px; margin: 1.5rem auto; padding: 0 1rem; width: 100%; flex: 1; }
 
-    /* Player Profile Bar */
+    /* Profile Bar */
     .profile-bar {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 0.9rem 1.25rem;
+      padding: 0.8rem 1.2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1.25rem;
       flex-wrap: wrap;
-      gap: 0.75rem;
+      gap: 0.5rem;
     }
-
     .profile-info { display: flex; align-items: center; gap: 0.75rem; }
-    .avatar-icon { font-size: 1.5rem; background: rgba(56, 189, 248, 0.15); color: var(--accent); width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-    .profile-name { font-weight: 700; font-size: 1rem; }
-    .elo-tag { background: rgba(250, 204, 21, 0.15); color: var(--yellow); padding: 3px 8px; border-radius: 6px; font-weight: 800; font-size: 0.82rem; margin-left: 0.4rem; }
-
-    .btn-edit-profile {
-      background: #070a12;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 0.4rem 0.8rem;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .btn-edit-profile:hover { border-color: var(--accent); color: var(--accent); }
+    .avatar-icon { font-size: 1.4rem; background: rgba(56, 189, 248, 0.15); color: var(--accent); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .profile-name { font-weight: 700; font-size: 0.95rem; }
+    .elo-tag { background: rgba(250, 204, 21, 0.15); color: var(--yellow); padding: 3px 8px; border-radius: 6px; font-weight: 800; font-size: 0.8rem; margin-left: 0.4rem; }
 
     /* Mode Selector */
-    .mode-selector { display: flex; gap: 0.75rem; justify-content: center; margin-bottom: 1.25rem; }
+    .mode-selector { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.25rem; flex-wrap: wrap; }
     .mode-btn {
       background: var(--card-bg);
       border: 1px solid var(--border);
       color: var(--text-muted);
-      padding: 0.6rem 1.2rem;
+      padding: 0.55rem 1rem;
       border-radius: 10px;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
       transition: 0.2s;
     }
     .mode-btn.active { background: rgba(56, 189, 248, 0.15); border-color: var(--accent); color: var(--accent); }
+
+    /* Online Room Box */
+    .online-room-card {
+      background: #0f172a;
+      border: 1px dashed var(--accent);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1.25rem;
+      display: none;
+      text-align: center;
+    }
+
+    .room-actions { display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.75rem; flex-wrap: wrap; }
+    .room-input { background: #070a12; border: 1px solid var(--border); color: #fff; padding: 0.5rem 0.75rem; border-radius: 8px; font-size: 0.9rem; width: 140px; text-align: center; text-transform: uppercase; }
 
     .game-layout { display: grid; grid-template-columns: 1fr 320px; gap: 1.5rem; align-items: start; }
     @media (max-width: 768px) { .game-layout { grid-template-columns: 1fr; } }
@@ -114,27 +115,21 @@
     .player-tag { opacity: 0.5; transition: 0.2s; display: flex; align-items: center; gap: 0.35rem; }
     .player-tag.active { opacity: 1; color: var(--accent); }
 
-    .move-history { background: #070a12; border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; height: 130px; overflow-y: auto; font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+    .move-history { background: #070a12; border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; height: 120px; overflow-y: auto; font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
 
     .btn-group { display: flex; flex-direction: column; gap: 0.5rem; }
     .btn { background: var(--accent); color: #0b0f19; border: none; padding: 0.65rem 1rem; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .btn.whatsapp { background: #22c55e; color: #fff; }
     .btn.secondary { background: #334155; color: #fff; }
 
-    /* Modal for Name & ELO */
+    /* Name Modal */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
       display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1rem;
     }
-    .modal-box {
-      background: #111827; border: 1px solid var(--border); border-radius: 16px;
-      width: 100%; max-width: 380px; padding: 1.5rem; text-align: center;
-    }
-    .modal-box input {
-      width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border);
-      background: #070a12; color: #fff; font-size: 0.95rem; margin: 0.8rem 0; outline: none;
-    }
-    .modal-box input:focus { border-color: var(--accent); }
+    .modal-box { background: #111827; border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 380px; padding: 1.5rem; text-align: center; }
+    .modal-box input { width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border); background: #070a12; color: #fff; font-size: 0.95rem; margin: 0.8rem 0; outline: none; }
   </style>
 </head>
 <body>
@@ -142,7 +137,7 @@
   <header>
     <a href="index.html" class="brand">
       <i class="fa-solid fa-chess-knight"></i>
-      <span>Tauhid Tech <span style="font-weight:400; font-size:0.85rem; color:#fff;">| Chess</span></span>
+      <span>Tauhid Tech <span style="font-weight:400; font-size:0.85rem; color:#fff;">| Chess 1v1</span></span>
     </a>
     <div class="nav-links">
       <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
@@ -153,7 +148,7 @@
 
   <div class="container">
     
-    <!-- User Profile & ELO Header -->
+    <!-- User Profile Header -->
     <div class="profile-bar">
       <div class="profile-info">
         <div class="avatar-icon"><i class="fa-solid fa-user-astronaut"></i></div>
@@ -162,17 +157,34 @@
           <span class="elo-tag" id="display-user-elo">1200 ELO</span>
         </div>
       </div>
-      <button class="btn-edit-profile" onclick="openProfileModal()"><i class="fa-solid fa-pen-to-square"></i> Edit Name</button>
+      <button class="mode-btn" onclick="openProfileModal()"><i class="fa-solid fa-pen-to-square"></i> Change Name</button>
     </div>
 
     <!-- Mode Selector -->
     <div class="mode-selector">
-      <button class="mode-btn active" id="btn-mode-ai" onclick="switchMode('ai')">
-        <i class="fa-solid fa-robot"></i> Bot Match (1200 ELO)
+      <button class="mode-btn active" id="btn-mode-online" onclick="switchMode('online')">
+        <i class="fa-solid fa-earth-americas"></i> Real 1v1 Online
+      </button>
+      <button class="mode-btn" id="btn-mode-ai" onclick="switchMode('ai')">
+        <i class="fa-solid fa-robot"></i> Play Bot (1200)
       </button>
       <button class="mode-btn" id="btn-mode-pvp" onclick="switchMode('pvp')">
-        <i class="fa-solid fa-user-group"></i> 1v1 Local Match
+        <i class="fa-solid fa-user-group"></i> Pass & Play
       </button>
+    </div>
+
+    <!-- Online Matchmaking Panel -->
+    <div class="online-room-card" id="online-panel" style="display:block;">
+      <h3 style="font-size:1rem; color:#fff; margin-bottom:0.3rem;"><i class="fa-solid fa-tower-broadcast" style="color:var(--accent);"></i> Real-Time Online 1v1 Room</h3>
+      <p style="font-size:0.8rem; color:var(--text-muted);">Create a private room to challenge a friend on WhatsApp or enter a Code:</p>
+      
+      <div class="room-actions">
+        <button class="btn" onclick="createOnlineRoom()"><i class="fa-solid fa-plus"></i> Create Room</button>
+        <button class="btn whatsapp" id="btn-share-wa" style="display:none;" onclick="shareOnWhatsApp()"><i class="fa-brands fa-whatsapp"></i> Share Link</button>
+        <input type="text" class="room-input" id="join-room-code" placeholder="ROOM CODE" maxlength="6">
+        <button class="btn secondary" onclick="joinOnlineRoom()"><i class="fa-solid fa-right-to-bracket"></i> Join</button>
+      </div>
+      <div id="connection-status" style="font-size:0.8rem; font-weight:700; color:var(--accent); margin-top:0.6rem;"></div>
     </div>
 
     <div class="game-layout">
@@ -187,10 +199,10 @@
 
         <div class="player-indicator">
           <div class="player-tag active" id="white-tag">
-            <i class="fa-solid fa-circle" style="color:#fff;"></i> <span id="p1-label">You</span> (<span id="p1-elo">1200</span>)
+            <i class="fa-solid fa-circle" style="color:#fff;"></i> <span id="p1-label">Player 1</span> (<span id="p1-elo">1200</span>)
           </div>
           <div class="player-tag" id="black-tag">
-            <i class="fa-solid fa-circle" style="color:#64748b;"></i> <span id="p2-label">Bot</span> (<span id="p2-elo">1200</span>)
+            <i class="fa-solid fa-circle" style="color:#64748b;"></i> <span id="p2-label">Player 2</span> (<span id="p2-elo">1200</span>)
           </div>
         </div>
 
@@ -200,45 +212,47 @@
         </div>
 
         <div class="btn-group">
-          <button class="btn" onclick="resetGame()"><i class="fa-solid fa-rotate-left"></i> Restart Game</button>
-          <button class="btn secondary" onclick="board.flip()"><i class="fa-solid fa-arrows-rotate"></i> Flip Board</button>
+          <button class="btn" onclick="resetGame()"><i class="fa-solid fa-rotate-left"></i> Restart Board</button>
+          <button class="btn secondary" onclick="board.flip()"><i class="fa-solid fa-arrows-rotate"></i> Flip View</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Profile Edit Modal -->
+  <!-- Profile Modal -->
   <div class="modal-overlay" id="profile-modal">
     <div class="modal-box">
-      <h3 style="color:#fff; font-size:1.1rem; margin-bottom:0.25rem;">Enter Player Profile</h3>
-      <p style="color:var(--text-muted); font-size:0.8rem;">Set your name to record your ELO rating</p>
-      <input type="text" id="input-username" placeholder="Your Name (e.g. Tauhid)" maxlength="15">
-      <button class="btn" style="width:100%;" onclick="saveProfile()"><i class="fa-solid fa-check"></i> Save & Play</button>
+      <h3 style="color:#fff; font-size:1.1rem; margin-bottom:0.25rem;">Enter Your Name</h3>
+      <p style="color:var(--text-muted); font-size:0.8rem;">Save your display name for 1v1 rooms and ELO tracking</p>
+      <input type="text" id="input-username" placeholder="Your Name" maxlength="15">
+      <button class="btn" style="width:100%;" onclick="saveProfile()"><i class="fa-solid fa-check"></i> Save Name</button>
     </div>
   </div>
 
+  <!-- Dependencies -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+  <!-- PeerJS for Real-Time P2P WebRTC -->
+  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 
   <script>
     let board = null;
     let game = new Chess();
-    let currentMode = 'ai';
-    let gameOverHandled = false;
+    let currentMode = 'online'; // 'online', 'ai', or 'pvp'
+    let myColor = 'w'; // 'w' for White (Host), 'b' for Black (Joiner)
+    let peer = null;
+    let conn = null;
+    let currentRoomCode = "";
 
-    // Load or initialize Player Data
     let playerName = localStorage.getItem('chess_username') || "Player";
     let playerElo = parseInt(localStorage.getItem('chess_elo')) || 1200;
-    let botElo = 1200;
 
     function initProfile() {
       document.getElementById('display-user-name').innerText = playerName;
       document.getElementById('display-user-elo').innerText = `${playerElo} ELO`;
       document.getElementById('p1-label').innerText = playerName;
       document.getElementById('p1-elo').innerText = playerElo;
-      document.getElementById('p2-label').innerText = currentMode === 'ai' ? "Bot" : "Guest";
-      document.getElementById('p2-elo').innerText = currentMode === 'ai' ? botElo : 1200;
     }
 
     function openProfileModal() {
@@ -258,34 +272,129 @@
 
     function switchMode(mode) {
       currentMode = mode;
+      document.getElementById('btn-mode-online').classList.toggle('active', mode === 'online');
       document.getElementById('btn-mode-ai').classList.toggle('active', mode === 'ai');
       document.getElementById('btn-mode-pvp').classList.toggle('active', mode === 'pvp');
-      initProfile();
+      document.getElementById('online-panel').style.display = (mode === 'online') ? 'block' : 'none';
+
+      myColor = 'w';
+      board.orientation('white');
+
+      if (mode === 'ai') {
+        document.getElementById('p2-label').innerText = "Logic Bot";
+        document.getElementById('p2-elo').innerText = "1200";
+      } else if (mode === 'pvp') {
+        document.getElementById('p2-label').innerText = "Guest";
+        document.getElementById('p2-elo').innerText = "1200";
+      }
       resetGame();
     }
 
-    // Standard ELO Calculation (K = 32)
-    function updateElo(userWon) {
-      if (gameOverHandled) return;
-      gameOverHandled = true;
+    /* --- REAL-TIME 1v1 PEERJS WEBRTC SYSTEM --- */
+    function initPeer() {
+      if (peer) return;
+      peer = new Peer();
 
-      const K = 32;
-      const expectedScore = 1 / (1 + Math.pow(10, (botElo - playerElo) / 400));
-      const actualScore = userWon === 'win' ? 1 : (userWon === 'draw' ? 0.5 : 0);
+      peer.on('open', (id) => {
+        console.log('Peer ID ready:', id);
+      });
 
-      const change = Math.round(K * (actualScore - expectedScore));
-      playerElo = Math.max(100, playerElo + change);
-
-      localStorage.setItem('chess_elo', playerElo);
-      initProfile();
-
-      const sign = change >= 0 ? `+${change}` : `${change}`;
-      alert(`Game Finished! Rating updated: ${sign} ELO (New Rating: ${playerElo})`);
+      peer.on('connection', (connection) => {
+        conn = connection;
+        setupConnectionEvents();
+        myColor = 'w'; // Host plays White
+        board.orientation('white');
+        document.getElementById('connection-status').innerText = `⚡ Connected! Game started. You are White.`;
+      });
     }
 
-    function onDragStart(source, piece, position, orientation) {
+    function createOnlineRoom() {
+      initPeer();
+      const code = Math.random().toString(36).substring(2, 7).toUpperCase();
+      currentRoomCode = code;
+
+      // Register custom ID
+      peer.destroy();
+      peer = new Peer(`tauhid_chess_${code}`);
+
+      peer.on('open', () => {
+        document.getElementById('connection-status').innerHTML = `Room Created! Code: <b style="color:var(--yellow); font-size:1.1rem;">${code}</b>. Waiting for friend to join...`;
+        document.getElementById('btn-share-wa').style.display = 'inline-flex';
+      });
+
+      peer.on('connection', (connection) => {
+        conn = connection;
+        setupConnectionEvents();
+        myColor = 'w';
+        board.orientation('white');
+        document.getElementById('connection-status').innerText = `⚡ Friend Connected! Match Started. You are White.`;
+        conn.send({ type: 'init', name: playerName, elo: playerElo });
+      });
+    }
+
+    function joinOnlineRoom() {
+      const code = document.getElementById('join-room-code').value.trim().toUpperCase();
+      if (!code) {
+        alert("Please enter a 5-digit room code.");
+        return;
+      }
+
+      initPeer();
+      document.getElementById('connection-status').innerText = "Connecting to host...";
+
+      conn = peer.connect(`tauhid_chess_${code}`);
+      setupConnectionEvents();
+
+      conn.on('open', () => {
+        myColor = 'b'; // Joiner plays Black
+        board.orientation('black');
+        document.getElementById('connection-status').innerText = `⚡ Connected to Room ${code}! You are Black.`;
+        conn.send({ type: 'init', name: playerName, elo: playerElo });
+      });
+    }
+
+    function shareOnWhatsApp() {
+      const currentUrl = window.location.href.split('?')[0];
+      const inviteMsg = `⚔️ Challenge me to a live 1v1 Chess match on Student Hub! Room Code: *${currentRoomCode}*\nPlay here: ${currentUrl}?room=${currentRoomCode}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(inviteMsg)}`, '_blank');
+    }
+
+    function setupConnectionEvents() {
+      conn.on('data', (data) => {
+        if (data.type === 'move') {
+          game.move(data.move);
+          board.position(game.fen());
+          updateStatus();
+        } else if (data.type === 'init') {
+          document.getElementById('p2-label').innerText = data.name || "Opponent";
+          document.getElementById('p2-elo').innerText = data.elo || "1200";
+        } else if (data.type === 'reset') {
+          game.reset();
+          board.start();
+          updateStatus();
+        }
+      });
+    }
+
+    /* --- GAMEPLAY VALIDATION --- */
+    function onDragStart(source, piece) {
       if (game.game_over()) return false;
+
+      // Online Mode: Only move your own assigned color
+      if (currentMode === 'online') {
+        if (!conn || !conn.open) return false;
+        if ((myColor === 'w' && piece.search(/^b/) !== -1) || (myColor === 'b' && piece.search(/^w/) !== -1)) {
+          return false;
+        }
+        if ((myColor === 'w' && game.turn() !== 'w') || (myColor === 'b' && game.turn() !== 'b')) {
+          return false;
+        }
+      }
+
+      // AI Mode
       if (currentMode === 'ai' && piece.search(/^b/) !== -1) return false;
+
+      // Pass & Play Mode
       if (currentMode === 'pvp') {
         if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
             (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
@@ -313,6 +422,13 @@
       if (move === null) return 'snapback';
 
       updateStatus();
+
+      // Send move to opponent in Online Mode
+      if (currentMode === 'online' && conn && conn.open) {
+        conn.send({ type: 'move', move: { from: source, to: target, promotion: 'q' } });
+      }
+
+      // Bot turn
       if (currentMode === 'ai' && !game.game_over()) {
         window.setTimeout(makeAIMove, 300);
       }
@@ -327,17 +443,16 @@
       document.getElementById('white-tag').classList.toggle('active', isWhite);
       document.getElementById('black-tag').classList.toggle('active', !isWhite);
 
-      let status = isWhite ? `${playerName}'s Turn (White)` : (currentMode === 'ai' ? "Bot is thinking..." : "Black's Turn");
+      let status = isWhite ? "White's Turn" : "Black's Turn";
+      if (currentMode === 'online') {
+        status = (game.turn() === myColor) ? "🟢 Your Turn" : "⏳ Opponent is thinking...";
+      }
 
       if (game.in_checkmate()) {
         const winner = isWhite ? 'Black' : 'White';
         status = `🏆 Checkmate! ${winner} Wins!`;
-        if (currentMode === 'ai') {
-          updateElo(winner === 'White' ? 'win' : 'loss');
-        }
       } else if (game.in_draw()) {
         status = '🤝 Draw Game!';
-        if (currentMode === 'ai') updateElo('draw');
       } else if (game.in_check()) {
         status += ' (CHECK!)';
       }
@@ -350,8 +465,10 @@
     function resetGame() {
       game.reset();
       board.start();
-      gameOverHandled = false;
       updateStatus();
+      if (currentMode === 'online' && conn && conn.open) {
+        conn.send({ type: 'reset' });
+      }
     }
 
     const config = {
@@ -369,8 +486,13 @@
     window.onload = () => {
       initProfile();
       updateStatus();
-      if (!localStorage.getItem('chess_username')) {
-        openProfileModal();
+
+      // Auto join if URL has ?room=CODE
+      const urlParams = new URLSearchParams(window.location.search);
+      const roomParam = urlParams.get('room');
+      if (roomParam) {
+        document.getElementById('join-room-code').value = roomParam;
+        joinOnlineRoom();
       }
     };
   </script>
