@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess Arena - Brain Break | Student Hub</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Fira+Code:wght@600&display=swap" rel="stylesheet">
+  
+  <!-- Chessboard CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
+
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #151d30;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --green: #4ade80;
+      --yellow: #facc15;
+      --red: #f87171;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: #243454;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+    header {
+      background: rgba(21, 29, 48, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 800; font-size: 1.15rem; color: var(--accent); text-decoration: none; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem; margin-left: 1rem; transition: 0.2s; }
+    .nav-links a:hover { color: var(--accent); }
+
+    .container { max-width: 900px; margin: 1.5rem auto; padding: 0 1rem; width: 100%; flex: 1; }
+    .hero-banner { text-align: center; margin-bottom: 1.5rem; }
+    .hero-banner h1 { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.4rem; }
+    .hero-banner p { color: var(--text-muted); font-size: 0.92rem; }
+
+    .game-layout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .game-layout { grid-template-columns: 1fr; }
+    }
+
+    .board-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    #myBoard {
+      width: 100%;
+      max-width: 440px;
+      touch-action: none;
+    }
+
+    .panel-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .status-badge {
+      background: #070a12;
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--yellow);
+      text-align: center;
+    }
+
+    .move-history {
+      background: #070a12;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      height: 150px;
+      overflow-y: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .btn-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+    .btn {
+      background: var(--accent);
+      color: #0b0f19;
+      border: none;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn.secondary { background: #334155; color: #fff; }
+    .btn.secondary:hover { background: #475569; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand">
+      <i class="fa-solid fa-chess-knight"></i>
+      <span>Student Hub <span style="font-weight:400; font-size:0.85rem; color:#fff;">| Chess</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="practice.html"><i class="fa-solid fa-book"></i> Practice</a>
+      <a href="c-lab.html"><i class="fa-solid fa-code"></i> CodeX</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="hero-banner">
+      <h1>Class 10 Brain Break: Chess Arena</h1>
+      <p>Sharpen your logic and concentration. Play as White against the Bot.</p>
+    </div>
+
+    <div class="game-layout">
+      <!-- Chessboard Container -->
+      <div class="board-card">
+        <div id="myBoard"></div>
+      </div>
+
+      <!-- Controls & Status -->
+      <div class="panel-card">
+        <div class="status-badge" id="status-display">Your turn (White)</div>
+
+        <div>
+          <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); margin-bottom:0.3rem;">MOVE LOG:</div>
+          <div class="move-history" id="pgn-log">> Game started...</div>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn" onclick="resetGame()"><i class="fa-solid fa-rotate-left"></i> New Game</button>
+          <button class="btn secondary" onclick="board.flip()"><i class="fa-solid fa-arrows-rotate"></i> Flip Board</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dependencies: jQuery, Chess.js, Chessboard.js -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+
+  <script>
+    let board = null;
+    let game = new Chess();
+    const statusEl = document.getElementById('status-display');
+    const pgnEl = document.getElementById('pgn-log');
+
+    function onDragStart(source, piece, position, orientation) {
+      if (game.game_over()) return false;
+      // Prevent picking up black pieces for player
+      if (piece.search(/^b/) !== -1) return false;
+    }
+
+    function makeAIMove() {
+      const possibleMoves = game.moves();
+      if (possibleMoves.length === 0) return;
+
+      // Smart AI move selection: favors captures/checks if available
+      let captureMoves = possibleMoves.filter(m => m.includes('x') || m.includes('+'));
+      let selectedMove = captureMoves.length > 0 
+        ? captureMoves[Math.floor(Math.random() * captureMoves.length)]
+        : possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+
+      game.move(selectedMove);
+      board.position(game.fen());
+      updateStatus();
+    }
+
+    function onDrop(source, target) {
+      // Check legal move
+      const move = game.move({
+        from: source,
+        to: target,
+        promotion: 'q' // Auto-promote to Queen for simplicity
+      });
+
+      if (move === null) return 'snapback';
+
+      updateStatus();
+      // AI responds after 300ms
+      window.setTimeout(makeAIMove, 300);
+    }
+
+    function onSnapEnd() {
+      board.position(game.fen());
+    }
+
+    function updateStatus() {
+      let status = '';
+      let moveColor = game.turn() === 'b' ? 'Black (AI)' : 'White (You)';
+
+      if (game.in_checkmate()) {
+        status = 'Game Over: ' + moveColor + ' is in checkmate!';
+      } else if (game.in_draw()) {
+        status = 'Game Over: Drawn position!';
+      } else {
+        status = moveColor + ' to move';
+        if (game.in_check()) {
+          status += ' (CHECK!)';
+        }
+      }
+
+      statusEl.innerText = status;
+      pgnEl.innerText = game.pgn() || '> Game started...';
+      pgnEl.scrollTop = pgnEl.scrollHeight;
+    }
+
+    function resetGame() {
+      game.reset();
+      board.start();
+      updateStatus();
+    }
+
+    const config = {
+      draggable: true,
+      position: 'start',
+      onDragStart: onDragStart,
+      onDrop: onDrop,
+      onSnapEnd: onSnapEnd,
+      pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
+    };
+
+    board = Chessboard('myBoard', config);
+    $(window).resize(board.resize);
+    updateStatus();
+  </script>
+</body>
+</html>
