@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SE2JY1V49V"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SE2JY1V49V"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-SE2JY1V49V');
-</script>
+    gtag('config', 'G-SE2JY1V49V');
+  </script>
 
-    <!-- SEO & Brand Metadata for Google Search -->
-  <title>Tauhid Tech - SEBA Class 10 Student Hub & 1v1 Quiz Battle</title>
-  <meta name="description" content="Tauhid Tech Student Hub: Free SEBA Class 10 HSLC MCQ practice tests, live 1v1 multiplayer quiz battles, Science, Maths, and Social Science revision.">
-  <meta name="keywords" content="Tauhid Tech, tauhid-tech, Student Hub, SEBA Class 10 MCQ, HSLC practice test, Assam HSLC 1v1 battle">
+  <!-- SEO & Brand Metadata for Google Search -->
+  <title>Tauhid Tech - SEBA Class 10 Student Hub & Game Zone</title>
+  <meta name="description" content="Tauhid Tech Student Hub: Free SEBA Class 10 HSLC MCQ practice tests, live 1v1 multiplayer quiz battles, CodeX C-Lab, question papers, and brain games.">
+  <meta name="keywords" content="Tauhid Tech, tauhid-tech, Student Hub, SEBA Class 10 MCQ, HSLC practice test, Assam HSLC 1v1 battle, CodeX C-Lab, Chess">
   <meta name="author" content="Tauhid Tech">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://tauhid-tech.github.io/Student-hub/">
@@ -25,7 +25,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tauhid-tech.github.io/Student-hub/">
   <meta property="og:title" content="Tauhid Tech - SEBA Class 10 Student Hub">
-  <meta property="og:description" content="Play live 1v1 quiz battles and practice HSLC Class 10 MCQs for Science, Maths, and SST.">
+  <meta property="og:description" content="Play live 1v1 quiz battles, practice HSLC Class 10 MCQs, learn C programming, and play chess.">
   
   <style>
     * {
@@ -40,10 +40,10 @@
       color: #f8fafc;
       min-height: 100vh;
       display: flex;
-      flex-direction: column; /* Stacks everything vertically from top to bottom */
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 20px 16px;
+      padding: 24px 16px;
     }
 
     .container {
@@ -58,7 +58,7 @@
 
     .header {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     .header h1 {
@@ -74,16 +74,28 @@
       margin-top: 6px;
     }
 
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin: 18px 0 10px 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .grid-menu {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
     .menu-card {
       background: #0f172a;
       border: 1px solid #334155;
-      padding: 18px 20px;
+      padding: 16px 18px;
       border-radius: 18px;
       text-decoration: none;
       display: flex;
@@ -101,26 +113,27 @@
     .card-left {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
     }
 
     .card-icon {
-      font-size: 28px;
+      font-size: 24px;
       background: #1e293b;
-      width: 52px;
-      height: 52px;
+      width: 48px;
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 14px;
       border: 1px solid #334155;
+      flex-shrink: 0;
     }
 
     .card-text h3 {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: #f8fafc;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .card-text p {
@@ -130,7 +143,7 @@
 
     .arrow {
       color: #38bdf8;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 800;
     }
 
@@ -165,10 +178,13 @@
     <!-- Top Header -->
     <div class="header">
       <h1>Student Hub</h1>
-      <p>Board Exam MCQ Practice & Utility Tools</p>
+      <p>Board Exam Prep, Utilities & Brain Games</p>
     </div>
 
-    <!-- Navigation List -->
+    <!-- ========================================== -->
+    <!-- SECTION 1: ACADEMIC & STUDY HUB            -->
+    <!-- ========================================== -->
+    <div class="section-label">📚 Study & Practice Hub</div>
     <div class="grid-menu">
       
       <!-- 1. Practice Arena -->
@@ -182,7 +198,8 @@
         </div>
         <span class="arrow">➔</span>
       </a>
-            <!-- 1v1 Friends Battle Card -->
+
+      <!-- 2. 1v1 Friends Battle Card -->
       <a href="battle.html" class="menu-card" style="border-color: #38bdf8;">
         <div class="card-left">
           <div class="card-icon" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">⚔️</div>
@@ -194,32 +211,31 @@
         <span class="arrow">➔</span>
       </a>
 
-      <!-- CodeX Compact Card 
-
+      <!-- 3. CodeX: Visual C-Lab 
       <a href="c-lab.html" class="menu-card">
         <div class="card-left">
           <div class="card-icon">🖥️</div>
           <div class="card-text">
-            <h3>CodeX:Visual C-Lab</h3>
-            <p>Programming & many more coding</p>
+            <h3>CodeX: Visual C-Lab</h3>
+            <p>Loops, Patterns & Memory Pointers</p>
           </div>
         </div>
         <span class="arrow">➔</span>
-      </a> -->
-      <!-- paper card-->
-      <a href="paper.html" class="menu-card">
+      </a>-->
+
+      <!-- 4. Question Papers Archive -->
+      <a href="papers.html" class="menu-card">
         <div class="card-left">
           <div class="card-icon">📃</div>
           <div class="card-text">
-            <h3>Question papers</h3>
-            <p>Get all your question paper from 2022-2025</p>
+            <h3>Question Papers</h3>
+            <p>Half Yearly, Pre-Board & HSLC (2022-2025)</p>
           </div>
         </div>
         <span class="arrow">➔</span>
       </a>
 
-
-      <!-- 2. Calculator -->
+      <!-- 5. Calculator -->
       <a href="calc.html" class="menu-card">
         <div class="card-left">
           <div class="card-icon">🧮</div>
@@ -231,7 +247,7 @@
         <span class="arrow">➔</span>
       </a>
 
-      <!-- 3. Timer -->
+      <!-- 6. Study Timer -->
       <a href="timer.html" class="menu-card">
         <div class="card-left">
           <div class="card-icon">⏱️</div>
@@ -241,6 +257,26 @@
           </div>
         </div>
         <span class="arrow">➔</span>
+      </a>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECTION 2: BRAIN BREAK & GAME ZONE         -->
+    <!-- ========================================== -->
+    <div class="section-label" style="margin-top: 24px;">🎮 Brain Break & Games</div>
+    <div class="grid-menu">
+      
+      <!-- Chess Arena -->
+      <a href="chess.html" class="menu-card" style="border-color: #818cf8;">
+        <div class="card-left">
+          <div class="card-icon" style="background: rgba(129, 140, 248, 0.15);">♟️</div>
+          <div class="card-text">
+            <h3>Chess Arena</h3>
+            <p>Play vs Logic Bot & Boost Focus</p>
+          </div>
+        </div>
+        <span class="arrow" style="color: #818cf8;">➔</span>
       </a>
 
     </div>
