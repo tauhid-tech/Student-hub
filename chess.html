@@ -84,7 +84,7 @@
       border-radius: 12px;
       padding: 1rem;
       margin-bottom: 1.25rem;
-      display: none;
+      display: block;
       text-align: center;
     }
 
@@ -167,9 +167,9 @@
       </button>
     </div>
 
-    <div class="online-room-card" id="online-panel" style="display:block;">
+    <div class="online-room-card" id="online-panel">
       <h3 style="font-size:1rem; color:#fff; margin-bottom:0.3rem;"><i class="fa-solid fa-tower-broadcast" style="color:var(--accent);"></i> Real-Time Online 1v1 Room</h3>
-      <p style="font-size:0.8rem; color:var(--text-muted);">Create a private room or enter your friend's room code:</p>
+      <p style="font-size:0.8rem; color:var(--text-muted);">Create a room or join your friend's 5-digit code:</p>
       
       <div class="room-actions">
         <button class="btn" onclick="createOnlineRoom()"><i class="fa-solid fa-plus"></i> Create Room</button>
@@ -213,37 +213,40 @@
   <div class="modal-overlay" id="profile-modal">
     <div class="modal-box">
       <h3 style="color:#fff; font-size:1.1rem; margin-bottom:0.25rem;">Enter Your Name</h3>
-      <p style="color:var(--text-muted); font-size:0.8rem;">Save your display name for 1v1 match</p>
+      <p style="color:var(--text-muted); font-size:0.8rem;">Save your display name for 1v1 matches</p>
       <input type="text" id="input-username" placeholder="Your Name" maxlength="15">
       <button class="btn" style="width:100%;" onclick="saveProfile()"><i class="fa-solid fa-check"></i> Save Name</button>
     </div>
   </div>
 
+  <!-- Dependencies -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
-  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+  
+  <!-- Firebase SDK for 100% Reliable Cloud Real-Time Sync -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <script>
+    // Universal Free Firebase Realtime Bridge
+    const firebaseConfig = {
+      databaseURL: "https://tauhid-student-hub-default-rtdb.asia-southeast1.firebasedatabase.app/"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.database();
+
     let board = null;
     let game = new Chess();
     let currentMode = 'online';
     let myColor = 'w';
-    let peer = null;
-    let conn = null;
     let currentRoomCode = "";
+    let roomRef = null;
 
     let playerName = localStorage.getItem('chess_username') || "Player";
     let playerElo = parseInt(localStorage.getItem('chess_elo')) || 1200;
-
-    const peerConfig = {
-      config: {
-        iceServers: [
-          { urls: 'stun:stun.l.google.com:19302' },
-          { urls: 'stun:global.stun.twilio.com:3478' }
-        ]
-      }
-    };
 
     function initProfile() {
       document.getElementById('display-user-name').innerText = playerName;
@@ -287,29 +290,26 @@
       resetGame();
     }
 
+    /* --- FIREBASE CLOUD REAL-TIME 1v1 SYSTEM --- */
     function createOnlineRoom() {
-      if (peer) peer.destroy();
       const code = Math.random().toString(36).substring(2, 7).toUpperCase();
       currentRoomCode = code;
+      myColor = 'w';
+      board.orientation('white');
 
-      document.getElementById('connection-status').innerHTML = `Registering room...`;
-      peer = new Peer(`tauhid_chess_${code}`, peerConfig);
-
-      peer.on('open', () => {
-        document.getElementById('connection-status').innerHTML = `Room Code: <b style="color:var(--yellow); font-size:1.1rem;">${code}</b>. Share with friend!`;
-        document.getElementById('btn-share-wa').style.display = 'inline-flex';
+      roomRef = db.ref('chess_rooms/' + code);
+      roomRef.set({
+        host: { name: playerName, elo: playerElo },
+        fen: 'start',
+        lastMove: null,
+        status: 'waiting',
+        turn: 'w'
       });
 
-      peer.on('connection', (connection) => {
-        conn = connection;
-        myColor = 'w';
-        board.orientation('white');
-        setupConnectionEvents();
-      });
+      document.getElementById('connection-status').innerHTML = `Room Created! Code: <b style="color:var(--yellow); font-size:1.1rem;">${code}</b>. Share with friend!`;
+      document.getElementById('btn-share-wa').style.display = 'inline-flex';
 
-      peer.on('error', (err) => {
-        document.getElementById('connection-status').innerText = `Error: ${err.type}`;
-      });
+      listenToRoom();
     }
 
     function joinOnlineRoom(autoCode) {
@@ -319,64 +319,63 @@
         return;
       }
 
-      if (peer) peer.destroy();
-      document.getElementById('connection-status').innerText = "Connecting to peer network...";
+      currentRoomCode = code;
+      myColor = 'b';
+      board.orientation('black');
 
-      peer = new Peer(peerConfig);
+      roomRef = db.ref('chess_rooms/' + code);
+      roomRef.once('value', (snap) => {
+        if (!snap.exists()) {
+          document.getElementById('connection-status').innerText = "Room not found or expired.";
+          return;
+        }
 
-      peer.on('open', () => {
-        document.getElementById('connection-status').innerText = `Connecting to Host (${code})...`;
-        conn = peer.connect(`tauhid_chess_${code}`, { reliable: true });
-        myColor = 'b';
-        board.orientation('black');
-        setupConnectionEvents();
+        roomRef.update({
+          guest: { name: playerName, elo: playerElo },
+          status: 'playing'
+        });
+
+        document.getElementById('connection-status').innerText = `⚡ Connected! Match Started. You are Black.`;
+        listenToRoom();
       });
+    }
 
-      peer.on('error', (err) => {
-        document.getElementById('connection-status').innerText = `Room not found or host offline.`;
+    function listenToRoom() {
+      roomRef.on('value', (snap) => {
+        const data = snap.val();
+        if (!data) return;
+
+        if (data.guest && myColor === 'w') {
+          document.getElementById('p2-label').innerText = data.guest.name || "Guest";
+          document.getElementById('p2-elo').innerText = data.guest.elo || "1200";
+          document.getElementById('connection-status').innerText = `⚡ Friend Connected! Match Started. You are White.`;
+        }
+
+        if (data.host && myColor === 'b') {
+          document.getElementById('p1-label').innerText = data.host.name || "Host";
+          document.getElementById('p1-elo').innerText = data.host.elo || "1200";
+        }
+
+        if (data.lastMove) {
+          game.move(data.lastMove);
+          board.position(game.fen());
+          updateStatus();
+        }
       });
     }
 
     function shareOnWhatsApp() {
       const currentUrl = window.location.href.split('?')[0];
-      const inviteMsg = `⚔️ Challenge me in Chess on Student Hub!\nRoom Code: *${currentRoomCode}*\nJoin link: ${currentUrl}?room=${currentRoomCode}`;
+      const inviteMsg = `⚔️ Challenge me to 1v1 Chess on Student Hub!\nRoom Code: *${currentRoomCode}*\nPlay here: ${currentUrl}?room=${currentRoomCode}`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(inviteMsg)}`, '_blank');
     }
 
-    function setupConnectionEvents() {
-      conn.on('open', () => {
-        document.getElementById('connection-status').innerText = `⚡ Match Connected! You are ${myColor === 'w' ? 'White' : 'Black'}.`;
-        conn.send({ type: 'init', name: playerName, elo: playerElo });
-      });
-
-      conn.on('data', (data) => {
-        if (data.type === 'move') {
-          game.move(data.move);
-          board.position(game.fen());
-          updateStatus();
-        } else if (data.type === 'init') {
-          document.getElementById('p2-label').innerText = data.name || "Opponent";
-          document.getElementById('p2-elo').innerText = data.elo || "1200";
-          if (myColor === 'w') {
-            conn.send({ type: 'init', name: playerName, elo: playerElo });
-          }
-        } else if (data.type === 'reset') {
-          game.reset();
-          board.start();
-          updateStatus();
-        }
-      });
-
-      conn.on('close', () => {
-        document.getElementById('connection-status').innerText = "⚠️ Opponent disconnected.";
-      });
-    }
-
+    /* --- GAMEPLAY & MOVE LOGIC --- */
     function onDragStart(source, piece) {
       if (game.game_over()) return false;
 
       if (currentMode === 'online') {
-        if (!conn || !conn.open) return false;
+        if (!roomRef) return false;
         if ((myColor === 'w' && piece.search(/^b/) !== -1) || (myColor === 'b' && piece.search(/^w/) !== -1)) return false;
         if ((myColor === 'w' && game.turn() !== 'w') || (myColor === 'b' && game.turn() !== 'b')) return false;
       }
@@ -409,8 +408,12 @@
 
       updateStatus();
 
-      if (currentMode === 'online' && conn && conn.open) {
-        conn.send({ type: 'move', move: { from: source, to: target, promotion: 'q' } });
+      if (currentMode === 'online' && roomRef) {
+        roomRef.update({
+          lastMove: { from: source, to: target, promotion: 'q' },
+          fen: game.fen(),
+          turn: game.turn()
+        });
       }
 
       if (currentMode === 'ai' && !game.game_over()) {
@@ -450,8 +453,13 @@
       game.reset();
       board.start();
       updateStatus();
-      if (currentMode === 'online' && conn && conn.open) {
-        conn.send({ type: 'reset' });
+      if (currentMode === 'online' && roomRef) {
+        roomRef.set({
+          fen: 'start',
+          lastMove: null,
+          status: 'playing',
+          turn: 'w'
+        });
       }
     }
 
@@ -468,21 +476,16 @@
     $(window).resize(board.resize);
 
     window.onload = () => {
-  initProfile();
-  updateStatus();
+      initProfile();
+      updateStatus();
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const roomParam = urlParams.get('room');
-  if (roomParam) {
-    document.getElementById('join-room-code').value = roomParam;
-    // Ensure network stack is fully awake before connecting
-    setTimeout(() => {
-      joinOnlineRoom(roomParam);
-    }, 1200);
-  }
-};
-      
-      
+      const urlParams = new URLSearchParams(window.location.search);
+      const roomParam = urlParams.get('room');
+      if (roomParam) {
+        document.getElementById('join-room-code').value = roomParam;
+        joinOnlineRoom(roomParam);
+      }
+    };
   </script>
 </body>
 </html>
