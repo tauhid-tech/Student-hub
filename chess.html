@@ -169,7 +169,7 @@
 
     <div class="online-room-card" id="online-panel">
       <h3 style="font-size:1rem; color:#fff; margin-bottom:0.3rem;"><i class="fa-solid fa-tower-broadcast" style="color:var(--accent);"></i> Real-Time Online 1v1 Room</h3>
-      <p style="font-size:0.8rem; color:var(--text-muted);">Create a room or join your friend's 5-digit code:</p>
+      <p style="font-size:0.8rem; color:var(--text-muted);">Create a room or enter your friend's 5-digit code:</p>
       
       <div class="room-actions">
         <button class="btn" onclick="createOnlineRoom()"><i class="fa-solid fa-plus"></i> Create Room</button>
@@ -219,23 +219,19 @@
     </div>
   </div>
 
-  <!-- Dependencies -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
-  
-  <!-- Firebase SDK for 100% Reliable Cloud Real-Time Sync -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
 
   <script>
-        let board = null;
+    let board = null;
     let game = new Chess();
     let currentMode = 'online';
     let myColor = 'w';
     let currentRoomCode = "";
     let client = null;
-    let myClientId = 'user_' + Math.random().toString(36).substring(2, 9);
+    let myClientId = 'th_' + Math.random().toString(36).substring(2, 10);
 
     let playerName = localStorage.getItem('chess_username') || "Player";
     let playerElo = parseInt(localStorage.getItem('chess_elo')) || 1200;
@@ -282,46 +278,25 @@
       resetGame();
     }
 
-    /* --- REAL-TIME WEBSOCKET ROOM ENGINE --- */
-    function connectMQTT(roomCode, isHost) {
+    /* --- REAL-TIME PAHO WEBSOCKET ENGINE --- */
+    function connectSocket(roomCode, isHost) {
       document.getElementById('connection-status').innerText = "Connecting to game server...";
 
-      if (client) {
-        try { client.end(true); } catch(e){}
+      if (client && client.isConnected()) {
+        try { client.disconnect(); } catch (e) {}
       }
-      
-      client = mqtt.connect('wss://broker.emqx.io:8084/mqtt', {
-        clientId: myClientId,
-        clean: true,
-        connectTimeout: 5000
-      });
 
-      const topic = `tauhid/chess/${roomCode}`;
+      client = new Paho.MQTT.Client("broker.hivemq.com", Number(8884), "/mqtt", myClientId);
 
-      client.on('connect', () => {
-        client.subscribe(topic, (err) => {
-          if (!err) {
-            if (isHost) {
-              document.getElementById('connection-status').innerHTML = `Room Code: <b style="color:var(--yellow); font-size:1.1rem;">${roomCode}</b>. Waiting for friend to join...`;
-              document.getElementById('btn-share-wa').style.display = 'inline-flex';
-            } else {
-              setTimeout(() => {
-                client.publish(topic, JSON.stringify({
-                  type: 'join',
-                  sender: myClientId,
-                  name: playerName,
-                  elo: playerElo
-                }));
-              }, 300);
-              document.getElementById('connection-status').innerText = `⚡ Connected to Room ${roomCode}! You are Black.`;
-            }
-          }
-        });
-      });
+      client.onConnectionLost = function (responseObject) {
+        if (responseObject.errorCode !== 0) {
+          document.getElementById('connection-status').innerText = "Connection lost. Reconnecting...";
+        }
+      };
 
-      client.on('message', (t, message) => {
+      client.onMessageArrived = function (message) {
         try {
-          const payload = JSON.parse(message.toString());
+          const payload = JSON.parse(message.payloadString);
           if (payload.sender === myClientId) return;
 
           if (payload.type === 'join' && isHost) {
@@ -329,12 +304,14 @@
             document.getElementById('p2-elo').innerText = payload.elo || "1200";
             document.getElementById('connection-status').innerText = `⚡ Friend Connected! Match Started. You are White.`;
 
-            client.publish(topic, JSON.stringify({
+            const ackMsg = new Paho.MQTT.Message(JSON.stringify({
               type: 'ack',
               sender: myClientId,
               name: playerName,
               elo: playerElo
             }));
+            ackMsg.destinationName = `tauhid/chess/${roomCode}`;
+            client.send(ackMsg);
           } else if (payload.type === 'ack' && !isHost) {
             document.getElementById('p1-label').innerText = payload.name || "Host";
             document.getElementById('p1-elo').innerText = payload.elo || "1200";
@@ -348,13 +325,35 @@
             board.start();
             updateStatus();
           }
-        } catch(err) {
-          console.error(err);
+        } catch (e) {
+          console.error(e);
         }
-      });
+      };
 
-      client.on('error', (err) => {
-        document.getElementById('connection-status').innerText = "Connection error. Retrying...";
+      client.connect({
+        useSSL: true,
+        timeout: 5,
+        onSuccess: function () {
+          client.subscribe(`tauhid/chess/${roomCode}`);
+          if (isHost) {
+            document.getElementById('connection-status').innerHTML = `Room Code: <b style="color:var(--yellow); font-size:1.1rem;">${roomCode}</b>. Share with friend!`;
+            document.getElementById('btn-share-wa').style.display = 'inline-flex';
+          } else {
+            const joinMsg = new Paho.MQTT.Message(JSON.stringify({
+              type: 'join',
+              sender: myClientId,
+              name: playerName,
+              elo: playerElo
+            }));
+            joinMsg.destinationName = `tauhid/chess/${roomCode}`;
+            client.send(joinMsg);
+            document.getElementById('connection-status').innerText = `⚡ Connected to Room ${roomCode}! You are Black.`;
+          }
+        },
+        onFailure: function () {
+          document.getElementById('connection-status').innerText = "Server busy. Retrying in 2 seconds...";
+          setTimeout(() => connectSocket(roomCode, isHost), 2000);
+        }
       });
     }
 
@@ -363,7 +362,7 @@
       currentRoomCode = code;
       myColor = 'w';
       board.orientation('white');
-      connectMQTT(code, true);
+      connectSocket(code, true);
     }
 
     function joinOnlineRoom(autoCode) {
@@ -376,14 +375,21 @@
       currentRoomCode = code;
       myColor = 'b';
       board.orientation('black');
-      connectMQTT(code, false);
+      connectSocket(code, false);
     }
-        /* --- GAMEPLAY ENGINE & EVENT HANDLERS --- */
+
+    function shareOnWhatsApp() {
+      const currentUrl = window.location.href.split('?')[0];
+      const inviteMsg = `⚔️ Challenge me in Chess on Student Hub!\nRoom Code: *${currentRoomCode}*\nPlay here: ${currentUrl}?room=${currentRoomCode}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(inviteMsg)}`, '_blank');
+    }
+
+    /* --- GAMEPLAY ENGINE & EVENT HANDLERS --- */
     function onDragStart(source, piece) {
       if (game.game_over()) return false;
 
       if (currentMode === 'online') {
-        if (!client || !client.connected) return false;
+        if (!client || !client.isConnected()) return false;
         if ((myColor === 'w' && piece.search(/^b/) !== -1) || (myColor === 'b' && piece.search(/^w/) !== -1)) return false;
         if ((myColor === 'w' && game.turn() !== 'w') || (myColor === 'b' && game.turn() !== 'b')) return false;
       }
@@ -416,12 +422,14 @@
 
       updateStatus();
 
-      if (currentMode === 'online' && client && client.connected) {
-        client.publish(`tauhid/chess/${currentRoomCode}`, JSON.stringify({
+      if (currentMode === 'online' && client && client.isConnected()) {
+        const moveMsg = new Paho.MQTT.Message(JSON.stringify({
           type: 'move',
           sender: myClientId,
           move: { from: source, to: target, promotion: 'q' }
         }));
+        moveMsg.destinationName = `tauhid/chess/${currentRoomCode}`;
+        client.send(moveMsg);
       }
 
       if (currentMode === 'ai' && !game.game_over()) {
@@ -461,18 +469,14 @@
       game.reset();
       board.start();
       updateStatus();
-      if (currentMode === 'online' && client && client.connected) {
-        client.publish(`tauhid/chess/${currentRoomCode}`, JSON.stringify({
+      if (currentMode === 'online' && client && client.isConnected()) {
+        const resetMsg = new Paho.MQTT.Message(JSON.stringify({
           type: 'reset',
           sender: myClientId
         }));
+        resetMsg.destinationName = `tauhid/chess/${currentRoomCode}`;
+        client.send(resetMsg);
       }
-    }
-
-    function shareOnWhatsApp() {
-      const currentUrl = window.location.href.split('?')[0];
-      const inviteMsg = `⚔️ Challenge me in Chess on Student Hub!\nRoom Code: *${currentRoomCode}*\nPlay here: ${currentUrl}?room=${currentRoomCode}`;
-      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(inviteMsg)}`, '_blank');
     }
 
     const config = {
@@ -498,7 +502,6 @@
         joinOnlineRoom(roomParam);
       }
     };
-    
-</script>
+  </script>
 </body>
 </html>
