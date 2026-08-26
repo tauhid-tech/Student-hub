@@ -44,7 +44,6 @@
 
     .container { max-width: 950px; margin: 1.5rem auto; padding: 0 1rem; width: 100%; flex: 1; }
 
-    /* Profile Bar */
     .profile-bar {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -62,7 +61,6 @@
     .profile-name { font-weight: 700; font-size: 0.95rem; }
     .elo-tag { background: rgba(250, 204, 21, 0.15); color: var(--yellow); padding: 3px 8px; border-radius: 6px; font-weight: 800; font-size: 0.8rem; margin-left: 0.4rem; }
 
-    /* Mode Selector */
     .mode-selector { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.25rem; flex-wrap: wrap; }
     .mode-btn {
       background: var(--card-bg);
@@ -80,7 +78,6 @@
     }
     .mode-btn.active { background: rgba(56, 189, 248, 0.15); border-color: var(--accent); color: var(--accent); }
 
-    /* Online Room Box */
     .online-room-card {
       background: #0f172a;
       border: 1px dashed var(--accent);
@@ -122,7 +119,6 @@
     .btn.whatsapp { background: #22c55e; color: #fff; }
     .btn.secondary { background: #334155; color: #fff; }
 
-    /* Name Modal */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
@@ -148,7 +144,6 @@
 
   <div class="container">
     
-    <!-- User Profile Header -->
     <div class="profile-bar">
       <div class="profile-info">
         <div class="avatar-icon"><i class="fa-solid fa-user-astronaut"></i></div>
@@ -160,7 +155,6 @@
       <button class="mode-btn" onclick="openProfileModal()"><i class="fa-solid fa-pen-to-square"></i> Change Name</button>
     </div>
 
-    <!-- Mode Selector -->
     <div class="mode-selector">
       <button class="mode-btn active" id="btn-mode-online" onclick="switchMode('online')">
         <i class="fa-solid fa-earth-americas"></i> Real 1v1 Online
@@ -173,27 +167,24 @@
       </button>
     </div>
 
-    <!-- Online Matchmaking Panel -->
     <div class="online-room-card" id="online-panel" style="display:block;">
       <h3 style="font-size:1rem; color:#fff; margin-bottom:0.3rem;"><i class="fa-solid fa-tower-broadcast" style="color:var(--accent);"></i> Real-Time Online 1v1 Room</h3>
-      <p style="font-size:0.8rem; color:var(--text-muted);">Create a private room to challenge a friend on WhatsApp or enter a Code:</p>
+      <p style="font-size:0.8rem; color:var(--text-muted);">Create a private room or enter your friend's room code:</p>
       
       <div class="room-actions">
         <button class="btn" onclick="createOnlineRoom()"><i class="fa-solid fa-plus"></i> Create Room</button>
-        <button class="btn whatsapp" id="btn-share-wa" style="display:none;" onclick="shareOnWhatsApp()"><i class="fa-brands fa-whatsapp"></i> Share Link</button>
+        <button class="btn whatsapp" id="btn-share-wa" style="display:none;" onclick="shareOnWhatsApp()"><i class="fa-brands fa-whatsapp"></i> WhatsApp Invite</button>
         <input type="text" class="room-input" id="join-room-code" placeholder="ROOM CODE" maxlength="6">
         <button class="btn secondary" onclick="joinOnlineRoom()"><i class="fa-solid fa-right-to-bracket"></i> Join</button>
       </div>
-      <div id="connection-status" style="font-size:0.8rem; font-weight:700; color:var(--accent); margin-top:0.6rem;"></div>
+      <div id="connection-status" style="font-size:0.85rem; font-weight:700; color:var(--accent); margin-top:0.6rem;"></div>
     </div>
 
     <div class="game-layout">
-      <!-- Chessboard Container -->
       <div class="board-card">
         <div id="myBoard"></div>
       </div>
 
-      <!-- Controls -->
       <div class="panel-card">
         <div class="status-badge" id="status-display">White's Turn</div>
 
@@ -219,34 +210,40 @@
     </div>
   </div>
 
-  <!-- Profile Modal -->
   <div class="modal-overlay" id="profile-modal">
     <div class="modal-box">
       <h3 style="color:#fff; font-size:1.1rem; margin-bottom:0.25rem;">Enter Your Name</h3>
-      <p style="color:var(--text-muted); font-size:0.8rem;">Save your display name for 1v1 rooms and ELO tracking</p>
+      <p style="color:var(--text-muted); font-size:0.8rem;">Save your display name for 1v1 match</p>
       <input type="text" id="input-username" placeholder="Your Name" maxlength="15">
       <button class="btn" style="width:100%;" onclick="saveProfile()"><i class="fa-solid fa-check"></i> Save Name</button>
     </div>
   </div>
 
-  <!-- Dependencies -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
-  <!-- PeerJS for Real-Time P2P WebRTC -->
   <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 
   <script>
     let board = null;
     let game = new Chess();
-    let currentMode = 'online'; // 'online', 'ai', or 'pvp'
-    let myColor = 'w'; // 'w' for White (Host), 'b' for Black (Joiner)
+    let currentMode = 'online';
+    let myColor = 'w';
     let peer = null;
     let conn = null;
     let currentRoomCode = "";
 
     let playerName = localStorage.getItem('chess_username') || "Player";
     let playerElo = parseInt(localStorage.getItem('chess_elo')) || 1200;
+
+    const peerConfig = {
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:global.stun.twilio.com:3478' }
+        ]
+      }
+    };
 
     function initProfile() {
       document.getElementById('display-user-name').innerText = playerName;
@@ -290,76 +287,68 @@
       resetGame();
     }
 
-    /* --- REAL-TIME 1v1 PEERJS WEBRTC SYSTEM --- */
-    function initPeer() {
-      if (peer) return;
-      peer = new Peer();
-
-      peer.on('open', (id) => {
-        console.log('Peer ID ready:', id);
-      });
-
-      peer.on('connection', (connection) => {
-        conn = connection;
-        setupConnectionEvents();
-        myColor = 'w'; // Host plays White
-        board.orientation('white');
-        document.getElementById('connection-status').innerText = `⚡ Connected! Game started. You are White.`;
-      });
-    }
-
     function createOnlineRoom() {
-      initPeer();
+      if (peer) peer.destroy();
       const code = Math.random().toString(36).substring(2, 7).toUpperCase();
       currentRoomCode = code;
 
-      // Register custom ID
-      peer.destroy();
-      peer = new Peer(`tauhid_chess_${code}`);
+      document.getElementById('connection-status').innerHTML = `Registering room...`;
+      peer = new Peer(`tauhid_chess_${code}`, peerConfig);
 
       peer.on('open', () => {
-        document.getElementById('connection-status').innerHTML = `Room Created! Code: <b style="color:var(--yellow); font-size:1.1rem;">${code}</b>. Waiting for friend to join...`;
+        document.getElementById('connection-status').innerHTML = `Room Code: <b style="color:var(--yellow); font-size:1.1rem;">${code}</b>. Share with friend!`;
         document.getElementById('btn-share-wa').style.display = 'inline-flex';
       });
 
       peer.on('connection', (connection) => {
         conn = connection;
-        setupConnectionEvents();
         myColor = 'w';
         board.orientation('white');
-        document.getElementById('connection-status').innerText = `⚡ Friend Connected! Match Started. You are White.`;
-        conn.send({ type: 'init', name: playerName, elo: playerElo });
+        setupConnectionEvents();
+      });
+
+      peer.on('error', (err) => {
+        document.getElementById('connection-status').innerText = `Error: ${err.type}`;
       });
     }
 
-    function joinOnlineRoom() {
-      const code = document.getElementById('join-room-code').value.trim().toUpperCase();
+    function joinOnlineRoom(autoCode) {
+      const code = (autoCode || document.getElementById('join-room-code').value).trim().toUpperCase();
       if (!code) {
-        alert("Please enter a 5-digit room code.");
+        alert("Please enter a room code.");
         return;
       }
 
-      initPeer();
-      document.getElementById('connection-status').innerText = "Connecting to host...";
+      if (peer) peer.destroy();
+      document.getElementById('connection-status').innerText = "Connecting to peer network...";
 
-      conn = peer.connect(`tauhid_chess_${code}`);
-      setupConnectionEvents();
+      peer = new Peer(peerConfig);
 
-      conn.on('open', () => {
-        myColor = 'b'; // Joiner plays Black
+      peer.on('open', () => {
+        document.getElementById('connection-status').innerText = `Connecting to Host (${code})...`;
+        conn = peer.connect(`tauhid_chess_${code}`, { reliable: true });
+        myColor = 'b';
         board.orientation('black');
-        document.getElementById('connection-status').innerText = `⚡ Connected to Room ${code}! You are Black.`;
-        conn.send({ type: 'init', name: playerName, elo: playerElo });
+        setupConnectionEvents();
+      });
+
+      peer.on('error', (err) => {
+        document.getElementById('connection-status').innerText = `Room not found or host offline.`;
       });
     }
 
     function shareOnWhatsApp() {
       const currentUrl = window.location.href.split('?')[0];
-      const inviteMsg = `⚔️ Challenge me to a live 1v1 Chess match on Student Hub! Room Code: *${currentRoomCode}*\nPlay here: ${currentUrl}?room=${currentRoomCode}`;
+      const inviteMsg = `⚔️ Challenge me in Chess on Student Hub!\nRoom Code: *${currentRoomCode}*\nJoin link: ${currentUrl}?room=${currentRoomCode}`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(inviteMsg)}`, '_blank');
     }
 
     function setupConnectionEvents() {
+      conn.on('open', () => {
+        document.getElementById('connection-status').innerText = `⚡ Match Connected! You are ${myColor === 'w' ? 'White' : 'Black'}.`;
+        conn.send({ type: 'init', name: playerName, elo: playerElo });
+      });
+
       conn.on('data', (data) => {
         if (data.type === 'move') {
           game.move(data.move);
@@ -368,38 +357,35 @@
         } else if (data.type === 'init') {
           document.getElementById('p2-label').innerText = data.name || "Opponent";
           document.getElementById('p2-elo').innerText = data.elo || "1200";
+          if (myColor === 'w') {
+            conn.send({ type: 'init', name: playerName, elo: playerElo });
+          }
         } else if (data.type === 'reset') {
           game.reset();
           board.start();
           updateStatus();
         }
       });
+
+      conn.on('close', () => {
+        document.getElementById('connection-status').innerText = "⚠️ Opponent disconnected.";
+      });
     }
 
-    /* --- GAMEPLAY VALIDATION --- */
     function onDragStart(source, piece) {
       if (game.game_over()) return false;
 
-      // Online Mode: Only move your own assigned color
       if (currentMode === 'online') {
         if (!conn || !conn.open) return false;
-        if ((myColor === 'w' && piece.search(/^b/) !== -1) || (myColor === 'b' && piece.search(/^w/) !== -1)) {
-          return false;
-        }
-        if ((myColor === 'w' && game.turn() !== 'w') || (myColor === 'b' && game.turn() !== 'b')) {
-          return false;
-        }
+        if ((myColor === 'w' && piece.search(/^b/) !== -1) || (myColor === 'b' && piece.search(/^w/) !== -1)) return false;
+        if ((myColor === 'w' && game.turn() !== 'w') || (myColor === 'b' && game.turn() !== 'b')) return false;
       }
 
-      // AI Mode
       if (currentMode === 'ai' && piece.search(/^b/) !== -1) return false;
 
-      // Pass & Play Mode
       if (currentMode === 'pvp') {
         if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
-            (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
-          return false;
-        }
+            (game.turn() === 'b' && piece.search(/^w/) !== -1)) return false;
       }
     }
 
@@ -423,12 +409,10 @@
 
       updateStatus();
 
-      // Send move to opponent in Online Mode
       if (currentMode === 'online' && conn && conn.open) {
         conn.send({ type: 'move', move: { from: source, to: target, promotion: 'q' } });
       }
 
-      // Bot turn
       if (currentMode === 'ai' && !game.game_over()) {
         window.setTimeout(makeAIMove, 300);
       }
@@ -487,12 +471,13 @@
       initProfile();
       updateStatus();
 
-      // Auto join if URL has ?room=CODE
       const urlParams = new URLSearchParams(window.location.search);
       const roomParam = urlParams.get('room');
       if (roomParam) {
         document.getElementById('join-room-code').value = roomParam;
-        joinOnlineRoom();
+        setTimeout(() => {
+          joinOnlineRoom(roomParam);
+        }, 500);
       }
     };
   </script>
